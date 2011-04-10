@@ -1,3 +1,4 @@
+<?php
 require_once 'GalleryItem.php';
 
 
@@ -8,11 +9,7 @@ require_once 'GalleryItem.php';
 class Comment
 {
 
-  /** Aggregations: */
-
-  var $m_;
-
-  var $m_;
+  /** Aggregations: */  
 
   /** Compositions: */
 

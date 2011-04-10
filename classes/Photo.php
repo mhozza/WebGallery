@@ -1,3 +1,4 @@
+<?php
 require_once 'GalleryItem.php';
 require_once 'ImageResizer.php';
 require_once 'Exif.php';

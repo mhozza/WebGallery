@@ -1,7 +1,7 @@
+<?php
 require_once 'Gallery.php';
 require_once 'Comment.php';
 require_once 'ImageResizer.php';
-require_once 'float.php';
 require_once 'GalleryItem.php';
 
 
@@ -12,11 +12,7 @@ require_once 'GalleryItem.php';
 class GalleryItem
 {
 
-  /** Aggregations: */
-
-  var $m_;
-
-  var $m_;
+  /** Aggregations: */    
 
   /** Compositions: */
 
@@ -39,6 +35,7 @@ class GalleryItem
    * @access private
    */
   private $parent;
+  
 
 
   /**
@@ -66,6 +63,7 @@ class GalleryItem
    * @access public
    */
   public function getCaption( ) {
+    return 'Mnau';
   } // end of member function getCaption
 
   /**

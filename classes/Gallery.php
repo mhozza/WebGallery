@@ -1,3 +1,4 @@
+<?php
 require_once 'Database.php';
 require_once 'Album.php';
 require_once 'Photo.php';

@@ -1,5 +1,4 @@
-require_once 'bool.php';
-
+<?php
 
 /**
  * class Database
@@ -20,6 +19,7 @@ class Database
    * @access private
    */
   private static $isConnected = false;
+  private static $connection;
 
 
   /**
@@ -32,6 +32,8 @@ class Database
    * @access public
    */
   public static function runQuery( $query ) {
+    //FIXME: osetrit chyby
+    return mysql_query($query);
   } // end of member function runQuery
 
   /**
@@ -42,6 +44,11 @@ class Database
    * @access public
    */
   public static function connect( ) {
+    //TODO: nacitat z nastaveni
+    //FIXME: osetrit chyby
+    $connection = mysql_pconnect("localhost","user","drowssap");
+    $isConnected = true;
+    mysql_select_db("mio-gallery");
   } // end of member function connect
 
   /**
@@ -52,6 +59,7 @@ class Database
    * @access public
    */
   public static function disconnect( ) {
+    //TODO: nakodit
   } // end of member function disconnect
 
 
