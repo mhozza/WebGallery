@@ -44,6 +44,10 @@ class Gallery
    * @access public
    */
   public function setAlbum( $album ) {
+    //TODO: check existence
+    {
+      $this->currentAlbum = new Album($album);
+    }   
   } // end of member function setAlbum
 
   /**
@@ -55,10 +59,10 @@ class Gallery
   public function getItems( ) {
     return $this->currentAlbum->getItems();
   } // end of member function getItems
-
+  
   public function getAlbum() {
     return $this->currentAlbum;
-  } // end of member function setAlbum
+  } // end of member function getAlbum
 
 } // end of Gallery
 ?>

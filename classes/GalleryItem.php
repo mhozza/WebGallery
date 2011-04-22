@@ -101,6 +101,7 @@ class GalleryItem
    * @access public
    */
   public function getId( ) {
+    return $this->id;
   } // end of member function getId
 
   /**
@@ -110,9 +111,19 @@ class GalleryItem
    * @access public
    */
   public function getPath( ) {
+    return $this->path;
   } // end of member function getPath
 
 
+  /**
+   * 
+   *
+   * @return string
+   * @access public
+   */
+  public function getClass( ) {
+    return get_class($this);
+  } // end of member function getClass
 
 
 

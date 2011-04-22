@@ -22,16 +22,22 @@ class Renderer
     $this->twig = new Twig_Environment($loader, array('cache' => $this->cache));     
   } 
 
+  
+
   public function render()
   {
     $template_path = 'gallery_main.htm';
     $template = $this->twig->loadTemplate($template_path);
 
     $g = new Gallery();
-    $vars['gallery'] = $g;
-    /*$vars['gallery']['items']= $g->getItems();    
-    $vars['gallery']['currentAlbum']= $g->getAlbum();*/    
-    
+
+    //parse commands
+    if(isset($_GET['album']))
+    {
+      $g->setAlbum($_GET['album']);
+    }
+
+    $vars['gallery'] = $g;    
     $template->display($vars);
   }
 

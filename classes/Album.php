@@ -17,11 +17,24 @@ class Album extends GalleryItem
   public $privileges;
   
 
-  function __construct($path) {    
-    $info = Database::getAlbumByPath($path);    
+  function __construct($arg) {   
+    $info = NULL;
+    if(gettype($arg)=='string')
+    {      
+      $info = Database::getAlbumByPath($arg);       
+    }
+    else if(gettype($arg)=='array')
+    {
+      $info = $arg;
+    }
+
     if($info!=NULL)
     {      
       parent::__construct($info['id'],$info['caption'],$info['path']);    
+    }
+    else
+    {
+      //FIXME: throw error
     }
   }   
 
@@ -41,8 +54,19 @@ class Album extends GalleryItem
    * @return 
    * @access public
    */
+  public function getAlbums( ) {
+    return Database::getAlbums($this->id);
+  } // end of member function getPhotos
+
+
+  /**
+   * 
+   *
+   * @return 
+   * @access public
+   */
   public function getItems( ) {
-    return $this->getPhotos();
+    return array_merge($this->getAlbums(),$this->getPhotos());
   } // end of member function getItems
 
   /**

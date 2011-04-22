@@ -82,25 +82,48 @@ class Database
   } // end of member function disconnect
 
 
-  public static function getPhotos($albumID)//TODO: album filter
+  public static function getPhotos($albumID)
   {
      self::connect();
      $userID = self::$loginManager->getUser()->getId();     
           
-     $sql = "SELECT id,caption,path FROM Photos WHERE 
+     $sql = "SELECT id,caption,path FROM Photos WHERE ( album = ? AND
       (id NOT IN (SELECT photo_id FROM PhotoPermissions WHERE user_id= ? AND type=" . PT_DENY . ") 
       AND album NOT IN (SELECT album_id FROM AlbumPermissions WHERE user_id= ? AND type=" . PT_DENY . ")
       AND (permissions <> " . PP_PRIVATE . ") OR id IN (SELECT photo_id FROM PhotoPermissions WHERE user_id= ? AND type=" . PT_ALOW . ")"
       . ($userID==-1? 'AND (permissions<>' . PP_PUBLIC . ')' : '') . 
-      ")";
+      "))";
       //echo $sql;
-      $res = self::runQuery($sql,array($userID,$userID,$userID));
+      $res = self::runQuery($sql,array($albumID,$userID,$userID,$userID));
       //FIXME: error checking
       
       $ret = array();
       foreach($res as $row)
       {
         $ret[] = new Photo($row);
+      }
+      return $ret;
+      
+  }
+
+  public static function getAlbums($albumID)//TODO: album filter
+  {
+     self::connect();
+     $userID = self::$loginManager->getUser()->getId();     
+          
+     $sql = "SELECT id,caption,path FROM Albums WHERE
+      (parent_id = ? AND id NOT IN (SELECT album_id FROM AlbumPermissions WHERE user_id= ? AND type=" . PT_DENY . ")
+      AND (permissions <> " . PP_PRIVATE . ") OR id IN (SELECT album_id FROM AlbumPermissions WHERE user_id= ? AND type=" . PT_ALOW . ")"
+      . ($userID==-1? 'AND (permissions<>' . PP_PUBLIC . ')' : '') . 
+      ")";
+      //echo $sql;
+      $res = self::runQuery($sql,array($albumID,$userID,$userID));
+      //FIXME: error checking
+      
+      $ret = array();
+      foreach($res as $row)
+      {
+        $ret[] = new Album($row);
       }
       return $ret;
       

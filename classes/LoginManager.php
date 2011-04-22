@@ -3,7 +3,6 @@ require_once 'Database.php';
 require_once 'LoginManager.php';
 require_once 'User.php';
 
-
 /**
  * class LoginManager
  * 
@@ -52,7 +51,15 @@ class LoginManager
    * @return 
    * @access public
    */
-  public function logIn( $user ) {
+  public function logIn( $openID, $attributes ) {
+    echo $openID;    
+    //echo sizeof($attributes);
+    foreach($attributes as $key=>$attribute)
+    {
+      echo '<br/>';
+      echo $key . ":" . $attribute;
+    }
+    
   } // end of member function logIn
 
   /**

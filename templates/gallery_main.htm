@@ -1,6 +1,12 @@
 <h1>{{gallery.getAlbum.caption}} :</h1>
 <ul>
 {% for item in gallery.getItems %}      
-  <li>{{item.getCaption}}</li>
+  <li>
+    {% if item.getClass == 'Album' %}
+    <a href = "?album={{item.getPath}}"> {{item.getCaption}} </a>
+    {% else %}
+    {{item.getCaption}}
+    {% endif %}
+  </li>
 {% endfor %}
 </ul>
