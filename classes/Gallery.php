@@ -3,6 +3,7 @@ require_once 'Database.php';
 require_once 'Album.php';
 require_once 'Photo.php';
 
+define('GALLERY_ROOT','/gallery/');
 
 /**
  * class Gallery
@@ -10,34 +11,19 @@ require_once 'Photo.php';
  */
 class Gallery
 {
-
-  /** Aggregations: */
-
-  /** Compositions: */
-
-   /*** Attributes: ***/
+  
 
   /**
    * 
    * @access private
    */
   private $currentIndex = 0;
+  private $currentAlbum = NULL;
 
-  /**
-   * 
-   * @access private
-   */
-  private $currentAlbum = GALLERY_ROOT;
-
-
-  /**
-   * 
-   *
-   * @return 
-   * @access public
-   */
-  public function getPhotos( ) {
-  } // end of member function getPhotos
+  function __construct() {
+    $this->currentAlbum = new Album(GALLERY_ROOT);    
+  }   
+ 
 
   /**
    * 
@@ -46,6 +32,7 @@ class Gallery
    * @access public
    */
   public function getCurrentPhoto( ) {
+    
   } // end of member function getCurrentPhoto
 
   /**
@@ -66,11 +53,14 @@ class Gallery
    * @access public
    */
   public function getItems( ) {
+    return $this->currentAlbum->getItems();
   } // end of member function getItems
 
-
-
-
+  public function getAlbum() {
+    return $this->currentAlbum;
+  } // end of member function setAlbum
 
 } // end of Gallery
 ?>
+
+

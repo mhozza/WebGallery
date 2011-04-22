@@ -1,4 +1,6 @@
-Galeria:
-{% for item in gallery.items %}    
-  {{item.getCaption}}
+<h1>{{gallery.getAlbum.caption}} :</h1>
+<ul>
+{% for item in gallery.getItems %}      
+  <li>{{item.getCaption}}</li>
 {% endfor %}
+</ul>

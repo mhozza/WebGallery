@@ -12,12 +12,7 @@ require_once 'GalleryItem.php';
 class GalleryItem
 {
 
-  /** Aggregations: */    
-
-  /** Compositions: */
-
-   /*** Attributes: ***/
-
+  
   /**
    * 
    * @access private
@@ -36,6 +31,30 @@ class GalleryItem
    */
   private $parent;
   
+  /**
+   * 
+   * @access protected
+   */
+  protected $id;
+
+  /**
+   * 
+   * @access protected
+   */
+  protected $caption;
+
+  /**
+   * 
+   * @access protected
+   */
+  protected $path;
+
+
+  function __construct($id,$caption,$path) {
+    $this->id = $id;
+    $this->caption = $caption;
+    $this->path = $path;
+  }
 
 
   /**
@@ -63,7 +82,7 @@ class GalleryItem
    * @access public
    */
   public function getCaption( ) {
-    return 'Mnau';
+    return $this->caption;
   } // end of member function getCaption
 
   /**

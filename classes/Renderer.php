@@ -28,8 +28,10 @@ class Renderer
     $template = $this->twig->loadTemplate($template_path);
 
     $g = new Gallery();
-    $vars['gallery']['items']= $g->getItems();    
-        
+    $vars['gallery'] = $g;
+    /*$vars['gallery']['items']= $g->getItems();    
+    $vars['gallery']['currentAlbum']= $g->getAlbum();*/    
+    
     $template->display($vars);
   }
 

@@ -2,7 +2,6 @@
 require_once 'Database.php';
 require_once 'LoginManager.php';
 require_once 'User.php';
-require_once 'bool.php';
 
 
 /**
@@ -11,16 +10,6 @@ require_once 'bool.php';
  */
 class LoginManager
 {
-
-  /** Aggregations: */
-
-  var $m_;
-
-  var $m_;
-
-  /** Compositions: */
-
-   /*** Attributes: ***/
 
   /**
    * 
@@ -51,6 +40,8 @@ class LoginManager
    * @access public
    */
   public function getUser( ) {
+    //return user;
+    return new User();
   } // end of member function getUser
 
   /**

@@ -9,14 +9,7 @@ require_once 'Database.php';
 class User
 {
 
-  /** Aggregations: */
-
-  var $m_;
-
-  /** Compositions: */
-
-   /*** Attributes: ***/
-
+ 
 
   /**
    * 
@@ -25,6 +18,7 @@ class User
    * @access public
    */
   public function getId( ) {
+    return 1;
   } // end of member function getId
 
   /**

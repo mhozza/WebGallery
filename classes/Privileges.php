@@ -1,6 +1,9 @@
 <?php
-require_once 'Database.php';
-require_once 'User.php';
+//require_once 'Database.php';
+//require_once 'User.php';
+
+define('PT_DENY',0);
+define('PT_ALOW',1);
 
 
 /**
@@ -10,13 +13,7 @@ require_once 'User.php';
 class Privileges
 {
 
-  /** Aggregations: */
-
-  /** Compositions: */
-
-   /*** Attributes: ***/
-
-
+ 
   /**
    * 
    *
@@ -25,7 +22,7 @@ class Privileges
    * @return bool
    * @access public
    */
-  public function accepts( $user ) {
+  public function accepts( $userId ) {
   } // end of member function accepts
 
 

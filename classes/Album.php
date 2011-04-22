@@ -10,18 +10,30 @@ require_once 'Privileges.php';
 class Album extends GalleryItem
 {
 
-  /** Aggregations: */
-
-  /** Compositions: */
-
-   /*** Attributes: ***/
-
   /**
    * 
    * @access public
    */
   public $privileges;
+  
 
+  function __construct($path) {    
+    $info = Database::getAlbumByPath($path);    
+    if($info!=NULL)
+    {      
+      parent::__construct($info['id'],$info['caption'],$info['path']);    
+    }
+  }   
+
+  /**
+   * 
+   *
+   * @return 
+   * @access public
+   */
+  public function getPhotos( ) {
+    return Database::getPhotos($this->id);
+  } // end of member function getPhotos
 
   /**
    * 
@@ -30,6 +42,7 @@ class Album extends GalleryItem
    * @access public
    */
   public function getItems( ) {
+    return $this->getPhotos();
   } // end of member function getItems
 
   /**
@@ -39,6 +52,7 @@ class Album extends GalleryItem
    * @access public
    */
   public function getParent( ) {
+
   } // end of member function getParent
 
 
