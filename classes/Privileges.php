@@ -5,23 +5,16 @@
 define('PT_DENY',0);
 define('PT_ALOW',1);
 
+define('PT_PUBLIC',0);
+define('PT_LOGGED',1);
+define('PT_PRIVATE',2);
 
-/**
- * class Privileges
- * 
- */
+/*
+
 class Privileges
 {
 
  
-  /**
-   * 
-   *
-   * @param User user 
-
-   * @return bool
-   * @access public
-   */
   public function accepts( $userId ) {
   } // end of member function accepts
 
@@ -30,4 +23,5 @@ class Privileges
 
 
 } // end of Privileges
+*/
 ?>

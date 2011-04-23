@@ -1,7 +1,7 @@
 <?php
 require_once 'Database.php';
 
-
+define('UID_UNLOGGED',-1);
 /**
  * class User
  * 
@@ -9,7 +9,7 @@ require_once 'Database.php';
 class User
 {
 
- 
+  private $uid = UID_UNLOGGED;
 
   /**
    * 
@@ -18,7 +18,7 @@ class User
    * @access public
    */
   public function getId( ) {
-    return 1;
+    return $this->uid;
   } // end of member function getId
 
   /**
@@ -54,7 +54,11 @@ class User
    * @return 
    * @access public
    */
-  public function User( ) {
+  public function __construct($openID = null) {
+    if($openID == null || $openID == '') return;
+    $info = Database::getUserInfo($openID);
+    if($info == false) return;
+    $this->uid = $info['id'];
   } // end of member function User
 
 

@@ -3,10 +3,6 @@ require_once 'GalleryItem.php';
 require_once 'ImageResizer.php';
 require_once 'Exif.php';
 
-define('PP_PUBLIC',0);
-define('PP_LOGGED',1);
-define('PP_PRIVATE',2);
-
 
 /**
  * class Photo
@@ -27,6 +23,9 @@ class Photo extends GalleryItem
     {      
       parent::__construct($info['id'],$info['caption'],$info['path']);    
     }
+    $this->rating = Database::getRating($this->id);
+    if(!$this->rating) $this->rating = 0;
+    $this->comments = Database::getComments($this->id);
   }   
 
   /**

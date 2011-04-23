@@ -2,6 +2,8 @@
 require_once 'Database.php';
 require_once 'LoginManager.php';
 require_once 'User.php';
+require_once 'Exceptions.php';
+
 
 /**
  * class LoginManager
@@ -9,19 +11,8 @@ require_once 'User.php';
  */
 class LoginManager
 {
-
-  /**
-   * 
-   * @access private
-   */
+  
   private $user = null;
-
-  /**
-   * 
-   * @access private
-   */
-  private $logged = false;
-
 
   /**
    * 
@@ -29,7 +20,8 @@ class LoginManager
    * @return 
    * @access public
    */
-  public function isLoggedIn( ) {
+  public function isLoggedIn( ) {    
+    return ($this->getUser()->getID() != UID_UNLOGGED);
   } // end of member function isLoggedIn
 
   /**
@@ -39,8 +31,15 @@ class LoginManager
    * @access public
    */
   public function getUser( ) {
-    //return user;
-    return new User();
+    //if(!isset($this->user) || $this->user==null)
+    {   
+      if(isset($_SESSION['username']))    
+        $this->user = new User($_SESSION['username']);
+      else
+        $this->user = new User();
+    }
+    return $this->user;
+    
   } // end of member function getUser
 
   /**
@@ -51,16 +50,28 @@ class LoginManager
    * @return 
    * @access public
    */
-  public function logIn( $openID, $attributes ) {
-    echo $openID;    
-    //echo sizeof($attributes);
-    foreach($attributes as $key=>$attribute)
+  public function logIn( $openID, $attributes ) {    
+    //nastavit session
+   
+    if($this->checkSession())
     {
-      echo '<br/>';
-      echo $key . ":" . $attribute;
+      $_SESSION['username'] = $openID;
+      Database::updateUser($openID,$attributes);
     }
+    else
+    {
+      $this->logOut();
+      throw new LoginException('Bad session id.');
+    } 
     
   } // end of member function logIn
+
+  public function checkSession()
+  { 
+    if(Database::checkSession()) return true;                  
+    if(Database::logSession()) return true;    
+    return false;
+  }
 
   /**
    * 
@@ -69,11 +80,15 @@ class LoginManager
    * @access public
    */
   public function logOut( ) {
+    $this->user = null;
+    $_SESSION['username'] = '';
+    unset($_SESSION['username']);
+    if ( isset( $_COOKIE[ session_name() ] ) ) {
+      setcookie(session_name(), '', time()-3600, '/');
+    }  
+    Database::rmSession();
+    session_destroy();
   } // end of member function logOut
-
-
-
-
 
 } // end of LoginManager
 ?>

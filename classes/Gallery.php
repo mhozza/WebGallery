@@ -64,6 +64,26 @@ class Gallery
     return $this->currentAlbum;
   } // end of member function getAlbum
 
+  public function addPhoto($photo)
+  {
+    
+  }
+
+  public function addAlbum($photo)
+  {
+    
+  }
+
+  public function addComment($photo,$comment)
+  {
+    
+  }
+
+  public function addRating($photo,$rating)
+  {
+    
+  }
+
 } // end of Gallery
 ?>
 

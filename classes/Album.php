@@ -1,41 +1,51 @@
 <?php
 require_once 'GalleryItem.php';
-require_once 'Privileges.php';
-
+require_once 'Exceptions.php';
 
 /**
  * class Album
  * 
  */
 class Album extends GalleryItem
-{
-
-  /**
-   * 
-   * @access public
-   */
-  public $privileges;
-  
+{ 
 
   function __construct($arg) {   
     $info = NULL;
-    if(gettype($arg)=='string')
+    if(is_int($arg))
+    {      
+      $info = Database::getAlbumById($arg);       
+    }
+    if(is_string($arg))
     {      
       $info = Database::getAlbumByPath($arg);       
     }
-    else if(gettype($arg)=='array')
+    else if(is_array($arg))
     {
       $info = $arg;
     }
 
     if($info!=NULL)
     {      
-      parent::__construct($info['id'],$info['caption'],$info['path']);    
+      parent::__construct($info['id'],$info['caption'],$info['path']);        
+      $parent_id = $info['parent_id'];
+      settype($parent_id,'integer');
+      if($parent_id!=null)
+      {
+        
+        try
+        {
+          $this->parent = new Album($parent_id);
+        }
+        catch(Exception $e)
+        {         
+        }
+      }
     }
     else
     {
-      //FIXME: throw error
+      throw new SecurityException('Could not access album.');
     }
+    
   }   
 
   /**
@@ -75,8 +85,8 @@ class Album extends GalleryItem
    * @return GalleryItem
    * @access public
    */
-  public function getParent( ) {
-
+  public function getParent( ) {    
+    return $this->parent;
   } // end of member function getParent
 
 

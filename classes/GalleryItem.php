@@ -17,19 +17,19 @@ class GalleryItem
    * 
    * @access private
    */
-  private $comments;
+  protected $comments = array();
 
   /**
    * 
    * @access private
    */
-  private $rating = 0;
+  protected $rating = 0;
 
   /**
    * 
-   * @access private
+   * @access protected
    */
-  private $parent;
+  protected $parent;
   
   /**
    * 
@@ -53,7 +53,7 @@ class GalleryItem
   function __construct($id,$caption,$path) {
     $this->id = $id;
     $this->caption = $caption;
-    $this->path = $path;
+    $this->path = $path;    
   }
 
 
@@ -64,6 +64,7 @@ class GalleryItem
    * @access public
    */
   public function getComments( ) {
+    return $this->comments;
   } // end of member function getComments
 
   /**
@@ -73,6 +74,7 @@ class GalleryItem
    * @access public
    */
   public function getRating( ) {
+    return $this->rating;
   } // end of member function getRating
 
   /**
@@ -92,6 +94,7 @@ class GalleryItem
    * @access public
    */
   public function getDescription( ) {
+    //return $this->
   } // end of member function getDescription
 
   /**
