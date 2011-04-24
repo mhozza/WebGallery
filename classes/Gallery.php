@@ -3,8 +3,10 @@ require_once 'Database.php';
 require_once 'Album.php';
 require_once 'Photo.php';
 require_once 'LoginManager.php';
+require_once 'Exceptions.php';
 
 define('GALLERY_ROOT','/gallery/');
+define('MAX_RATE',5);
 
 /**
  * class Gallery
@@ -66,6 +68,10 @@ class Gallery
   public function getItems( ) {
     return $this->currentAlbum->getItems();
   } // end of member function getItems
+
+  public function getAlbums( ) {
+    return $this->currentAlbum->getAlbums();
+  } // end of member function getItems
   
   public function getAlbum() {
     return $this->currentAlbum;
@@ -89,22 +95,22 @@ class Gallery
     }
   }
   
-  public function addComment($photo,$comment)
-  {
-    if($this->loginManager->getUser()->getId()==UID_UNLOGGED) return;
-    if(get_class($photo)=='Photo' && get_class($comment)=='Comment' )
-    {
-      Database::addComment($photo,$comment);
-    }
+  public function addComment($photo,$comment_text)
+  {    
+    if($this->loginManager->getUser()->getId()==UID_UNLOGGED) throw new SecurityException('You have to be logged in to add comment.');    
+    //TODO: check comment    
+    if(!Database::addComment($photo->getId(),$comment_text)) throw new SecurityException('Could not add comment');
+    $photo->reloadComments();
   }
 
   public function addRating($photo,$rating)
-  {
-    if($this->loginManager->getUser()->getId()==UID_UNLOGGED) return;
-    if(get_class($photo)=='Photo')
-    {
-      Database::addRating($photo,$rating);
-    }
+  {    
+    if($rating<1 || $rating>MAX_RATE)throw new SecurityException('Bad range.');    
+    if($this->loginManager->getUser()->getId()==UID_UNLOGGED) throw new SecurityException('You have to be logged in to add rating.');    
+    //TODO: check rating
+    //if(!is_int($rating))
+    if(!Database::addRating($photo->getID(),$rating)) throw new SecurityException('Could not add rating.');
+    $photo->reloadRating();
   }
 
 } // end of Gallery

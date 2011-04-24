@@ -1,0 +1,11 @@
+{% extends 'layout/gallery.htm' %}
+{% block g_body %}
+<h1>Administracia</h1>
+<h2>Pridat album:</h2>
+<select>
+{% for item in gallery.getAlbums %}      
+    <option> {{item.getCaption}} </option>
+{% endfor %}
+</select>
+
+{% endblock %}

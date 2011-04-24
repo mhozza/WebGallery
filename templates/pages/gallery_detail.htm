@@ -1,14 +1,20 @@
+{% extends 'layout/gallery.htm' %}
+{% block g_body %}
 <h1> {{ gallery.getCurrentPhoto.getCaption }} </h1>
-Rating: {{ gallery.getCurrentPhoto.getRating }}<br/>
+Rating: {{ gallery.getCurrentPhoto.getRating }}
+{% for i in 1..5 %}
+<a href="?detail={{gallery.getCurrentPhoto.getPath}}&amp;rate={{i}}">{{i}}</a>
+{% endfor %}
+<br/>
 Komentare: <br/>
 {% for comment in gallery.getCurrentPhoto.getComments %} 
 <strong>Autor: {{comment.getAuthor.getDisplayName}}</strong> <br/>
 Text: {{comment.getText}} <br/>
 {% endfor %}
-<hr>
+{% if login %}
 <form action="" method="post"> 
-  <textarea name="coment_text" id="coment_text">
-  </textarea><br/>
+  <textarea name="comment_text" id="comment_text"></textarea><br/>
   <input type="submit" value="Submit"/>   
 </form>
-
+{% endif %}
+{% endblock %}

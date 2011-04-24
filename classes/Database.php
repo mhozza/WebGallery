@@ -38,9 +38,15 @@ class Database
     //FIXME: osetrit chyby    
     $st = self::$db->prepare($query);//TODO: driver parameters    
     if($params==NULL)
-      $st->execute();
+    {
+     $r = $st->execute();
+     if(!$R) throw new DBFailureException($query);
+    }
     else
-      $st->execute($params);
+    {
+      $r = $st->execute($params);
+      if(!$r) throw new DBFailureException($query);
+    }
     //$st->debugDumpParams();
     return $st;//->fetchAll(PDO::FETCH_ASSOC);
   } // end of member function runQuery
@@ -437,21 +443,29 @@ class Database
           )
         )
         $mustlogin 
-        ))";    
-    $res = self::runQuery($sql,array($photoID,$userID,$userID,$userID))->rowCount();
+        ))";   
+    try{      
+    
+      $res = self::runQuery($sql,array($photoID,$userID,$userID,$userID))->rowCount();
+      
+      if(!$res) return false;   
 
-    if($res)    
-    {
       $sql = "INSERT INTO Rating (`id`, `photo_id`, `user_id`, `rating`) VALUES (NULL, ?, ?, ?);";         
-      $res = self::runQuery($sql,array($photoID,$userID,$rating))->rowCount();                  
-      if($res) return true;
-
-      //uz tam je      
-      $sql = "UPDATE Rating SET `photo_id` = ?, `user_id` = ?, `rating` = ? WHERE `photo_id` = ? AND `user_id` = ?;";          
-      $res = self::runQuery($sql,array($photoID,$userID,$rating,$photoID,$userID))->rowCount();  
-      return $res;
+      try{      
+        self::runQuery($sql,array($photoID,$userID,$rating));
+      }
+      catch (DBFailureException $e)
+      {     
+        //uz tam je      
+        $sql = "UPDATE Rating SET `photo_id` = ?, `user_id` = ?, `rating` = ? WHERE `photo_id` = ? AND `user_id` = ?;";          
+        $res = self::runQuery($sql,array($photoID,$userID,$rating,$photoID,$userID));        
+      }
     }
-    return false;
+    catch (DBFailureException $e)
+    {     
+      return false;
+    }
+    return true;
   }
 
   public static function addComment($photoID,$comment)
@@ -488,14 +502,18 @@ class Database
         $mustlogin 
         ))";    
     $res = self::runQuery($sql,array($photoID,$userID,$userID,$userID))->rowCount();
-
-    if($res)    
+    
+    if(!$res) return false;
+    try
     {
-      $sql = "INSERT INTO Comment (`id`, `photo_id`, `user_id`, `rating`) VALUES (NULL, ?, ?, ?);";         
-      $res = self::runQuery($sql,array($photoID,$userID,$rating))->rowCount();                  
-      return $res;    
+      $sql = "INSERT INTO Comments (`id`, `photo_id`, `user_id`, `text`) VALUES (NULL, ?, ?, ?);";         
+      $res = self::runQuery($sql,array($photoID,$userID,$comment));                  
+      return true;
     }
-    return false;
+    catch(DBFailureException $e)
+    {
+      return false;
+    }    
   }
 
 } // end of Database

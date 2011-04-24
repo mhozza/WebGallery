@@ -22,9 +22,8 @@ class Photo extends GalleryItem
     if(is_array($info))
     {      
       parent::__construct($info['id'],$info['caption'],$info['path']);    
-      $this->rating = Database::getRating($this->id);
-      if(!$this->rating) $this->rating = 0;
-      $this->comments = Database::getComments($this->id);
+      $this->reloadrating();
+      $this->reloadComments();
     }    
     else
     {
@@ -41,9 +40,16 @@ class Photo extends GalleryItem
   public function getExifData( ) {
   } // end of member function getExifData
 
+  public function reloadComments()
+  {
+    $this->comments = Database::getComments($this->id);
+  }
 
-
-
+  public function reloadRating()
+  {
+    $this->rating = Database::getRating($this->id);
+    if(!$this->rating) $this->rating = 0;
+  }
 
 } // end of Photo
 ?>

@@ -3,6 +3,7 @@ require_once 'session_init.php';
 require_once 'lib/Twig/Autoloader.php';
 require_once 'Gallery.php';
 require_once 'LoginManager.php';
+//require_once 'Twig/Extension.php';
 
 define('MODE_MAIN',0);
 define('MODE_DETAIL',1);
@@ -20,12 +21,16 @@ class Renderer
   private $twig;
 
   private $admin;
+
+  private $lm;
   
   function __construct($admin = false) {
     Twig_Autoloader::register();
     $loader = new Twig_Loader_Filesystem('templates');  
     $this->twig = new Twig_Environment($loader, array('cache' => $this->cache));     
+    //$this->twig->addExtension(new Extension());
     $this->admin = $admin;
+    $this->lm = new LoginManager();    
   } 
 
   public function render()
@@ -55,8 +60,17 @@ class Renderer
           break;
         case MODE_DETAIL:
           $template = $this->twig->loadTemplate($template_path_detail);
-          //parse commands
-          $g->setPhoto($_GET['detail']);          
+          $g->setPhoto($_GET['detail']);
+          //parse commands          
+          if(isset($_POST['comment_text']))
+          {            
+            $g->addComment($g->getCurrentPhoto(),$_POST['comment_text']);
+          }
+          if(isset($_GET['rate']))
+          {            
+            $g->addRating($g->getCurrentPhoto(),$_GET['rate']);
+          }
+
           break;
         default:
           $template = $this->twig->loadTemplate($template_path_main);
@@ -71,11 +85,12 @@ class Renderer
     }    
     catch(Exception $e)
     {      
-      die($e->getMessage());
+      echo $e->getMessage();
+      die();
     }
 
     $vars['gallery'] = $g;    
-    $lm = new LoginManager();    
+    
     $vars['user'] = $lm->getUser();
     $template->display($vars);        
   }

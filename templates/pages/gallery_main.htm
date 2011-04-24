@@ -1,5 +1,5 @@
-{% include 'parts/login.htm' %} 
-
+{% extends 'layout/gallery.htm' %}
+{% block g_body %}
 <h1>{{gallery.getAlbum.caption}} :</h1>
 {% if gallery.getAlbum.parent %}
 <a href = "?album={{gallery.getAlbum.getParent.getPath}}"> UP </a>
@@ -15,3 +15,4 @@
   </li>
 {% endfor %}
 </ul>
+{% endblock %}

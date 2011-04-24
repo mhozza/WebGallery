@@ -16,4 +16,13 @@
       $this->message = 'Security exception. '.$this->message;      
     }
   }  
+
+  class DBFailureException extends RuntimeException
+  {
+    function  __construct ($message=NULL, $code=0)
+    {
+      parent::__construct($message,$code);
+      $this->message = 'Database exception. '.$this->message;      
+    }
+  }  
 ?>
