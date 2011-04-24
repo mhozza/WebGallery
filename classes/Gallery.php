@@ -2,6 +2,7 @@
 require_once 'Database.php';
 require_once 'Album.php';
 require_once 'Photo.php';
+require_once 'LoginManager.php';
 
 define('GALLERY_ROOT','/gallery/');
 
@@ -18,10 +19,12 @@ class Gallery
    * @access private
    */
   private $currentIndex = 0;
-  private $currentAlbum = NULL;
+  private $currentAlbum = null;
+  private $loginManager = null;
 
   function __construct() {
     $this->currentAlbum = new Album(GALLERY_ROOT);    
+    $this->loginManager = new LoginManager();
   }   
  
 
@@ -44,10 +47,7 @@ class Gallery
    * @access public
    */
   public function setAlbum( $album ) {
-    //TODO: check existence
-    {
-      $this->currentAlbum = new Album($album);
-    }   
+    $this->currentAlbum = new Album($album);    
   } // end of member function setAlbum
 
   /**
@@ -66,22 +66,38 @@ class Gallery
 
   public function addPhoto($photo)
   {
-    
+    if($this->loginManager->getUser()->getId()!=UID_ROOT) return;
+    if(get_class($photo)=='Photo')
+    {
+      Database::addPhoto($photo);
+    }
   }
 
-  public function addAlbum($photo)
+  public function addAlbum($album)
   {
-    
+    if($this->loginManager->getUser()->getId()!=UID_ROOT) return;
+    if(get_class($album)=='Album')
+    {
+      Database::addAlbum($album);
+    }
   }
-
+  
   public function addComment($photo,$comment)
   {
-    
+    if($this->loginManager->getUser()->getId()==UID_UNLOGGED) return;
+    if(get_class($photo)=='Photo' && get_class($comment)=='Comment' )
+    {
+      Database::addComment($photo,$comment);
+    }
   }
 
   public function addRating($photo,$rating)
   {
-    
+    if($this->loginManager->getUser()->getId()==UID_UNLOGGED) return;
+    if(get_class($photo)=='Photo')
+    {
+      Database::addRating($photo,$rating);
+    }
   }
 
 } // end of Gallery

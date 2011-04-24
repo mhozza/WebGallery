@@ -1,6 +1,5 @@
 <?php  
-  require_once 'classes/Renderer.php';  
-  include 'login.php';
+  require_once 'classes/Renderer.php';    
   $renderer = new Renderer();
   $renderer->render();  
 ?>

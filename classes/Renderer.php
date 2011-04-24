@@ -2,6 +2,7 @@
 require_once 'session_init.php';
 require_once 'lib/Twig/Autoloader.php';
 require_once 'Gallery.php';
+require_once 'LoginManager.php';
 
 /**
  * class Renderer
@@ -22,9 +23,9 @@ class Renderer
 
   public function render()
   {
-    $template_path = 'gallery_main.htm';
+    $template_path = 'pages/gallery_main.htm';
     $template = $this->twig->loadTemplate($template_path);
-
+    
     try
     {
       $g = new Gallery();
@@ -39,8 +40,11 @@ class Renderer
     {      
       die($e->getMessage());
     }
-
+    $vars = array();
+    include 'login.php';    
     $vars['gallery'] = $g;    
+    $lm = new LoginManager();    
+    $vars['user'] = $lm->getUser();
     $template->display($vars);
   }
 

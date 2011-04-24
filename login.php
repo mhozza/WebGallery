@@ -16,25 +16,18 @@ try {
               $openid->required = array('namePerson/friendly','contact/email', 'namePerson', 'namePerson/first', 'namePerson/last',);
               header('Location: ' . $openid->authUrl());
           }
-  ?>
-  <form action="" method="post"> 
-    <input type="text" name="openid_identifier" id="openid_identifier"/>  
-    <script id="__openidselector" src="https://www.idselector.com/widget/button/1"></script>  
-    <input type="submit" value="Sign in" style="vertical-align:middle;"/>   
-  </form> 
-
-  <?php
+          $vars['login'] = false;
       } elseif($openid->mode == 'cancel') {
           echo 'User has canceled authentication!';
       } else {
           if(!$openid->validate()) throw new LoginException('OpenId validation failed');                  
 
           $lm->logIn($openid->identity,$openid->getAttributes()); 
-          //echo 'Login successfull.';
+    
       }
   }
   if($lm->isLoggedIn())
-    echo '<a href="logout.php">logout</a>';
+    $vars['login'] = true;    
 } catch(ErrorException $e) {
     echo $e->getMessage();
 } catch(LoginException $e) {

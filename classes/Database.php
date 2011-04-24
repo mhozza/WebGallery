@@ -306,19 +306,21 @@ class Database
     if(isset($attributes['contact/email']))
     {
       $email = $attributes['contact/email'];
+      if($nick == null)
+      {
+        $names = explode('@',$attributes['contact/email']);
+        $nick = $names[0];
+      }
     }
     
     //TODO: grup support  
-    $sql = "INSERT INTO Users (`id`, `username`, `name`, `surname`, `grp`, `nick`, `email`) VALUES (NULL, ?, ?, ?, NULL, ?, ?);";
-         
-    $res = self::runQuery($sql,array($openID,$name,$surname,$nick,$email))->rowCount();            
+    $sql = "INSERT INTO Users (`id`, `username`, `name`, `surname`, `grp`, `nick`, `email`) VALUES (NULL, ?, ?, ?, NULL, ?, ?);";         
+    $res = self::runQuery($sql,array($openID,$name,$surname,$nick,$email))->rowCount();                
+    if($res) return true;
     
-    if($res) return true;//uz tam je
-    
-    $sql = "UPDATE Users SET `name` = ?, `surname` = ?, `nick` = ?, `email` = ? WHERE `username` = ?;";
-         
+    //uz tam je    
+    $sql = "UPDATE Users SET `name` = ?, `surname` = ?, `nick` = ?, `email` = ? WHERE `username` = ? AND autoupdate = 1;";         
     $res = self::runQuery($sql,array($name,$surname,$nick,$email,$openID))->rowCount();  
-
     return $res;
   }
   
@@ -327,6 +329,15 @@ class Database
     self::connect();       
     $sql = "SELECT id,username,name,surname,nick,email FROM Users WHERE (username = ?) LIMIT 1";    
     $res = self::runQuery($sql,array($openID))->fetch(PDO::FETCH_ASSOC);            
+    //FIXME: error checking            
+    return $res;
+  }
+
+  public static function getUserInfoByID($uid)
+  {    
+    self::connect();       
+    $sql = "SELECT id,username,name,surname,nick,email FROM Users WHERE (id = ?) LIMIT 1";    
+    $res = self::runQuery($sql,array($uid))->fetch(PDO::FETCH_ASSOC);            
     //FIXME: error checking            
     return $res;
   }
@@ -343,7 +354,7 @@ class Database
   public static function getComments($photoID)
   {    
     self::connect();   //TODO: permissions?    
-    $sql = "SELECT * FROM `Comments` WHERE photo_id = ?";
+    $sql = "SELECT user_id,text FROM `Comments` WHERE photo_id = ? SORT BY time_added";
     $res = self::runQuery($sql,array($photoID))->fetchAll(PDO::FETCH_ASSOC);            
     //FIXME: error checking            
     
@@ -353,6 +364,99 @@ class Database
       $ret[] = new Comment($row);
     }
     return $ret;    
+  }
+
+  public static function addRating($photoID,$rating)
+  {    
+    self::connect();       //TODO: permissions?    
+    $userID = self::$loginManager->getUser()->getId();    
+    $mustlogin = ($userID==UID_UNLOGGED) ? 'AND permissions = ' . PT_PUBLIC : '';   
+    
+    //check permissions
+    $sql = "SELECT id FROM Photos WHERE (
+      id = ?
+      AND (
+        id NOT IN (
+          SELECT photo_id FROM PhotoPermissions WHERE (
+            user_id= ? 
+            AND type=" . PT_DENY . "
+          )
+        )
+        AND album NOT IN (
+          SELECT album_id FROM AlbumPermissions WHERE (
+            user_id= ? 
+            AND type=" . PT_DENY . "
+          )
+        )
+        AND (
+          permissions <> " . PT_PRIVATE . "         
+          OR id IN (
+            SELECT photo_id FROM PhotoPermissions WHERE (
+              user_id= ? 
+              AND type=" . PT_ALOW . "
+            )
+          )
+        )
+        $mustlogin 
+        ))";    
+    $res = self::runQuery($sql,array($photoID,$userID,$userID,$userID))->rowCount();
+
+    if($res)    
+    {
+      $sql = "INSERT INTO Rating (`id`, `photo_id`, `user_id`, `rating`) VALUES (NULL, ?, ?, ?);";         
+      $res = self::runQuery($sql,array($photoID,$userID,$rating))->rowCount();                  
+      if($res) return true;
+
+      //uz tam je      
+      $sql = "UPDATE Rating SET `photo_id` = ?, `user_id` = ?, `rating` = ? WHERE `photo_id` = ? AND `user_id` = ?;";          
+      $res = self::runQuery($sql,array($photoID,$userID,$rating,$photoID,$userID))->rowCount();  
+      return $res;
+    }
+    return false;
+  }
+
+  public static function addComment($photoID,$comment)
+  {    
+    self::connect();       //TODO: permissions?    
+    $userID = self::$loginManager->getUser()->getId();    
+    $mustlogin = ($userID==UID_UNLOGGED) ? 'AND permissions = ' . PT_PUBLIC : '';   
+    
+    //check permissions
+    $sql = "SELECT id FROM Photos WHERE (
+      id = ?
+      AND (
+        id NOT IN (
+          SELECT photo_id FROM PhotoPermissions WHERE (
+            user_id= ? 
+            AND type=" . PT_DENY . "
+          )
+        )
+        AND album NOT IN (
+          SELECT album_id FROM AlbumPermissions WHERE (
+            user_id= ? 
+            AND type=" . PT_DENY . "
+          )
+        )
+        AND (
+          permissions <> " . PT_PRIVATE . "         
+          OR id IN (
+            SELECT photo_id FROM PhotoPermissions WHERE (
+              user_id= ? 
+              AND type=" . PT_ALOW . "
+            )
+          )
+        )
+        $mustlogin 
+        ))";    
+    $res = self::runQuery($sql,array($photoID,$userID,$userID,$userID))->rowCount();
+
+    if($res)    
+    {
+      $sql = "INSERT INTO Comment (`id`, `photo_id`, `user_id`, `rating`) VALUES (NULL, ?, ?, ?);";         
+      $res = self::runQuery($sql,array($photoID,$userID,$rating))->rowCount();                  
+      return $res;    
+    }
+    return false;
   }
 
 } // end of Database

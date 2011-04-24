@@ -1,0 +1,9 @@
+{% if login %}
+{{user.getDisplayName}} <a href="logout.php">logout</a>
+{% else %}
+<form action="" method="post"> 
+  <input type="text" name="openid_identifier" id="openid_identifier"/>  
+  <script id="__openidselector" src="https://www.idselector.com/widget/button/1"></script>  
+  <input type="submit" value="Sign in" style="vertical-align:middle;"/>   
+</form>
+{% endif %}
