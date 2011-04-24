@@ -15,5 +15,5 @@
       parent::__construct($message,$code);
       $this->message = 'Security exception. '.$this->message;      
     }
-  }
+  }  
 ?>

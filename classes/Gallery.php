@@ -20,6 +20,7 @@ class Gallery
    */
   private $currentIndex = 0;
   private $currentAlbum = null;
+  private $currentPhoto = null;
   private $loginManager = null;
 
   function __construct() {
@@ -34,8 +35,9 @@ class Gallery
    * @return Photo
    * @access public
    */
-  public function getCurrentPhoto( ) {
-    
+  public function getCurrentPhoto( ) 
+  {    
+    return $this->currentPhoto;
   } // end of member function getCurrentPhoto
 
   /**
@@ -48,6 +50,11 @@ class Gallery
    */
   public function setAlbum( $album ) {
     $this->currentAlbum = new Album($album);    
+  } // end of member function setAlbum
+
+  public function setPhoto( $photo_path ) {
+    $this->currentPhoto = Database::getPhotoByPath($photo_path);
+    if($this->currentPhoto==null) throw new SecurityException('Could not access photo.');
   } // end of member function setAlbum
 
   /**

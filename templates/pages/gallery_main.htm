@@ -10,7 +10,7 @@
     {% if item.getClass == 'Album' %}
     <a href = "?album={{item.getPath}}"> {{item.getCaption}} </a>
     {% else %}
-    {{item.getCaption}}({{item.getRating}})
+    <a href = "?detail={{item.getPath}}">{{item.getCaption}}</a>({{item.getRating}})
     {% endif %}
   </li>
 {% endfor %}

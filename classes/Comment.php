@@ -24,7 +24,7 @@ class Comment
    * @return string
    * @access public
    */
-  public function getAuthor( ) {
+  public function getAuthor( ) {    
     return $this->author;
   } // end of member function getAuthor
   
@@ -34,7 +34,7 @@ class Comment
    * @return string
    * @access public
    */
-  public function getText( ) {
+  public function getText( ) {    
     return $this->text;
   } // end of member function getText
   

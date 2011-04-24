@@ -1,0 +1,14 @@
+<h1> {{ gallery.getCurrentPhoto.getCaption }} </h1>
+Rating: {{ gallery.getCurrentPhoto.getRating }}<br/>
+Komentare: <br/>
+{% for comment in gallery.getCurrentPhoto.getComments %} 
+<strong>Autor: {{comment.getAuthor.getDisplayName}}</strong> <br/>
+Text: {{comment.getText}} <br/>
+{% endfor %}
+<hr>
+<form action="" method="post"> 
+  <textarea name="coment_text" id="coment_text">
+  </textarea><br/>
+  <input type="submit" value="Submit"/>   
+</form>
+

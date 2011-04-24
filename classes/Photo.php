@@ -19,13 +19,17 @@ class Photo extends GalleryItem
   private $exifData = NULL;
 
   function __construct($info) {    
-    if($info!=NULL)
+    if(is_array($info))
     {      
       parent::__construct($info['id'],$info['caption'],$info['path']);    
+      $this->rating = Database::getRating($this->id);
+      if(!$this->rating) $this->rating = 0;
+      $this->comments = Database::getComments($this->id);
+    }    
+    else
+    {
+      throw new RuntimeException('Info is not an array');
     }
-    $this->rating = Database::getRating($this->id);
-    if(!$this->rating) $this->rating = 0;
-    $this->comments = Database::getComments($this->id);
   }   
 
   /**

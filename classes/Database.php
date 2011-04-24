@@ -129,6 +129,46 @@ class Database
       
   }
 
+  public static function getPhotoByPath($path)
+  {
+     self::connect();
+     $userID = self::$loginManager->getUser()->getId();    
+
+     $mustlogin = ($userID==UID_UNLOGGED) ? 'AND permissions = ' . PT_PUBLIC : '';     
+
+     $sql = "SELECT id,caption,path FROM Photos WHERE (
+      path = ?
+      AND (
+        id NOT IN (
+          SELECT photo_id FROM PhotoPermissions WHERE (
+            user_id= ? 
+            AND type=" . PT_DENY . "
+          )
+        )
+        AND album NOT IN (
+          SELECT album_id FROM AlbumPermissions WHERE (
+            user_id= ? 
+            AND type=" . PT_DENY . "
+          )
+        )
+        AND (
+          permissions <> " . PT_PRIVATE . "         
+          OR id IN (
+            SELECT photo_id FROM PhotoPermissions WHERE (
+              user_id= ? 
+              AND type=" . PT_ALOW . "
+            )
+          )
+        )
+        $mustlogin 
+        )) LIMIT 1";
+      //echo $sql;      
+      $res = self::runQuery($sql,array($path,$userID,$userID,$userID))->fetch(PDO::FETCH_ASSOC);            
+      //FIXME: error checking            
+      if(!$res) return null;
+      return  new Photo($res);
+  }
+
   public static function getAlbums($albumID)//TODO: album filter
   {
     self::connect();
@@ -354,10 +394,9 @@ class Database
   public static function getComments($photoID)
   {    
     self::connect();   //TODO: permissions?    
-    $sql = "SELECT user_id,text FROM `Comments` WHERE photo_id = ? SORT BY time_added";
+    $sql = "SELECT user_id,text FROM `Comments` WHERE photo_id = ? ORDER BY time_added";
     $res = self::runQuery($sql,array($photoID))->fetchAll(PDO::FETCH_ASSOC);            
-    //FIXME: error checking            
-    
+    //FIXME: error checking                
     $ret = array();
     foreach($res as $row)
     {
