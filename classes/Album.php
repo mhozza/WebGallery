@@ -7,8 +7,9 @@ require_once 'Exceptions.php';
  * 
  */
 class Album extends GalleryItem
-{ 
-  private $parentID;
+{
+
+  private $parent = null;
 
   function __construct($arg) {   
     $info = NULL;
@@ -27,20 +28,8 @@ class Album extends GalleryItem
 
     if($info!=NULL) //FIXME: neloadovat hned novy album
     {      
-      parent::__construct($info['id'],$info['caption'],$info['path']);        
-      $this->parent_id = $info['parent_id'];
-      settype($this->parent_id,'integer');
-      if($this->parent_id!=null)
-      {
-        
-        try
-        {
-          $this->parent = new Album($this->parent_id);
-        }
-        catch(Exception $e)
-        {         
-        }
-      }
+      parent::__construct($info['id'],$info['caption'],$info['path'],$info['parent_id'],$info['permissions']);              
+      settype($this->parent_id,'integer');      
     }
     else
     {
@@ -87,6 +76,17 @@ class Album extends GalleryItem
    * @access public
    */
   public function getParent( ) {    
+    if($this->parent ==null)
+      if($this->parent_id!=null)
+      {        
+        try
+        {
+          $this->parent = new Album($this->parent_id);
+        }
+        catch(Exception $e)
+        {         
+        }
+      }
     return $this->parent;
   } // end of member function getParent
 

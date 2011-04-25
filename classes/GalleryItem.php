@@ -13,7 +13,7 @@ class GalleryItem
 {
 
   
- 
+  protected $permissions;
   /**
    * 
    * @access private
@@ -24,7 +24,8 @@ class GalleryItem
    * 
    * @access protected
    */
-  protected $parent;
+  
+  protected $parentID;
   
   /**
    * 
@@ -45,10 +46,12 @@ class GalleryItem
   protected $path;
 
 
-  function __construct($id,$caption,$path) {
+  function __construct($id,$caption,$path,$parentID,$perms) {
     $this->id = $id;
     $this->caption = $caption;
     $this->path = $path;    
+    $this->permissions = $perms;
+    $this->parentID = $parentID;
   }
 
 
@@ -115,7 +118,15 @@ class GalleryItem
     return get_class($this);
   } // end of member function getClass
 
+  public function getParentID()
+  {
+    return $this->parentID;
+  }
 
-
+  public function getPermissions()
+  {
+    return $this->permissions;
+  }
+  
 } // end of GalleryItem
 ?>

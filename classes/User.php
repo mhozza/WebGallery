@@ -98,6 +98,10 @@ class User
     {
       $info = Database::getUserInfoByID($arg);
     } 
+    if(is_array($arg))
+    {
+      $info = $arg;
+    }
     if($info == false) return;         
     $this->uid = $info['id'];
     $this->username = $info['username'];

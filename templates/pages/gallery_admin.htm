@@ -4,7 +4,7 @@
 
 <form action='' method='post'>
 <fieldset>
-<legend><h2>Pridat album:</h2></legend>
+<legend><h2>Pridať album:</h2></legend>
 <label for='album'>Album:</label>
 <select name='album' id='album'>
 {% for item in adminTools.getAlbums %}      
@@ -24,5 +24,82 @@
 <button type='submit' name='addAlbum'>Pridaj</button>
 </fieldset>
 </form>
+
+<form action='' method='post' enctype="multipart/form-data">
+<fieldset>
+<legend><h2>Pridať fotku:</h2></legend>
+
+<input type="hidden" name="MAX_FILE_SIZE" value="5000000" />{# 5MB #}
+
+<label for='photo_album'>Album:</label>
+<select name='photo_album' id='photo_album'>
+{% for item in adminTools.getAlbums %}      
+    <option value="{{item.getID}}"> {{item.getCaption}}({{item.getPath}}) </option>
+{% endfor %}
+</select><br/>
+<label for='photo_caption'>Nadpis:</label>
+<input type='text' name='photo_caption' id='photo_caption'/><br/>
+<label for='photo_file'>Fotka:</label>
+<input type="file" name="photo_file" name="photo_file" id="photo_file" /><br/>
+<label for='photo_perm'>Práva:</label>
+<select name='photo_perm' id='photo_perm'>
+<option value="0"> Verejný </option>
+<option value="1"> Pre prihlásených </option>
+<option value="2"> Súkromný </option>
+</select><br/>
+<button type='submit' name='addPhoto'>Pridaj</button>
+</fieldset>
+</form>
+
+<form action='' method='post' enctype="multipart/form-data">
+<fieldset>
+<legend><h2>Oprávnenia na fotku:</h2></legend>
+<label for='perm_photo'>Fotka:</label>
+<select name='perm_photo' id='perm_photo'>
+{% for item in adminTools.getPhotos %}      
+    <option value="{{item.getID}}"> {{item.getCaption}}({{item.getPath}}) </option>
+{% endfor %}
+</select><br/>
+<label for='perm_photo_user'>Používaťeľ:</label>
+<select name='perm_photo_user' id='perm_photo_user'>
+{% for item in adminTools.getUsers %}      
+    <option value="{{item.getID}}"> {{item.getDisplayname}}({{item.getUserName}}) </option>
+{% endfor %}
+</select><br/>
+
+<label for='perm_photo_perm'>Typ:</label>
+<select name='perm_photo_perm' id='perm_photo_perm'>
+<option value="0"> Zakázať</option>
+<option value="1"> Povoliť </option>
+</select><br/>
+<button type='submit' name='addPhotoPerms'>Pridaj</button>
+</fieldset>
+</form>
+
+<form action='' method='post' enctype="multipart/form-data">
+<fieldset>
+<legend><h2>Oprávnenia na album:</h2></legend>
+<label for='perm_album'>Album:</label>
+<select name='perm_album' id='perm_album'>
+{% for item in adminTools.getAlbums %}      
+    <option value="{{item.getID}}"> {{item.getCaption}}({{item.getPath}}) </option>
+{% endfor %}
+</select><br/>
+<label for='perm_album_user'>Používaťeľ:</label>
+<select name='perm_album_user' id='perm_album_user'>
+{% for item in adminTools.getUsers %}      
+    <option value="{{item.getID}}"> {{item.getDisplayname}}({{item.getUserName}}) </option>
+{% endfor %}
+</select><br/>
+
+<label for='perm_album_perm'>Typ:</label>
+<select name='perm_album_perm' id='perm_album_perm'>
+<option value="0"> Zakázať</option>
+<option value="1"> Povoliť </option>
+</select><br/>
+<button type='submit' name='addAlbumPerms'>Pridaj</button>
+</fieldset>
+</form>
+
 
 {% endblock %}

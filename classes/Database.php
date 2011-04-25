@@ -99,7 +99,7 @@ class Database
      $userID = self::$loginManager->getUser()->getId();     
      $mustlogin = ($userID==UID_UNLOGGED) ? 'AND permissions = ' . PT_PUBLIC : '';
           //FIXME: permissions
-     $sql = "SELECT Photos.id,caption,path,rating FROM Photos,(
+     $sql = "SELECT Photos.id,caption,path,album,permissions  ,rating FROM Photos,(
         (SELECT photo_id as id,AVG(rating) as rating FROM `Rating` GROUP BY photo_id)
         UNION 
         (SELECT id,0 as rating FROM Photos WHERE id not in (SELECT photo_id FROM Rating))
@@ -151,7 +151,7 @@ class Database
 
      $mustlogin = ($userID==UID_UNLOGGED) ? 'AND permissions = ' . PT_PUBLIC : '';     
 
-     $sql = "SELECT Photos.id,caption,path,rating FROM Photos,(
+     $sql = "SELECT Photos.id,caption,path,album,permissions  ,rating FROM Photos,(
         (SELECT photo_id as id,AVG(rating) as rating FROM `Rating` GROUP BY photo_id)
         UNION 
         (SELECT id,0 as rating FROM Photos WHERE id not in (SELECT photo_id FROM Rating))
@@ -192,7 +192,7 @@ class Database
   public static function getAllAlbums() //for root only
   {    
     if(!self::$loginManager->isRoot()) return false;       
-    $sql = "SELECT id,caption,path,parent_id FROM Albums;";      
+    $sql = "SELECT id,caption,path,parent_id,permissions  FROM Albums;";      
     $res = self::runQuery($sql)->fetchAll(PDO::FETCH_ASSOC);
       //FIXME: error checking
       
@@ -200,6 +200,36 @@ class Database
     foreach($res as $row)
     {
       $ret[] = new Album($row);
+    }
+    return $ret;      
+  }
+
+  public static function getAllPhotos() //for root only
+  {    
+    if(!self::$loginManager->isRoot()) return false;       
+    $sql = "SELECT id,caption,path,album,permissions,0 as rating  FROM Photos;";      
+    $res = self::runQuery($sql)->fetchAll(PDO::FETCH_ASSOC);
+      //FIXME: error checking
+      
+    $ret = array();
+    foreach($res as $row)
+    {
+      $ret[] = new Photo($row);
+    }
+    return $ret;      
+  }
+
+  public static function getAllUsers() //for root only
+  {    
+    if(!self::$loginManager->isRoot()) return false;       
+    $sql = "SELECT id,username,name,surname,nick,email FROM Users;";      
+    $res = self::runQuery($sql)->fetchAll(PDO::FETCH_ASSOC);
+      //FIXME: error checking
+      
+    $ret = array();
+    foreach($res as $row)
+    {
+      $ret[] = new User($row);
     }
     return $ret;      
   }
@@ -212,7 +242,7 @@ class Database
       
     $mustlogin = ($userID==UID_UNLOGGED) ? 'AND permissions = ' . PT_PUBLIC : '';           
     
-    $sql = "SELECT id,caption,path,parent_id FROM Albums WHERE (
+    $sql = "SELECT id,caption,path,parent_id,permissions  FROM Albums WHERE (
       parent_id = ? AND 
       (
         id NOT IN (
@@ -252,7 +282,7 @@ class Database
 
      $mustlogin = ($userID==UID_UNLOGGED) ? 'AND permissions = ' . PT_PUBLIC : '';     
 
-     $sql = "SELECT id,caption,path,parent_id FROM Albums WHERE (
+     $sql = "SELECT id,caption,path,parent_id,permissions  FROM Albums WHERE (
       path = ?
       AND (
         id NOT IN (
@@ -285,7 +315,7 @@ class Database
 
      $mustlogin = ($userID==UID_UNLOGGED) ? 'AND permissions = ' . PT_PUBLIC : '';     
 
-     $sql = "SELECT id,caption,path,parent_id FROM Albums WHERE (
+     $sql = "SELECT id,caption,path,parent_id,permissions FROM Albums WHERE (
       id = ?
       AND (
         id NOT IN (
@@ -544,8 +574,50 @@ class Database
     try
     {
       $sql = "INSERT INTO Albums (`id`, `parent_id`, `caption`, `path`, `permissions`) VALUES (NULL, ?, ?, ?, ?);";         
-      //$res = self::runQuery($sql,array($album->getParentId(),$album->getCaption(),$album->getPath(),$album->getPermissions(),));                  
+      $res = self::runQuery($sql,array($album->getParentId(),$album->getCaption(),$album->getPath(),$album->getPermissions(),));                  
       return true;
+    }
+    catch(DBFailureException $e)
+    {
+      return false;
+    }    
+  }
+
+  public static function addPhoto($photo) //root only
+  {    
+    if(!self::$loginManager->isRoot()) return false;
+    $hash = md5(file_get_contents($photo->getPath()));
+    try
+    {
+      $sql = "INSERT INTO Photos (`id`, `caption`, `path`, `hash`, `album`, `permissions`) VALUES (NULL, ?, ?, ?, ?, ?);";         
+      $res = self::runQuery($sql,array($photo->getCaption(),$photo->getPath(),$hash,$photo->getParentId(),$photo->getPermissions(),));                  
+      return true;
+    }
+    catch(DBFailureException $e)
+    {
+      return false;
+    }    
+  }
+
+  public static function addPerms($type,$id,$uid,$perms) //root only
+  {    
+    if(!self::$loginManager->isRoot()) return false;   
+    $table = ($type == PT_PHOTO) ? 'PhotoPermissions' : 'AlbumPermissions';
+    $idc = ($type == PT_PHOTO) ? 'photo_id' : 'album_id';
+    try
+    {
+      try
+      {
+        $sql = "INSERT INTO $table (`id`, `$idc`, `user_id`, `type`) VALUES (NULL, ?, ?, ?);";         
+        $res = self::runQuery($sql,array($id,$uid,$perms,));
+        return true;
+      }
+      catch(DBFailureException $e)
+      {        
+        $sql = "UPDATE $table SET `$idc` = ?, `user_id` = ?, `type` = ? WHERE `$idc` = ? AND `user_id` = ?;";              
+        $res = self::runQuery($sql,array($id,$uid,$perms,$id,$uid));
+        return true;
+      }
     }
     catch(DBFailureException $e)
     {

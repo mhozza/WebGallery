@@ -5,7 +5,7 @@ require_once 'Photo.php';
 require_once 'LoginManager.php';
 require_once 'Exceptions.php';
 
-define('GALLERY_ROOT','/gallery/');
+define('GALLERY_ROOT','gallery');
 
 
 /**

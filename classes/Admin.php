@@ -27,14 +27,39 @@ class AdminTools
   public function getAlbums( ) {    
     return Database::getAllAlbums();
   } // end of member function getItems
+
+
+  public function getPhotos( ) {    
+    return Database::getAllPhotos();
+  } // end of member function getItems
+
+  public function getUsers( ) {    
+    return Database::getAllUsers();
+  } // end of member function getItems
   
-  public function addPhoto($photo)
+  public function addPhoto($parentID,$photoName,$photoTmpName,$photoCaption,$photoPerms)
   {
     if($this->loginManager->getUser()->getId()!=UID_ROOT) return;
-    if(get_class($photo)=='Photo')
+    settype($parentID,'integer');
+    $parent = new Album($parentID);
+    $info['path'] = $parent->getPath().'/'.$photoName;
+    $info['album'] = $parentID;
+    $info['id'] = 0;
+    $info['caption'] = $photoCaption;
+    $info['permissions'] = $photoPerms;
+    $info['rating'] = 0;
+    
+    //make dir
+    if(copy($photoTmpName,$info['path']))
     {
-      Database::addPhoto($photo);
+      //add to DB
+      Database::addPhoto(new Photo($info));
     }
+    else
+      throw new RuntimeException('Could not upload photo');    
+    
+      
+    
   }
 
   public function addAlbum($parentID,$albumName,$albumCaption,$albumPerms)
@@ -48,7 +73,21 @@ class AdminTools
     $info['id'] = 0;
     $info['caption'] = $albumCaption;
     $info['permissions'] = $albumPerms;
-    Database::addAlbum(new Album($info));
+    //make dir
+    if(mkdir($info['path'],0775))
+    {
+      //add to DB
+      Database::addAlbum(new Album($info));
+    }
+    else
+      throw new RuntimeException('Could not create directory');
+  }
+
+  public function addPerms($type,$id,$uid,$perms)
+  {
+    if($this->loginManager->getUser()->getId()!=UID_ROOT) return;
+    //TODO: sklontrolovat veci co  prisli    
+    Database::addPerms($type,$id,$uid,$perms);
   }
 
 } // end of Admin

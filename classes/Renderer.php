@@ -62,9 +62,21 @@ class Renderer
           $adminTools = new AdminTools();          
           $vars['adminTools'] = $adminTools;    
           //parse commands
-          if(isset($_POST['addAlbum']))// && $this->lm->getUser()->getId()==UID_ROOT)
+          if(isset($_POST['addAlbum']))
           {           
             $adminTools->addAlbum($_POST['album'],$_POST['album_name'],$_POST['album_caption'],$_POST['album_perm']);
+          }
+          if(isset($_POST['addPhoto']))
+          {
+            $adminTools->addPhoto($_POST['photo_album'],basename($_FILES['photo_file']['name']),$_FILES['photo_file']['tmp_name'],$_POST['photo_caption'],$_POST['photo_perm']);
+          }
+          if(isset($_POST['addPhotoPerms']))
+          {
+            $adminTools->addPerms(PT_PHOTO,$_POST['perm_photo'],$_POST['perm_photo_user'],$_POST['perm_photo_perm']);
+          }
+          if(isset($_POST['addAlbumPerms']))
+          {
+            $adminTools->addPerms(PT_ALBUM,$_POST['perm_album'],$_POST['perm_album_user'],$_POST['perm_album_perm']);
           }
           break;
         case MODE_DETAIL:          
