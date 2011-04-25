@@ -24,6 +24,11 @@ class LoginManager
     return ($this->getUser()->getID() != UID_UNLOGGED);
   } // end of member function isLoggedIn
 
+  public function isRoot( ) {    
+    return ($this->getUser()->getID() == UID_ROOT);
+  } // end of member function isLoggedIn
+
+
   /**
    * 
    *
@@ -33,8 +38,8 @@ class LoginManager
   public function getUser( ) {
     //if(!isset($this->user) || $this->user==null)
     {   
-      if(isset($_SESSION['username']))    
-        $this->user = new User($_SESSION['username']);
+      if(isset($_SESSION['user']))    
+        $this->user = $_SESSION['user'];
       else
         $this->user = new User();
     }
@@ -55,7 +60,7 @@ class LoginManager
    
     if($this->checkSession())
     {
-      $_SESSION['username'] = $openID;
+      $_SESSION['user'] = new User($openID);
       Database::updateUser($openID,$attributes);
     }
     else

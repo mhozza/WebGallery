@@ -1,11 +1,28 @@
 {% extends 'layout/gallery.htm' %}
 {% block g_body %}
 <h1>Administracia</h1>
-<h2>Pridat album:</h2>
-<select>
-{% for item in gallery.getAlbums %}      
-    <option> {{item.getCaption}} </option>
+
+<form action='' method='post'>
+<fieldset>
+<legend><h2>Pridat album:</h2></legend>
+<label for='album'>Album:</label>
+<select name='album' id='album'>
+{% for item in adminTools.getAlbums %}      
+    <option value="{{item.getID}}"> {{item.getCaption}}({{item.getPath}}) </option>
 {% endfor %}
-</select>
+</select><br/>
+<label for='album_name'>Meno:</label>
+<input type='text' name='album_name' id='album_name'/><br/>
+<label for='album_caption'>Nadpis:</label>
+<input type='text' name='album_caption' id='album_caption'/><br/>
+<label for='album_perm'>Práva:</label>
+<select name='album_perm' id='album_perm'>
+<option value="0"> Verejný </option>
+<option value="1"> Pre prihlásených </option>
+<option value="2"> Súkromný </option>
+</select><br/>
+<button type='submit' name='addAlbum'>Pridaj</button>
+</fieldset>
+</form>
 
 {% endblock %}

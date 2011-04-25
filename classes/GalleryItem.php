@@ -13,12 +13,7 @@ class GalleryItem
 {
 
   
-  /**
-   * 
-   * @access private
-   */
-  protected $comments = array();
-
+ 
   /**
    * 
    * @access private
@@ -57,15 +52,7 @@ class GalleryItem
   }
 
 
-  /**
-   * 
-   *
-   * @return Comment[]
-   * @access public
-   */
-  public function getComments( ) {        
-    return $this->comments;    
-  } // end of member function getComments
+ 
 
   /**
    * 

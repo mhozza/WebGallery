@@ -3,6 +3,7 @@ require_once 'session_init.php';
 require_once 'lib/Twig/Autoloader.php';
 require_once 'Gallery.php';
 require_once 'LoginManager.php';
+require_once 'Admin.php';
 //require_once 'Twig/Extension.php';
 
 define('MODE_MAIN',0);
@@ -56,19 +57,27 @@ class Renderer
       switch($mode)
       {
         case MODE_ADMIN:
+          if($lm->getUser()->getID()!=UID_ROOT) die();//TODO: hodit 404
           $template = $this->twig->loadTemplate($template_path_admin);
+          $adminTools = new AdminTools();          
+          $vars['adminTools'] = $adminTools;    
+          //parse commands
+          if(isset($_POST['addAlbum']))// && $this->lm->getUser()->getId()==UID_ROOT)
+          {           
+            $adminTools->addAlbum($_POST['album'],$_POST['album_name'],$_POST['album_caption'],$_POST['album_perm']);
+          }
           break;
-        case MODE_DETAIL:
+        case MODE_DETAIL:          
           $template = $this->twig->loadTemplate($template_path_detail);
           $g->setPhoto($_GET['detail']);
           //parse commands          
-          if(isset($_POST['comment_text']))
-          {            
-            $g->addComment($g->getCurrentPhoto(),$_POST['comment_text']);
+          if(isset($_POST['comment_text']) && $this->lm->getUser()->getId()!=UID_UNLOGGED)
+          {           
+            $g->getCurrentPhoto()->addComment($_POST['comment_text']);
           }
-          if(isset($_GET['rate']))
+          if(isset($_GET['rate']) && $this->lm->getUser()->getId()!=UID_UNLOGGED)
           {            
-            $g->addRating($g->getCurrentPhoto(),$_GET['rate']);
+            $g->getCurrentPhoto()->addRating($_GET['rate']);
           }
 
           break;
@@ -92,7 +101,9 @@ class Renderer
     $vars['gallery'] = $g;    
     
     $vars['user'] = $lm->getUser();
-    $template->display($vars);        
+    $template->display($vars);      
+    global $cnt;
+    echo "Pocet dotazov na DB: $cnt";
   }
 
 } // end of Renderer

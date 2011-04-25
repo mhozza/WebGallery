@@ -8,6 +8,7 @@ require_once 'Exceptions.php';
  */
 class Album extends GalleryItem
 { 
+  private $parentID;
 
   function __construct($arg) {   
     $info = NULL;
@@ -24,17 +25,17 @@ class Album extends GalleryItem
       $info = $arg;
     }
 
-    if($info!=NULL)
+    if($info!=NULL) //FIXME: neloadovat hned novy album
     {      
       parent::__construct($info['id'],$info['caption'],$info['path']);        
-      $parent_id = $info['parent_id'];
-      settype($parent_id,'integer');
-      if($parent_id!=null)
+      $this->parent_id = $info['parent_id'];
+      settype($this->parent_id,'integer');
+      if($this->parent_id!=null)
       {
         
         try
         {
-          $this->parent = new Album($parent_id);
+          $this->parent = new Album($this->parent_id);
         }
         catch(Exception $e)
         {         

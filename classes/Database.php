@@ -4,6 +4,7 @@ require_once 'LoginManager.php';
 require_once 'Privileges.php';
 require_once 'User.php'; 
 
+$cnt = 0;
 
 /**
  * class Database
@@ -34,13 +35,16 @@ class Database
   
   public static function runQuery( $query, $params = NULL )
   {
-    //self::connect();
+    global $cnt;
+    $cnt+=1;
+    self::connect();
+    //echo $query.'<br/>';
     //FIXME: osetrit chyby    
     $st = self::$db->prepare($query);//TODO: driver parameters    
     if($params==NULL)
     {
      $r = $st->execute();
-     if(!$R) throw new DBFailureException($query);
+     if(!$r) throw new DBFailureException($query);
     }
     else
     {
@@ -91,14 +95,19 @@ class Database
 
   public static function getPhotos($albumID)
   {
-     self::connect();
+     
      $userID = self::$loginManager->getUser()->getId();     
      $mustlogin = ($userID==UID_UNLOGGED) ? 'AND permissions = ' . PT_PUBLIC : '';
           //FIXME: permissions
-     $sql = "SELECT id,caption,path FROM Photos WHERE (
-      album = ?
+     $sql = "SELECT Photos.id,caption,path,rating FROM Photos,(
+        (SELECT photo_id as id,AVG(rating) as rating FROM `Rating` GROUP BY photo_id)
+        UNION 
+        (SELECT id,0 as rating FROM Photos WHERE id not in (SELECT photo_id FROM Rating))
+        ) Rate
+      WHERE (      
+      album = ? AND Photos.id = Rate.id
       AND (
-        id NOT IN (
+        Photos.id NOT IN (
           SELECT photo_id FROM PhotoPermissions WHERE (
             user_id= ? 
             AND type=" . PT_DENY . "
@@ -112,7 +121,7 @@ class Database
         )
         AND (
           permissions <> " . PT_PRIVATE . "         
-          OR id IN (
+          OR Photos.id IN (
             SELECT photo_id FROM PhotoPermissions WHERE (
               user_id= ? 
               AND type=" . PT_ALOW . "
@@ -120,7 +129,7 @@ class Database
           )
         )
         $mustlogin 
-        ))";
+        ));";
 
       //echo $sql;
       $res = self::runQuery($sql,array($albumID,$userID,$userID,$userID))->fetchAll(PDO::FETCH_ASSOC);
@@ -137,15 +146,20 @@ class Database
 
   public static function getPhotoByPath($path)
   {
-     self::connect();
+     
      $userID = self::$loginManager->getUser()->getId();    
 
      $mustlogin = ($userID==UID_UNLOGGED) ? 'AND permissions = ' . PT_PUBLIC : '';     
 
-     $sql = "SELECT id,caption,path FROM Photos WHERE (
-      path = ?
+     $sql = "SELECT Photos.id,caption,path,rating FROM Photos,(
+        (SELECT photo_id as id,AVG(rating) as rating FROM `Rating` GROUP BY photo_id)
+        UNION 
+        (SELECT id,0 as rating FROM Photos WHERE id not in (SELECT photo_id FROM Rating))
+        ) Rate
+      WHERE (      
+      path = ? AND Photos.id = Rate.id
       AND (
-        id NOT IN (
+        Photos.id NOT IN (
           SELECT photo_id FROM PhotoPermissions WHERE (
             user_id= ? 
             AND type=" . PT_DENY . "
@@ -159,14 +173,14 @@ class Database
         )
         AND (
           permissions <> " . PT_PRIVATE . "         
-          OR id IN (
+          OR Photos.id IN (
             SELECT photo_id FROM PhotoPermissions WHERE (
               user_id= ? 
               AND type=" . PT_ALOW . "
             )
           )
         )
-        $mustlogin 
+        $mustlogin         
         )) LIMIT 1";
       //echo $sql;      
       $res = self::runQuery($sql,array($path,$userID,$userID,$userID))->fetch(PDO::FETCH_ASSOC);            
@@ -175,16 +189,32 @@ class Database
       return  new Photo($res);
   }
 
-  public static function getAlbums($albumID)//TODO: album filter
+  public static function getAllAlbums() //for root only
+  {    
+    if(!self::$loginManager->isRoot()) return false;       
+    $sql = "SELECT id,caption,path,parent_id FROM Albums;";      
+    $res = self::runQuery($sql)->fetchAll(PDO::FETCH_ASSOC);
+      //FIXME: error checking
+      
+    $ret = array();
+    foreach($res as $row)
+    {
+      $ret[] = new Album($row);
+    }
+    return $ret;      
+  }
+
+
+  public static function getAlbums($albumID)
   {
-    self::connect();
+    
     $userID = self::$loginManager->getUser()->getId();     
       
-    $mustlogin = ($userID==UID_UNLOGGED) ? 'AND permissions = ' . PT_PUBLIC : '';       
-          
+    $mustlogin = ($userID==UID_UNLOGGED) ? 'AND permissions = ' . PT_PUBLIC : '';           
+    
     $sql = "SELECT id,caption,path,parent_id FROM Albums WHERE (
-      parent_id = ? 
-      AND (
+      parent_id = ? AND 
+      (
         id NOT IN (
           SELECT album_id FROM AlbumPermissions WHERE (
             user_id= ? 
@@ -217,7 +247,7 @@ class Database
 
   public static function getAlbumByPath($path)
   {
-     self::connect();
+     
      $userID = self::$loginManager->getUser()->getId();    
 
      $mustlogin = ($userID==UID_UNLOGGED) ? 'AND permissions = ' . PT_PUBLIC : '';     
@@ -250,7 +280,7 @@ class Database
 
   public static function getAlbumById($albumID)
   {
-     self::connect();
+     
      $userID = self::$loginManager->getUser()->getId();    
 
      $mustlogin = ($userID==UID_UNLOGGED) ? 'AND permissions = ' . PT_PUBLIC : '';     
@@ -284,7 +314,7 @@ class Database
 
   public static function logSession()
   {
-    self::connect();     
+    
     $ssnid = session_id();
     $ipaddr = $_SERVER['REMOTE_ADDR'];
      
@@ -296,33 +326,24 @@ class Database
   }
 
   public static function rmSession()
-  {
-    self::connect();     
-    $ssnid = session_id();    
-     
-    $sql = "DELETE FROM SessionMap WHERE session_id = ?;";
-         
-    $res = self::runQuery($sql,array($ssnid))->rowCount();            
-      
+  {    
+    $ssnid = session_id();     
+    $sql = "DELETE FROM SessionMap WHERE session_id = ?;";         
+    $res = self::runQuery($sql,array($ssnid))->rowCount();      
     return $res;
   }
 
   public static function checkSession()
-  {
-    self::connect();     
+  {    
     $ssnid = session_id();
-    $ipaddr = $_SERVER['REMOTE_ADDR'];
-     
-    $sql = "SELECT id FROM SessionMap WHERE (session_id = ? AND ip_address = ? )";
-         
-    $res = self::runQuery($sql,array($ssnid,$ipaddr))->rowCount();            
-      
+    $ipaddr = $_SERVER['REMOTE_ADDR'];     
+    $sql = "SELECT id FROM SessionMap WHERE (session_id = ? AND ip_address = ? )";         
+    $res = self::runQuery($sql,array($ssnid,$ipaddr))->rowCount();      
     return $res;
   }
 
   public static function updateUser($openID,$attributes)
   {    
-    self::connect();     
     $name = null;
     $surname = null; 
     $nick = null;
@@ -358,21 +379,26 @@ class Database
         $nick = $names[0];
       }
     }
-    
-    //TODO: grup support  
-    $sql = "INSERT INTO Users (`id`, `username`, `name`, `surname`, `grp`, `nick`, `email`) VALUES (NULL, ?, ?, ?, NULL, ?, ?);";         
-    $res = self::runQuery($sql,array($openID,$name,$surname,$nick,$email))->rowCount();                
-    if($res) return true;
-    
-    //uz tam je    
-    $sql = "UPDATE Users SET `name` = ?, `surname` = ?, `nick` = ?, `email` = ? WHERE `username` = ? AND autoupdate = 1;";         
-    $res = self::runQuery($sql,array($name,$surname,$nick,$email,$openID))->rowCount();  
-    return $res;
+
+    try
+    {
+      //TODO: grup support  
+      $sql = "INSERT INTO Users (`id`, `username`, `name`, `surname`, `grp`, `nick`, `email`) VALUES (NULL, ?, ?, ?, NULL, ?, ?);";         
+      $res = self::runQuery($sql,array($openID,$name,$surname,$nick,$email))->rowCount();                
+      return true;
+    }
+    catch(DBFailureException $e)
+    {
+        //uz tam je    
+        $sql = "UPDATE Users SET `name` = ?, `surname` = ?, `nick` = ?, `email` = ? WHERE `username` = ? AND autoupdate = 1;";         
+        $res = self::runQuery($sql,array($name,$surname,$nick,$email,$openID))->rowCount();  
+        return true;
+    }
+    return false;
   }
   
   public static function getUserInfo($openID)
   {    
-    self::connect();       
     $sql = "SELECT id,username,name,surname,nick,email FROM Users WHERE (username = ?) LIMIT 1";    
     $res = self::runQuery($sql,array($openID))->fetch(PDO::FETCH_ASSOC);            
     //FIXME: error checking            
@@ -381,7 +407,6 @@ class Database
 
   public static function getUserInfoByID($uid)
   {    
-    self::connect();       
     $sql = "SELECT id,username,name,surname,nick,email FROM Users WHERE (id = ?) LIMIT 1";    
     $res = self::runQuery($sql,array($uid))->fetch(PDO::FETCH_ASSOC);            
     //FIXME: error checking            
@@ -390,7 +415,7 @@ class Database
   
   public static function getRating($photoID)
   {    
-    self::connect();       //TODO: permissions?    
+    //TODO: permissions?    
     $sql = "SELECT AVG(rating) as rating FROM `Rating` WHERE photo_id = ?";
     $res = self::runQuery($sql,array($photoID))->fetch(PDO::FETCH_ASSOC);            
     //FIXME: error checking            
@@ -399,7 +424,7 @@ class Database
 
   public static function getComments($photoID)
   {    
-    self::connect();   //TODO: permissions?    
+    //TODO: permissions?    
     $sql = "SELECT user_id,text FROM `Comments` WHERE photo_id = ? ORDER BY time_added";
     $res = self::runQuery($sql,array($photoID))->fetchAll(PDO::FETCH_ASSOC);            
     //FIXME: error checking                
@@ -413,7 +438,6 @@ class Database
 
   public static function addRating($photoID,$rating)
   {    
-    self::connect();       //TODO: permissions?    
     $userID = self::$loginManager->getUser()->getId();    
     $mustlogin = ($userID==UID_UNLOGGED) ? 'AND permissions = ' . PT_PUBLIC : '';   
     
@@ -468,11 +492,10 @@ class Database
     return true;
   }
 
-  public static function addComment($photoID,$comment)
+  public static function addComment($photoID,$comment)// logged user only
   {    
-    self::connect();       //TODO: permissions?    
     $userID = self::$loginManager->getUser()->getId();    
-    $mustlogin = ($userID==UID_UNLOGGED) ? 'AND permissions = ' . PT_PUBLIC : '';   
+    //$mustlogin = ($userID==UID_UNLOGGED) ? 'AND permissions = ' . PT_PUBLIC : '';   
     
     //check permissions
     $sql = "SELECT id FROM Photos WHERE (
@@ -498,8 +521,7 @@ class Database
               AND type=" . PT_ALOW . "
             )
           )
-        )
-        $mustlogin 
+        )        
         ))";    
     $res = self::runQuery($sql,array($photoID,$userID,$userID,$userID))->rowCount();
     
@@ -508,6 +530,21 @@ class Database
     {
       $sql = "INSERT INTO Comments (`id`, `photo_id`, `user_id`, `text`) VALUES (NULL, ?, ?, ?);";         
       $res = self::runQuery($sql,array($photoID,$userID,$comment));                  
+      return true;
+    }
+    catch(DBFailureException $e)
+    {
+      return false;
+    }    
+  }
+
+  public static function addAlbum($album) //root only
+  {    
+    if(!self::$loginManager->isRoot()) return false;
+    try
+    {
+      $sql = "INSERT INTO Albums (`id`, `parent_id`, `caption`, `path`, `permissions`) VALUES (NULL, ?, ?, ?, ?);";         
+      //$res = self::runQuery($sql,array($album->getParentId(),$album->getCaption(),$album->getPath(),$album->getPermissions(),));                  
       return true;
     }
     catch(DBFailureException $e)

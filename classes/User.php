@@ -2,7 +2,7 @@
 require_once 'Database.php';
 
 define('UID_UNLOGGED',-1);
-define('UID_ROOT', 9);
+define('UID_ROOT', 8);
 /**
  * class User
  * 
