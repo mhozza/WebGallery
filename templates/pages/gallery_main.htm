@@ -4,20 +4,19 @@
 {% macro item_box(item) %}
   {% if item.getClass == 'Album' %}
     {% set beginlink = '?album=' %}
-    {% set imagesrc = 'album.png' %}    
+    {% set imagesrc = 'images/album.png' %}    
   {% else %}
     {% set beginlink = '?detail=' %}
     {% set imagesrc = item.getPath %}
   {% endif %}
 
 <a href = "{{beginlink~item.getPath}}">
-<div>
-    
-    <div>
+<div class='box_item '>    
+    <div class='box_caption'>
        {{item.getCaption}} 
     </div>
-    <div>
-       <img src={{imagesrc}}  />
+    <div class='box_image'>
+       <img src='{{imagesrc}}'  />
     </div>
 </div>
 </a>    
