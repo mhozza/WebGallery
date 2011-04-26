@@ -1,9 +1,11 @@
 <?php
 require_once 'GalleryItem.php';
-require_once 'ImageResizer.php';
 require_once 'Exif.php';
+require_once 'Validator.php';
 
 define('MAX_RATE',5);
+define('MAX_COMMENT_SIZE',500);
+
 
 /**
  * class Photo
@@ -60,14 +62,14 @@ class Photo extends GalleryItem
 
   public function addComment($comment_text)
   {    
-    //TODO: check comment    
+    if(!Validator::checkSize($comment_text,MAX_COMMENT_SIZE)) throw new SecurityException('Comment is too long');
     if(!Database::addComment($this->getId(),$comment_text)) throw new SecurityException('Could not add comment');
     $this->reloadComments();
   }
 
   public function addRating($rating)
   {    
-    if($rating<1 || $rating>MAX_RATE)throw new SecurityException('Bad range.');                
+    if($rating<1 || $rating>MAX_RATE) throw new SecurityException('Bad range.');                
     if(!Database::addRating($this->getID(),$rating)) throw new SecurityException('Could not add rating.');
     $this->reloadRating();
   }

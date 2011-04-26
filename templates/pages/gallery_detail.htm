@@ -1,4 +1,8 @@
 {% extends 'layout/gallery.htm' %}
+{% block g_head %}
+
+{% endblock %}
+
 {% block g_body %}
   <h1> {{gallery.getCurrentPhoto.getCaption}} </h1>
   {% if gallery.getCurrentPhoto.parent -%}
@@ -23,20 +27,23 @@
   <br/>
   <img src="{{gallery.CurrentPhoto.Path}}"/>
   <br/>
+  <script type='text/javascript' src='js/rating.js'></script>
   Hodnotenie: {{gallery.getCurrentPhoto.getRating }}
-  {% for i in 1..5 %}
-    <a href="?detail={{gallery.getCurrentPhoto.getPath}}&amp;rate={{i}}">{{i}}</a>
-  {% endfor %}
-  <br/>
+  <div class='rating'>
+  {% for i in 1..5 -%}
+    <a href="?detail={{gallery.getCurrentPhoto.getPath}}&amp;rate={{i}}"><img src="images/star_white.png" alt="{{i}}" class="rating" onMouseOver="ratingOver(this,true)" onMouseOut="ratingOver(this,false)"/></a>
+  {%- endfor %}
+  </div>  
   Komentáre: <br/>
   {% for comment in gallery.getCurrentPhoto.getComments -%} 
     <strong>Autor: {{comment.getAuthor.getDisplayName}}</strong> <br/>
     Text: {{comment.getText}} <br/>
   {% endfor %}
   {%- if login -%}
+    <script type='text/javascript' src='js/maxlength.js'></script>
     <form action="" method="post"> 
-      <textarea name="comment_text" id="comment_text"></textarea><br/>
-      <input type="submit" value="Submit"/>   
-    </form>
+      <textarea name="comment_text" id="comment_text" onChange="maxlength(this,{{CONST.MAX_COMMENT_SIZE}})" onKeyUp="maxlength(this,{{CONST.MAX_COMMENT_SIZE}})"></textarea><br/>
+      <input type="submit" value="Submit"/> <span id="comment_text_count"></span>       
+    </form>        
   {%- endif %}
 {% endblock %}

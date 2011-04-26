@@ -104,6 +104,7 @@ class Renderer
           {            
             $g->getCurrentPhoto()->addRating($_GET['rate']);
           }
+          $vars['CONST']['MAX_COMMENT_SIZE'] = MAX_COMMENT_SIZE;
 
           break;
         default:
@@ -128,7 +129,7 @@ class Renderer
     $vars['user'] = $lm->getUser();
     $template->display($vars);      
     global $cnt;
-    echo "Pocet dotazov na DB: $cnt";
+    //echo "Pocet dotazov na DB: $cnt";
   }
 
 } // end of Renderer
