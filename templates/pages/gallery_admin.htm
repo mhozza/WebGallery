@@ -1,11 +1,29 @@
 {% extends 'layout/gallery.htm' %}
 {% block g_body %}
+
+{% macro prava(name) %}
+<label for='{{name}}'>Práva:</label>
+<select name='{{name}}' id='{{name}}'>
+<option value="0"> Verejný </option>
+<option value="1"> Pre prihlásených </option>
+<option value="2"> Súkromný </option>
+</select><br/>
+{% endmacro %}
+
+{% macro prava_typ(name) %}
+<label for='{{name}}'>Typ:</label>
+<select name='{{name}}' id='{{name}}'>
+<option value="0"> Zakázať</option>
+<option value="1"> Povoliť </option>
+</select><br/>
+{% endmacro %}
+
 <h1>Administracia</h1>
 
 <form action='' method='post'>
 <fieldset>
 <legend><h2>Pridať album:</h2></legend>
-<label for='album'>Album:</label>
+<label for='album'>Rodič:</label>
 <select name='album' id='album'>
 {% for item in adminTools.getAlbums %}      
     <option value="{{item.getID}}"> {{item.getCaption}}({{item.getPath}}) </option>
@@ -15,12 +33,7 @@
 <input type='text' name='album_name' id='album_name'/><br/>
 <label for='album_caption'>Nadpis:</label>
 <input type='text' name='album_caption' id='album_caption'/><br/>
-<label for='album_perm'>Práva:</label>
-<select name='album_perm' id='album_perm'>
-<option value="0"> Verejný </option>
-<option value="1"> Pre prihlásených </option>
-<option value="2"> Súkromný </option>
-</select><br/>
+{{_self.prava('album_perm') }}
 <button type='submit' name='addAlbum'>Pridaj</button>
 </fieldset>
 </form>
@@ -40,13 +53,8 @@
 <label for='photo_caption'>Nadpis:</label>
 <input type='text' name='photo_caption' id='photo_caption'/><br/>
 <label for='photo_file'>Fotka:</label>
-<input type="file" name="photo_file" name="photo_file" id="photo_file" /><br/>
-<label for='photo_perm'>Práva:</label>
-<select name='photo_perm' id='photo_perm'>
-<option value="0"> Verejný </option>
-<option value="1"> Pre prihlásených </option>
-<option value="2"> Súkromný </option>
-</select><br/>
+<input type="file" name="photo_file" id="photo_file" /><br/>
+{{_self.prava('photo_perm') }}
 <button type='submit' name='addPhoto'>Pridaj</button>
 </fieldset>
 </form>
@@ -66,12 +74,7 @@
     <option value="{{item.getID}}"> {{item.getDisplayname}}({{item.getUserName}}) </option>
 {% endfor %}
 </select><br/>
-
-<label for='perm_photo_perm'>Typ:</label>
-<select name='perm_photo_perm' id='perm_photo_perm'>
-<option value="0"> Zakázať</option>
-<option value="1"> Povoliť </option>
-</select><br/>
+{{_self.prava_typ('perm_photo_perm')}}
 <button type='submit' name='addPhotoPerms'>Pridaj</button>
 </fieldset>
 </form>
@@ -91,13 +94,67 @@
     <option value="{{item.getID}}"> {{item.getDisplayname}}({{item.getUserName}}) </option>
 {% endfor %}
 </select><br/>
-
-<label for='perm_album_perm'>Typ:</label>
-<select name='perm_album_perm' id='perm_album_perm'>
-<option value="0"> Zakázať</option>
-<option value="1"> Povoliť </option>
-</select><br/>
+{{_self.prava_typ('perm_album_perm')}}
 <button type='submit' name='addAlbumPerms'>Pridaj</button>
+</fieldset>
+</form>
+
+<form action='' method='post'>
+<fieldset>
+<legend><h2>Editovať album:</h2></legend>
+<label for='album_edit'>Album:</label>
+<select name='album_edit' id='album_edit'>
+{% for item in adminTools.getAlbums %}      
+    <option value="{{item.getID}}"> {{item.getCaption}}({{item.getPath}}) </option>
+{% endfor %}
+</select><br/>
+<label for='album_edit_name'>Meno:</label>
+<input type='text' name='album_edit_name' id='album_edit_name'/><br/>
+<label for='album_edit_caption'>Nadpis:</label>
+<input type='text' name='album_edit_caption' id='album_edit_caption'/><br/>
+{{_self.prava('album_edit_perm') }}
+<button type='submit' name='editAlbum'>Pridaj</button>
+</fieldset>
+</form>
+
+<form action='' method='post'>
+<fieldset>
+<legend><h2>Editovať fotku:</h2></legend>
+<label for='photo_edit'>Fotka:</label>
+<select name='photo_edit' id='photo_edit'>
+{% for item in adminTools.getPhotos %}      
+    <option value="{{item.getID}}"> {{item.getCaption}}({{item.getPath}}) </option>
+{% endfor %}
+</select><br/>
+<label for='photo_edit_name'>Meno:</label>
+<input type='text' name='photo_edit_name' id='photo_edit_name'/><br/>
+<label for='photo_edit_caption'>Nadpis:</label>
+<input type='text' name='photo_edit_caption' id='photo_edit_caption'/><br/>
+{#<label for='photo_edit_file'>Fotka:</label>
+<input type="file" name="photo_edit_file" id="photo_edit_file" /><br/>#}
+{{_self.prava('photo_edit_perm') }}
+<button type='submit' name='editPhoto'>Pridaj</button>
+</fieldset>
+</form>
+
+<form action='' method='post'>
+<fieldset>
+<legend><h2>Editovať používateľa:</h2></legend>
+<label for='user_edit'>Používateľ:</label>
+<select name='user_edit' id='user_edit'>
+{% for item in adminTools.getUsers %}      
+    <option value="{{item.getID}}"> {{item.getDisplayname}}({{item.getUserName}}) </option>
+{% endfor %}
+</select><br/>
+<label for='user_edit_name'>Meno:</label>
+<input type='text' name='user_edit_name' id='user_edit_name'/><br/>
+<label for='user_edit_surname'>Priezvisko:</label>
+<input type='text' name='user_edit_surname' id='user_edit_surname'/><br/>
+<label for='user_edit_nick'>Prezývka:</label>
+<input type='text' name='user_edit_nick' id='user_edit_nick'/><br/>
+<label for='user_edit_mail'>Email:</label>
+<input type='text' name='user_edit_mail' id='user_edit_mail'/><br/>
+<button type='submit' name='editUser'>Pridaj</button>
 </fieldset>
 </form>
 

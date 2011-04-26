@@ -61,6 +61,10 @@ class User
     return $this->nickname;
   } // end of member function getFriendlyName
 
+  public function setFriendlyName($n ) {
+    $this->nickname = $n;
+  } // end of member function getFriendlyName
+
   /**
    * 
    *
@@ -69,7 +73,25 @@ class User
    */
   public function getFullName( ) {
     return $this->firstname . ' ' . $this->lastname;
-  } // end of member function getFriendlyName
+  } // end of member function getFullName
+
+  
+  public function getFirstName( ) {
+    return $this->firstname;
+  } // end of member function getFirstName
+  
+  public function getLastName( ) {
+    return $this->lastname;
+  } // end of member function getLastName
+
+  public function setFirstName( $n) {
+      $this->firstname = $n;
+  } // end of member function setFirstName
+
+  public function setLastName($n ) {
+      $this->lastname = $n;
+  } // end of member function setLastName
+
 
   /**
    * 
@@ -79,6 +101,10 @@ class User
    */
   public function getEmail( ) {
     return $this->email;
+  } // end of member function getEmail
+
+  public function setEmail( $e) {
+    $this->email = $e;
   } // end of member function getEmail
 
   /**

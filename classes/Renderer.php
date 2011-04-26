@@ -78,6 +78,19 @@ class Renderer
           {
             $adminTools->addPerms(PT_ALBUM,$_POST['perm_album'],$_POST['perm_album_user'],$_POST['perm_album_perm']);
           }
+          if(isset($_POST['editAlbum']))
+          {
+            $adminTools->editAlbum($_POST['album_edit'],$_POST['album_edit_name'],$_POST['album_edit_caption'],$_POST['album_edit_perm']);
+          }
+          if(isset($_POST['editPhoto']))
+          {
+            $adminTools->editPhoto($_POST['photo_edit'],$_POST['photo_edit_name'],$_POST['photo_edit_caption'],$_POST['photo_edit_perm']);
+          }        
+          if(isset($_POST['editUser']))
+          {
+            $adminTools->editUser($_POST['user_edit'],$_POST['user_edit_name'],$_POST['user_edit_surname'],$_POST['user_edit_nick'],$_POST['user_edit_mail']);
+          }        
+
           break;
         case MODE_DETAIL:          
           $template = $this->twig->loadTemplate($template_path_detail);

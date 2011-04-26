@@ -20,8 +20,9 @@ class AdminTools
    */
   private $loginManager = null;
 
-  function __construct() {
+  function __construct() {     
     $this->loginManager = new LoginManager();
+    if(!$this->loginManager->isRoot()) throw new SecurityException();    
   }   
  
   public function getAlbums( ) {    
@@ -39,7 +40,8 @@ class AdminTools
   
   public function addPhoto($parentID,$photoName,$photoTmpName,$photoCaption,$photoPerms)
   {
-    if($this->loginManager->getUser()->getId()!=UID_ROOT) return;
+
+    //TODO: sklontrolovat veci co  prisli
     settype($parentID,'integer');
     $parent = new Album($parentID);
     $info['path'] = $parent->getPath().'/'.$photoName;
@@ -50,7 +52,7 @@ class AdminTools
     $info['rating'] = 0;
     
     //make dir
-    if(copy($photoTmpName,$info['path']))
+    if(move_uploaded_file($photoTmpName,$info['path']))
     {
       //add to DB
       Database::addPhoto(new Photo($info));
@@ -64,11 +66,11 @@ class AdminTools
 
   public function addAlbum($parentID,$albumName,$albumCaption,$albumPerms)
   {
-    if($this->loginManager->getUser()->getId()!=UID_ROOT) return;
+
     //TODO: sklontrolovat veci co  prisli
     settype($parentID,'integer');
     $parent = new Album($parentID);
-    $info['path'] = $parent->getPath().'/'.$albumName;//? mat v kazdom albume full cestu alebo ju vyskladavat?
+    $info['path'] = $parent->getPath().'/'.$albumName;
     $info['parent_id'] = $parentID;
     $info['id'] = 0;
     $info['caption'] = $albumCaption;
@@ -85,9 +87,78 @@ class AdminTools
 
   public function addPerms($type,$id,$uid,$perms)
   {
-    if($this->loginManager->getUser()->getId()!=UID_ROOT) return;
+
     //TODO: sklontrolovat veci co  prisli    
     Database::addPerms($type,$id,$uid,$perms);
+  }
+
+  public function editAlbum($albumID,$albumName,$albumCaption,$albumPerms)
+  {
+    
+    //TODO: sklontrolovat veci co  prisli
+    settype($albumID,'integer');
+    $album = new Album($albumID);
+    
+    if($albumName!='')
+    {
+      $oldname = $album->getPath();
+      $album->setName($albumName);
+      $newname = $album->getPath();
+      if(!rename($oldname,$newname))
+        throw new RuntimeException('Could not rename album');      
+    }
+    if($albumCaption!='')
+      $album->setCaption($albumCaption);
+    if($albumPerms!='')
+      $album->setPermissions($albumPerms);    
+        
+    //add to DB
+    Database::editAlbum($album);    
+  }
+
+  public function editPhoto($photoID,$photoName,$photoCaption,$photoPerms)
+  {
+        
+    //TODO: sklontrolovat veci co  prisli
+    settype($photoID,'integer');
+    $photo = Database::getPhotoById($photoID);
+    
+    if($photoName!='')
+    {
+      $oldname = $photo->getPath();
+      $photo->setName($photoName);
+      $newname = $photo->getPath();
+      if(!rename($oldname,$newname))
+        throw new RuntimeException('Could not rename photo');      
+    }
+    if($photoCaption!='')
+      $photo->setCaption($photoCaption);
+    if($photoPerms!='')
+      $photo->setPermissions($photoPerms);    
+        
+    //add to DB
+    Database::editPhoto($photo);    
+  }
+  
+  public function editUser($userID,$name,$surname,$nick,$email)
+  {
+     
+    //TODO: sklontrolovat veci co  prisli     
+    settype($userID,'integer');
+    $user = new User($userID);
+    
+    if($name!='')
+    {      
+      $user->setFirstName($name);         
+    }
+    if($surname!='')
+      $user->setLast($surname);
+    if($nick!='')
+      $user->setFriendlyName($nick);    
+    if($email!='')
+      $user->setEmail($email);    
+    //add to DB
+    Database::editUser($user);    
   }
 
 } // end of Admin

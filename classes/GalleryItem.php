@@ -12,7 +12,8 @@ require_once 'GalleryItem.php';
 class GalleryItem
 {
 
-  
+  protected $parent = null;
+
   protected $permissions;
   /**
    * 
@@ -51,6 +52,7 @@ class GalleryItem
     $this->caption = $caption;
     $this->path = $path;    
     $this->permissions = $perms;
+    settype($parentID,'integer');     
     $this->parentID = $parentID;
   }
 
@@ -83,10 +85,10 @@ class GalleryItem
    * @return string
    * @access public
    */
-  public function getDescription( ) {
-    //return $this->
-  } // end of member function getDescription
-
+  public function setCaption($c ) {
+    $this->caption = $c;
+  } // end of member function getCaption
+ 
   /**
    * 
    *
@@ -107,6 +109,18 @@ class GalleryItem
     return $this->path;
   } // end of member function getPath
 
+  public function setName( $p ) {
+    if($this->parentID!=null)
+    {
+      $parent = $this->getParent();  
+      $this->path = $parent->getPath().'/'.$p;
+    }
+    else
+    {     
+      $this->path = $p;
+    }    
+    
+  } // end of member function getPath
 
   /**
    * 
@@ -127,6 +141,35 @@ class GalleryItem
   {
     return $this->permissions;
   }
+  
+  public function setPermissions($p)
+  {
+    $this->permissions = $p;
+  }
+
+  /**
+   * returns parent album(directory)
+   *
+   * @return GalleryItem
+   * @access public
+   */
+  public function getParent( ) {    
+    if($this->parent==null)
+    {
+      if($this->parentID!=null)
+      {        
+        try
+        {
+          $this->parent = new Album($this->parentID);
+        }
+        catch(Exception $e)
+        {         
+        }
+      }
+      //else throw new RuntimeException('Null parentID ItemID:' . $this->getId() . ' Class: ' . $this->getClass());
+    }
+    return $this->parent;
+  } // end of member function getParent
   
 } // end of GalleryItem
 ?>

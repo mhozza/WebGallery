@@ -127,6 +127,7 @@ class Database
               AND type=" . PT_ALOW . "
             )
           )
+          OR $userID = " . UID_ROOT . "
         )
         $mustlogin 
         ));";
@@ -179,11 +180,58 @@ class Database
               AND type=" . PT_ALOW . "
             )
           )
+          OR $userID = " . UID_ROOT . "
         )
         $mustlogin         
         )) LIMIT 1";
       //echo $sql;      
       $res = self::runQuery($sql,array($path,$userID,$userID,$userID))->fetch(PDO::FETCH_ASSOC);            
+      //FIXME: error checking            
+      if(!$res) return null;
+      return  new Photo($res);
+  }
+
+  public static function getPhotoByID($photoID)
+  {
+     
+     $userID = self::$loginManager->getUser()->getId();    
+
+     $mustlogin = ($userID==UID_UNLOGGED) ? 'AND permissions = ' . PT_PUBLIC : '';     
+
+     $sql = "SELECT Photos.id,caption,path,album,permissions  ,rating FROM Photos,(
+        (SELECT photo_id as id,AVG(rating) as rating FROM `Rating` GROUP BY photo_id)
+        UNION 
+        (SELECT id,0 as rating FROM Photos WHERE id not in (SELECT photo_id FROM Rating))
+        ) Rate
+      WHERE (      
+      Photos.id = ? AND Photos.id = Rate.id
+      AND (
+        Photos.id NOT IN (
+          SELECT photo_id FROM PhotoPermissions WHERE (
+            user_id= ? 
+            AND type=" . PT_DENY . "
+          )
+        )
+        AND album NOT IN (
+          SELECT album_id FROM AlbumPermissions WHERE (
+            user_id= ? 
+            AND type=" . PT_DENY . "
+          )
+        )
+        AND (
+          permissions <> " . PT_PRIVATE . "         
+          OR Photos.id IN (
+            SELECT photo_id FROM PhotoPermissions WHERE (
+              user_id= ? 
+              AND type=" . PT_ALOW . "
+            )
+          )
+          OR $userID = " . UID_ROOT . "
+        )
+        $mustlogin         
+        )) LIMIT 1";
+      //echo $sql;      
+      $res = self::runQuery($sql,array($photoID,$userID,$userID,$userID))->fetch(PDO::FETCH_ASSOC);            
       //FIXME: error checking            
       if(!$res) return null;
       return  new Photo($res);
@@ -259,6 +307,7 @@ class Database
               AND type=" . PT_ALOW .
             ")
           )
+          OR $userID = " . UID_ROOT . "
         ) 
         $mustlogin 
       ))";
@@ -299,6 +348,7 @@ class Database
               AND type=" . PT_ALOW .
             ")
           )
+          OR $userID = " . UID_ROOT . "
         ) 
         $mustlogin 
       )) LIMIT 1";
@@ -330,13 +380,15 @@ class Database
             SELECT album_id FROM AlbumPermissions WHERE (
               user_id= ? 
               AND type=" . PT_ALOW .
-            ")
+            ")          
           )
+          OR $userID = " . UID_ROOT . "
         ) 
         $mustlogin 
       )) LIMIT 1";
       //echo $sql;      
-      $res = self::runQuery($sql,array($albumID,$userID,$userID))->fetch(PDO::FETCH_ASSOC);            
+      $res = self::runQuery($sql,array($albumID,$userID,$userID))->fetch(PDO::FETCH_ASSOC);        
+      //print_r($res);
       //FIXME: error checking            
       return $res;
   }
@@ -495,6 +547,7 @@ class Database
               AND type=" . PT_ALOW . "
             )
           )
+          OR $userID = " . UID_ROOT . "
         )
         $mustlogin 
         ))";   
@@ -551,6 +604,7 @@ class Database
               AND type=" . PT_ALOW . "
             )
           )
+          OR $userID = " . UID_ROOT . "
         )        
         ))";    
     $res = self::runQuery($sql,array($photoID,$userID,$userID,$userID))->rowCount();
@@ -623,6 +677,37 @@ class Database
     {
       return false;
     }    
+  }
+
+  public static function editAlbum($album) //root only
+  {    
+    if(!self::$loginManager->isRoot()) return false;
+    try
+    {
+      $sql = "UPDATE Albums SET `caption` = ?, `path` = ?, `permissions` = ? WHERE id = ?;";               
+      $res = self::runQuery($sql,array($album->getCaption(),$album->getPath(),$album->getPermissions(),$album->getId()));                  
+      return true;
+    }
+    catch(DBFailureException $e)
+    {
+      return false;
+    }    
+  }
+
+  public static function editPhoto($photo) //root only
+  {    
+    if(!self::$loginManager->isRoot()) return false;
+  
+    $sql = "UPDATE Photos SET `caption` = ?, `path` = ?, `permissions` = ? WHERE id = ?;";         
+    self::runQuery($sql,array($photo->getCaption(),$photo->getPath(),$photo->getPermissions(),$photo->getId()));                  
+    return true;        
+  }
+
+  public static function editUser($user)
+  { 
+    if(!self::$loginManager->isRoot() && $user->getId()!=self::$loginManager->getUser()->getId()) return false;
+    $sql = "UPDATE Users SET `name` = ?, `surname` = ?, `nick` = ?, `email` = ?, autoupdate = 0 WHERE `id` = ?;";         
+    self::runQuery($sql,array($user->getFirstName(),$user->getLastName(),$user->getFriendlyName(),$user->getEmail(),$user->getId()));
   }
 
 } // end of Database

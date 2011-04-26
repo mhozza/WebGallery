@@ -28,11 +28,9 @@ class Photo extends GalleryItem
 
   function __construct($info) {    
     if(is_array($info))
-    {      
-      parent::__construct($info['id'],$info['caption'],$info['path'],$info['album'],$info['permissions']);    
-      //$this->reloadrating();
-      $this->rating = $info['rating'];
-      //$this->reloadComments();
+    {    
+      parent::__construct($info['id'],$info['caption'],$info['path'],$info['album'],$info['permissions']);          
+      $this->rating = $info['rating'];      
     }    
     else
     {
