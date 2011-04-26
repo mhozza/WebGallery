@@ -20,11 +20,11 @@ class Gallery
    * 
    * @access private
    */
-  private $currentIndex = 0;
+
   private $currentAlbum = null;
-  private $currentPhoto = null;
   private $loginManager = null;
 
+  
   function __construct() {
     $this->currentAlbum = new Album(GALLERY_ROOT);    
     $this->loginManager = new LoginManager();
@@ -39,8 +39,18 @@ class Gallery
    */
   public function getCurrentPhoto( ) 
   {    
-    return $this->currentPhoto;
+    return $this->currentAlbum->getCurrentPhoto();
   } // end of member function getCurrentPhoto
+
+  public function getNextPhoto( ) 
+  {    
+    return $this->currentAlbum->getNextPhoto();
+  } // end of member function getNextPhoto
+
+  public function getPreviousPhoto( ) 
+  {    
+    return $this->currentAlbum->getPreviousPhoto();
+  } // end of member function getPreviousPhoto
 
   /**
    * 
@@ -55,8 +65,10 @@ class Gallery
   } // end of member function setAlbum
 
   public function setPhoto( $photo_path ) {
-    $this->currentPhoto = Database::getPhotoByPath($photo_path);
-    if($this->currentPhoto==null) throw new SecurityException('Could not access photo.');
+    $photo = Database::getPhotoByPath($photo_path);
+    if($photo==null) throw new SecurityException('Could not access photo.');
+    $this->currentAlbum = $photo->getParent();
+    $this->currentAlbum->setCurrentPhoto($photo);
   } // end of member function setAlbum
 
   /**
@@ -65,10 +77,13 @@ class Gallery
    * @return 
    * @access public
    */
-  public function getItems( ) {
+  public function getItems( ) {      
     return $this->currentAlbum->getItems();
   } // end of member function getItems
   
+  public function getPhotos( ) {      
+    return $this->currentAlbum->getPhotos();
+  } // end of member function getItems
   
   public function getAlbum() {
     return $this->currentAlbum;

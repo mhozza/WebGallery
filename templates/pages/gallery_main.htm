@@ -1,18 +1,36 @@
 {% extends 'layout/gallery.htm' %}
 {% block g_body %}
+
+{% macro item_box(item) %}
+  {% if item.getClass == 'Album' %}
+    {% set beginlink = '?album=' %}
+    {% set imagesrc = 'album.png' %}    
+  {% else %}
+    {% set beginlink = '?detail=' %}
+    {% set imagesrc = item.getPath %}
+  {% endif %}
+
+<a href = "{{beginlink~item.getPath}}">
+<div>
+    
+    <div>
+       {{item.getCaption}} 
+    </div>
+    <div>
+       <img src={{imagesrc}}  />
+    </div>
+</div>
+</a>    
+{% endmacro %}
+
+
 <h1>{{gallery.getAlbum.caption}} :</h1>
 {% if gallery.getAlbum.parent %}
 <a href = "?album={{gallery.getAlbum.getParent.getPath}}"> UP </a>
 {% endif %}
-<ul>
+
 {% for item in gallery.getItems %}      
-  <li>
-    {% if item.getClass == 'Album' %}
-    <a href = "?album={{item.getPath}}"> {{item.getCaption}} </a>
-    {% else %}
-    <a href = "?detail={{item.getPath}}">{{item.getCaption}}</a>({{item.getRating}})
-    {% endif %}
-  </li>
+  {{_self.item_box(item)}}
 {% endfor %}
-</ul>
+
 {% endblock %}

@@ -138,8 +138,10 @@ class User
   } // end of member function User
 
 
-
-
+  public function isAdmin()
+  {
+   return $this->uid == UID_ROOT; 
+  }
 
 } // end of User
 ?>

@@ -25,7 +25,7 @@ class LoginManager
   } // end of member function isLoggedIn
 
   public function isRoot( ) {    
-    return ($this->getUser()->getID() == UID_ROOT);
+    return ($this->getUser()->isAdmin());
   } // end of member function isLoggedIn
 
 

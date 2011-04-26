@@ -38,8 +38,7 @@ class Database
     global $cnt;
     $cnt+=1;
     self::connect();
-    //echo $query.'<br/>';
-    //FIXME: osetrit chyby    
+    //echo $query.'<br/>';    
     $st = self::$db->prepare($query);//TODO: driver parameters    
     if($params==NULL)
     {
@@ -506,8 +505,8 @@ class Database
 
   public static function getComments($photoID)
   {    
-    //TODO: permissions?    
-    $sql = "SELECT user_id,text FROM `Comments` WHERE photo_id = ? ORDER BY time_added";
+    //TODO: permissions?        
+    $sql = "SELECT text,Users.id,username,name,surname,nick,email FROM `Comments`, Users WHERE user_id = Users.id AND photo_id = ? ORDER BY time_added";
     $res = self::runQuery($sql,array($photoID))->fetchAll(PDO::FETCH_ASSOC);            
     //FIXME: error checking                
     $ret = array();

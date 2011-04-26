@@ -41,8 +41,8 @@ class Comment
   function __construct($info) {    
     if($info!=NULL)
     {      
-      settype($info['user_id'],'integer');
-      $this->author = new User($info['user_id']);
+      //settype($info['user_id'],'integer');
+      $this->author = new User($info);
       $this->text = $info['text'];
     }    
   }   
