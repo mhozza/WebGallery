@@ -1,4 +1,80 @@
+body
+{
+  margin:0;
+  padding:0;
+}
 #login
 {
-  background-color:#ddd;
+  background-color:#eee;
+  text-align:right;
+}
+#caption
+{
+  background-color:#ddf;
+  text-align:center;
+}
+h1
+{
+  margin:0;
+}
+
+#nav_out
+{
+  background-color:#001;  
+}
+
+#image
+{
+  background-color:#000;
+  text-align:center;
+}
+div.rating
+{
+  background-color:#001;
+  text-align:center;
+  color:#fff;
+}
+#comments_out
+{
+  background-color:#ddf;  
+}
+#comments
+{
+  width:800px;
+  margin:0 auto;
+}
+#nav
+{
+  width:800px;
+  margin:0 auto;
+  color:yellow;
+}
+#nav_left
+{
+  display:inline;
+  float:left;
+}
+#nav_right
+{
+  display:inline;
+  float:right;
+}
+a.nav
+{
+  color:white;
+}
+a.nav:hover
+{
+  color:yellow;
+}
+
+.box_item
+{
+  float:left;
+  margin:5px;
+}
+
+.box_caption
+{
+  text-align:center;
 }
