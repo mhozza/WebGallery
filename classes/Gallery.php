@@ -94,5 +94,3 @@ class Gallery
 
 } // end of Gallery
 ?>
-
-

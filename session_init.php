@@ -12,6 +12,12 @@
   session_start();
   
   
-  if(!checkSession()) die();
+  if(!checkSession())
+  {
+    require_once 'classes/LoginManager.php';
+    $lm = new LoginManager();
+    $lm->logOut();
+    die('Try again');
+  }
   
 ?>

@@ -66,6 +66,7 @@ class GalleryItem
    * @access public
    */
   public function getRating( ) {
+    if($this->rating==0) return 'neohodnotené';
     return $this->rating;
   } // end of member function getRating
 

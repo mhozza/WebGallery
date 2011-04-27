@@ -3,6 +3,7 @@
 require_once 'LoginManager.php';
 require_once 'Privileges.php';
 require_once 'User.php'; 
+require_once 'config.php';
 
 $cnt = 0;
 
@@ -23,7 +24,7 @@ class Database
 
   private static $loginManager;
   
-  /**
+  /*
    * 
    *
    * @param string query 
@@ -70,9 +71,15 @@ class Database
     }
     
     //CONNECT:
-    //TODO: nacitat z nastaveni       
+    //TODO: nacitat z nastaveni    
+    global $DB_CONNECTION_STRING;
+    global $DB_USER;
+    global $DB_PASS;
     if(self::$db==null)
-      self::$db = new PDO('mysql:host=localhost;dbname=mio-gallery', "user", "drowssap");        
+    {
+      self::$db = new PDO($DB_CONNECTION_STRING, $DB_USER, $DB_PASS);        
+      self::$db->query("SET CHARACTER SET 'utf8'");
+    }
     
     //TODO: mozno nastavit utf8
     
@@ -129,7 +136,7 @@ class Database
           OR $userID = " . UID_ROOT . "
         )
         $mustlogin 
-        ));";
+        )) ORDER BY Photos.id;";
 
       //echo $sql;
       $res = self::runQuery($sql,array($albumID,$userID,$userID,$userID))->fetchAll(PDO::FETCH_ASSOC);
@@ -400,10 +407,15 @@ class Database
     $ipaddr = $_SERVER['REMOTE_ADDR'];
      
     $sql = "INSERT INTO SessionMap (`id`, `session_id`, `ip_address`) VALUES (NULL, ? , ?);";
-         
-    $res = self::runQuery($sql,array($ssnid,$ipaddr))->rowCount();            
-      
-    return $res;
+    try
+    {
+      self::runQuery($sql,array($ssnid,$ipaddr));
+      return true;
+    }  
+    catch(DBFailureException $e)
+    {
+      return false;
+    }
   }
 
   public static function rmSession()

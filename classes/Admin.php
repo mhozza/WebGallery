@@ -163,5 +163,3 @@ class AdminTools
 
 } // end of Admin
 ?>
-
-
