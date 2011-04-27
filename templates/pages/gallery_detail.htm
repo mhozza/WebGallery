@@ -1,4 +1,4 @@
-{% extends 'layout/gallery.htm' %}
+{%- extends 'layout/gallery.htm' %}
 {% block g_head %}
 
 {% endblock %}
@@ -27,23 +27,14 @@
   <br/>
   <img src="{{gallery.CurrentPhoto.Path}}"/>
   <br/>
-  <script type='text/javascript' src='js/rating.js'></script>
-  Hodnotenie: {{gallery.getCurrentPhoto.getRating }}
+  <script type='text/javascript' src='js/rating.js'></script>  
   <div class='rating'>
+  Hodnotenie: <span class='rating'>{{gallery.getCurrentPhoto.getRating }}</span>
   {% for i in 1..5 -%}
     <a href="?detail={{gallery.getCurrentPhoto.getPath}}&amp;rate={{i}}"><img src="images/star_white.png" alt="{{i}}" class="rating" onMouseOver="ratingOver(this,true)" onMouseOut="ratingOver(this,false)"/></a>
   {%- endfor %}
   </div>  
-  Komentáre: <br/>
-  {% for comment in gallery.getCurrentPhoto.getComments -%} 
-    <strong>Autor: {{comment.getAuthor.getDisplayName}}</strong> <br/>
-    Text: {{comment.getText}} <br/>
-  {% endfor %}
-  {%- if login -%}
-    <script type='text/javascript' src='js/maxlength.js'></script>
-    <form action="" method="post"> 
-      <textarea name="comment_text" id="comment_text" onChange="maxlength(this,{{CONST.MAX_COMMENT_SIZE}})" onKeyUp="maxlength(this,{{CONST.MAX_COMMENT_SIZE}})"></textarea><br/>
-      <input type="submit" value="Submit"/> <span id="comment_text_count"></span>       
-    </form>        
-  {%- endif %}
-{% endblock %}
+  <div id='comments'>
+  {% include 'parts/comments.htm' %}
+  </div>
+{% endblock -%}

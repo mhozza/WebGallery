@@ -1,3 +1,4 @@
+<div id="login">
 {%- if login -%}
 {{user.getDisplayName}} | {% if user.isAdmin %} <a href="admin.php">Admin panel</a> | {%endif %} <a href="logout.php">logout</a>
 {% else %}
@@ -7,3 +8,4 @@
   <input type="submit" value="Sign in" style="vertical-align:middle;"/>   
 </form>
 {% endif %}
+</div>

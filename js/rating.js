@@ -10,5 +10,16 @@ function ratingOver(element,over)
 }
 
 $(document).ready(function(){
-//    $("img.rating").parent().removeAttr('href');
+    //zmen rating na ajaxovy
+    $("img.rating").each(function(){
+      $(this).attr('href',$(this).parent().attr('href'));
+    });
+    $("img.rating").parent().removeAttr('href');
+    $("img.rating").each(function(){
+      $(this).click(function(){
+        $.get($(this).attr('href'),{ajax:'true'},function(data){
+          $('span.rating').html(data);
+          });
+      });
+    });  
 });

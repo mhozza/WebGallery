@@ -36,9 +36,15 @@ class Renderer
 
   public function render()
   {
+    $ajax = false;
+    if(isset($_GET['ajax']) || isset($_POST['ajax']))
+    {
+       $ajax = true;
+    }
+
     $template_path_main = 'pages/gallery_main.htm';
     $template_path_detail = 'pages/gallery_detail.htm';
-    $template_path_admin = 'pages/gallery_admin.htm';
+    $template_path_admin = 'pages/gallery_admin.htm';    
     
     //set mode
     $mode = MODE_MAIN;
@@ -99,10 +105,23 @@ class Renderer
           if(isset($_POST['comment_text']) && $this->lm->getUser()->getId()!=UID_UNLOGGED)
           {           
             $g->getCurrentPhoto()->addComment($_POST['comment_text']);
+            if($ajax)
+            {
+              $template = $this->twig->loadTemplate('parts/comments.htm');
+            }
           }
           if(isset($_GET['rate']) && $this->lm->getUser()->getId()!=UID_UNLOGGED)
           {            
-            $g->getCurrentPhoto()->addRating($_GET['rate']);
+            $g->getCurrentPhoto()->addRating($_GET['rate']);            
+            if($ajax)
+            {
+              echo $g->getCurrentPhoto()->getRating();
+              die();
+            }
+            else
+            {
+              header('Location: index.php?detail='.$_GET['detail']);
+            }
           }
           $vars['CONST']['MAX_COMMENT_SIZE'] = MAX_COMMENT_SIZE;
 
@@ -127,7 +146,9 @@ class Renderer
     $vars['gallery'] = $g;    
     
     $vars['user'] = $lm->getUser();
+    
     $template->display($vars);      
+    
     global $cnt;
     //echo "Pocet dotazov na DB: $cnt";
   }
