@@ -1,12 +1,8 @@
+{% extends 'layout/gallery.htm' %}
+{% block g_body %}
+
 <form action='' method='post'>
-<fieldset>
-<legend><h2>Editovať používateľa:</h2></legend>
-<label for='user_edit'>Používateľ:</label>
-<select name='user_edit' id='user_edit'>
-{% for item in adminTools.getUsers %}      
-    <option value="{{item.getID}}"> {{item.getDisplayname}}({{item.getUserName}}) </option>
-{% endfor %}
-</select><br/>
+<h2>Nastavenia:</h2>
 <label for='user_edit_name'>Meno:</label>
 <input type='text' name='user_edit_name' id='user_edit_name'/><br/>
 <label for='user_edit_surname'>Priezvisko:</label>
@@ -16,5 +12,6 @@
 <label for='user_edit_mail'>Email:</label>
 <input type='text' name='user_edit_mail' id='user_edit_mail'/><br/>
 <button type='submit' name='editUser'>Pridaj</button>
-</fieldset>
 </form>
+
+{% endblock %}

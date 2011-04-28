@@ -141,8 +141,7 @@ class AdminTools
   }
   
   public function editUser($userID,$name,$surname,$nick,$email)
-  {
-     
+  {    
     //TODO: sklontrolovat veci co  prisli     
     settype($userID,'integer');
     $user = new User($userID);

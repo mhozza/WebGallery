@@ -8,7 +8,8 @@ require_once 'Admin.php';
 
 define('MODE_MAIN',0);
 define('MODE_DETAIL',1);
-define('MODE_ADMIN',2);
+define('MODE_SETTINGS',2);
+define('MODE_ADMIN',3);
 
 /**
  * class Renderer
@@ -45,11 +46,14 @@ class Renderer
     $template_path_main = 'pages/gallery_main.htm';
     $template_path_detail = 'pages/gallery_detail.htm';
     $template_path_admin = 'pages/gallery_admin.htm';    
+    $template_path_settings = 'pages/gallery_settings.htm';    
     
     //set mode
     $mode = MODE_MAIN;
     if(isset($_GET['detail']))
       $mode = MODE_DETAIL;
+    if(isset($_GET['settings']))
+      $mode = MODE_SETTINGS;
     if($this->admin)
       $mode = MODE_ADMIN;
 
@@ -125,6 +129,14 @@ class Renderer
           }
           $vars['CONST']['MAX_COMMENT_SIZE'] = MAX_COMMENT_SIZE;
 
+          break;
+        case MODE_SETTINGS: 
+          $template = $this->twig->loadTemplate($template_path_settings);
+          $adminTools = new AdminTools();
+          if(isset($_POST['editUser']))
+          {
+            $adminTools->editUser($lm->getUser()->getId(),$_POST['user_edit_name'],$_POST['user_edit_surname'],$_POST['user_edit_nick'],$_POST['user_edit_mail']);
+          }        
           break;
         default:
           $template = $this->twig->loadTemplate($template_path_main);

@@ -1,6 +1,6 @@
 <div id="login">
 {%- if login -%}
-{{user.getDisplayName}} | {% if user.isAdmin %} <a href="admin.php">Admin panel</a> | {%endif %} <a href="logout.php">logout</a>
+{{user.getDisplayName}} {% if linkbar %}{{linkbar}}{% endif %} | {% if user.isAdmin %} <a href="admin.php">Admin panel</a> | <a href="index.php?settings">Nastavenia</a> | {%endif %} <a href="logout.php">logout</a>
 {% else %}
 <form action="" method="post"> 
   <input type="text" name="openid_identifier" id="openid_identifier"/>  
