@@ -2,16 +2,31 @@
 {% block g_body %}
 
 <form action='' method='post'>
-<h2>Nastavenia:</h2>
-<label for='user_edit_name'>Meno:</label>
-<input type='text' name='user_edit_name' id='user_edit_name'/><br/>
-<label for='user_edit_surname'>Priezvisko:</label>
-<input type='text' name='user_edit_surname' id='user_edit_surname'/><br/>
-<label for='user_edit_nick'>Prezývka:</label>
-<input type='text' name='user_edit_nick' id='user_edit_nick'/><br/>
-<label for='user_edit_mail'>Email:</label>
-<input type='text' name='user_edit_mail' id='user_edit_mail'/><br/>
-<button type='submit' name='editUser'>Pridaj</button>
+<div id='albumCaption'>
+<h1>Nastavenia:</h1>
+</div>
+<table cellspacing="0" celpadding="0" id='settings'>
+<tr>
+<th><label for='user_edit_name'>Meno:</label></td>
+<td><input type='text' name='user_edit_name' id='user_edit_name' class='editbox' value='{{user.getFirstName}}'/></th>
+</tr>
+<tr>
+<th><label for='user_edit_surname'>Priezvisko:</label></th>
+<td>
+<input type='text' name='user_edit_surname' id='user_edit_surname' class='editbox' value='{{user.getLastName}}'/></td>
+<tr>
+<th><label for='user_edit_nick'>Prezývka:</label></th>
+<td>
+<input type='text' name='user_edit_nick' id='user_edit_nick' class='editbox' value='{{user.getFriendlyName}}'/></td>
+<tr>
+<th><label for='user_edit_mail'>Email:</label></th>
+<td>
+<input type='text' name='user_edit_mail' id='user_edit_mail' class='editbox' value='{{user.getEmail}}'/></td>
+</tr>
+<tr>
+<td colspan='2' class='last'><button type='submit' name='editUser'>Uprav</button></td>
+</tr>
+</table>
 </form>
 
 {% endblock %}

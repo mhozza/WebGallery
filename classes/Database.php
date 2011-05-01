@@ -55,6 +55,15 @@ class Database
     return $st;//->fetchAll(PDO::FETCH_ASSOC);
   } // end of member function runQuery
 
+
+  public static function init( ) {
+    //INIT:
+    if(!self::$isInitialized)
+    {
+      self::$isInitialized = true;
+      self::$loginManager = new LoginManager();
+    }
+  }
   /**
    * 
    *
@@ -63,12 +72,7 @@ class Database
    * @access public
    */
   public static function connect( ) {
-    //INIT:
-    if(!self::$isInitialized)
-    {
-      self::$isInitialized = true;
-      self::$loginManager = new LoginManager();
-    }
+    self::init();
     
     //CONNECT:
     //TODO: nacitat z nastaveni    
@@ -80,10 +84,6 @@ class Database
       self::$db = new PDO($DB_CONNECTION_STRING, $DB_USER, $DB_PASS);        
       self::$db->query("SET CHARACTER SET 'utf8'");
     }
-    
-    //TODO: mozno nastavit utf8
-    
-    
     
   } // end of member function connect
 
@@ -716,10 +716,13 @@ class Database
 
   public static function editUser($user)
   { 
-    if(!self::$loginManager->isRoot() && $user->getId()!=self::$loginManager->getUser()->getId()) return false;
+    if(!self::$loginManager->isRoot() && $user->getId()!=self::$loginManager->getUser()->getId()) return false;    
     $sql = "UPDATE Users SET `name` = ?, `surname` = ?, `nick` = ?, `email` = ?, autoupdate = 0 WHERE `id` = ?;";         
     self::runQuery($sql,array($user->getFirstName(),$user->getLastName(),$user->getFriendlyName(),$user->getEmail(),$user->getId()));
   }
 
 } // end of Database
+
+Database::init();
 ?>
+

@@ -58,16 +58,16 @@ class LoginManager
   public function logIn( $openID, $attributes ) {    
     //nastavit session
    
-    if($this->checkSession())
-    {
+    /*if($this->checkSession())
+    {*/
       $_SESSION['user'] = new User($openID);
       Database::updateUser($openID,$attributes);
-    }
+    /*}
     else
     {
       $this->logOut();
       throw new LoginException('Bad session id.');
-    } 
+    } */
     
   } // end of member function logIn
 

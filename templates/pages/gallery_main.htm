@@ -14,29 +14,30 @@
   {% endif %}
  
 <a href = "{{beginlink~item.getPath}}">
-<div class='box_item '>    
-    <div class='box_caption'>
-       {{caption}} 
-    </div>
+<div class='box_item '>        
     <div class='box_image'>
        <img src='{{imagesrc}}'  />
+    </div>
+    <div class='box_caption'>
+       {{caption}} 
     </div>
 </div>
 </a>    
 {% endmacro %}
 
-
+<div id='albumCaption'>
 <h1>{{gallery.getAlbum.caption}} :</h1>
+</div>
 
 {% if gallery.getAlbum.parent %}
 <a href = "?album={{gallery.getAlbum.getParent.getPath}}">
 
-<div class='box_item '>    
-    <div class='box_caption'>
-       ../
-    </div>
+<div class='box_item '>        
     <div class='box_image'>
        <img src='images/uplevel.png'  />
+    </div>
+    <div class='box_caption'>
+       ../
     </div>
 </div>
 

@@ -1,5 +1,5 @@
 <?php  
-  require_once 'classes/Database.php';
+  require_once 'classes/Database.php';  
   function checkSession()
   { 
     if(Database::checkSession()) return true;                  
@@ -12,12 +12,12 @@
   session_start();
   
   
-  if(!checkSession())
+  /*if(!checkSession())
   {
     require_once 'classes/LoginManager.php';
     $lm = new LoginManager();
     $lm->logOut();
     die('Try again');
-  }
+  }*/
   
 ?>

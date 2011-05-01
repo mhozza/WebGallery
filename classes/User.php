@@ -143,5 +143,18 @@ class User
    return $this->uid == UID_ROOT; 
   }
 
+  public function reload()
+  {    
+    $info = Database::getUserInfoByID($this->uid);    
+    if($info == false) return;         
+    $this->uid = $info['id'];
+    $this->username = $info['username'];
+    $this->firstname = $info['name'];
+    $this->lastname = $info['surname'];
+    $this->nickname = $info['nick'];
+    $this->email = $info['email'];
+  }
+
+
 } // end of User
 ?>

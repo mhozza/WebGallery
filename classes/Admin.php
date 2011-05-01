@@ -5,6 +5,9 @@ require_once 'Photo.php';
 require_once 'LoginManager.php';
 require_once 'Exceptions.php';
 
+define('ST_INVALID_MAIL',11);
+define('ST_OK',0);
+
 
 /**
  * class Gallery
@@ -22,7 +25,7 @@ class AdminTools
 
   function __construct() {     
     $this->loginManager = new LoginManager();
-    if(!$this->loginManager->isRoot()) throw new SecurityException();    
+    //if(!$this->loginManager->isRoot()) throw new SecurityException();    
   }   
  
   public function getAlbums( ) {    
@@ -151,13 +154,20 @@ class AdminTools
       $user->setFirstName($name);         
     }
     if($surname!='')
-      $user->setLast($surname);
+      $user->setLastName($surname);
     if($nick!='')
       $user->setFriendlyName($nick);    
-    if($email!='')
+    if($email!='' && Validator::validateEmail($email,128))
+    {
       $user->setEmail($email);    
+    }
+    else
+    {
+      return ST_INVALID_MAIL;
+    }
     //add to DB
-    Database::editUser($user);    
+    Database::editUser($user); 
+    return ST_OK;
   }
 
 } // end of Admin

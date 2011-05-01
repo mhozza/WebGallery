@@ -16,6 +16,13 @@
       $regexp = '/[\w\s]*/';      
       return preg_match($regexp,$string);
     }   
+    
+    public static function validateEmail($string, $maxsize = -1)
+    {
+      if(!self::checkSize($string,$maxsize)) return false;
+      $regexp = '/[\w-\.]*@[\w-\.]*\.[a-z]*/';      
+      return preg_match($regexp,$string);
+    }   
   }
 
 ?>

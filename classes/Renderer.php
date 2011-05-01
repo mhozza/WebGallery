@@ -136,6 +136,7 @@ class Renderer
           if(isset($_POST['editUser']))
           {
             $adminTools->editUser($lm->getUser()->getId(),$_POST['user_edit_name'],$_POST['user_edit_surname'],$_POST['user_edit_nick'],$_POST['user_edit_mail']);
+            $lm->getUser()->reload();
           }        
           break;
         default:
