@@ -6,6 +6,9 @@ require_once 'LoginManager.php';
 require_once 'Exceptions.php';
 
 define('ST_INVALID_MAIL',11);
+define('ST_INVALID_NICK',12);
+define('ST_INVALID_FIRSTNAME',13);
+define('ST_INVALID_LASTNAME',14);
 define('ST_OK',0);
 
 
@@ -145,18 +148,37 @@ class AdminTools
   
   public function editUser($userID,$name,$surname,$nick,$email)
   {    
-    //TODO: sklontrolovat veci co  prisli     
+    //TODO: sklontrolovat veci co  prisli
     settype($userID,'integer');
     $user = new User($userID);
     
-    if($name!='')
+    if($name!='' && Validator::validateFirstName($name,128))
     {      
       $user->setFirstName($name);         
     }
-    if($surname!='')
+    else
+    {
+      return ST_INVALID_FIRSTNAME;
+    }
+
+    if($surname!='' && Validator::validateLastName($surname,128))
+    {
       $user->setLastName($surname);
-    if($nick!='')
+    }
+    else
+    {
+      return ST_INVALID_LASTNAME;
+    }
+
+    if($nick!='' && Validator::validateNick($nick,128))
+    {
       $user->setFriendlyName($nick);    
+    }
+    else
+    {
+      return ST_INVALID_NICK;
+    }
+
     if($email!='' && Validator::validateEmail($email,128))
     {
       $user->setEmail($email);    

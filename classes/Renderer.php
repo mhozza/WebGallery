@@ -135,7 +135,18 @@ class Renderer
           $adminTools = new AdminTools();
           if(isset($_POST['editUser']))
           {
-            $adminTools->editUser($lm->getUser()->getId(),$_POST['user_edit_name'],$_POST['user_edit_surname'],$_POST['user_edit_nick'],$_POST['user_edit_mail']);
+            $retcode = $adminTools->editUser($lm->getUser()->getId(),$_POST['user_edit_name'],$_POST['user_edit_surname'],$_POST['user_edit_nick'],$_POST['user_edit_mail']);
+            switch($retcode)
+            {
+              case ST_OK:
+                $vars['messages'][] = 'Nastavenia boli úspešne uložené';
+              break;
+              case ST_INVALID_MAIL:
+                $vars['errors'][] = 'Nesprávny email.';
+              break;
+              default:
+                $vars['errors'][] = 'Nastala chyba.';
+            }                      
             $lm->getUser()->reload();
           }        
           break;

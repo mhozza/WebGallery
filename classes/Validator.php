@@ -9,20 +9,47 @@
       }
       return true;
     }
+
+    public static function replaceDiacritics($string)
+    {
+      setlocale(LC_ALL,'sk_SK.utf8');
+      return iconv('utf-8', 'ascii//TRANSLIT//IGNORE',$string);
+    }
     
     public static function validateFileName($string, $maxsize = -1)
     {
       if(!self::checkSize($string,$maxsize)) return false;
-      $regexp = '/[\w\s]*/';      
+      $regexp = '/^[\w_]*$/';      
       return preg_match($regexp,$string);
     }   
     
     public static function validateEmail($string, $maxsize = -1)
     {
       if(!self::checkSize($string,$maxsize)) return false;
-      $regexp = '/[\w-\.]*@[\w-\.]*\.[a-z]*/';      
+      $regexp = '/^[\w\-\_\.]+@[\w\-\_\.]+\.[a-z]+$/';      
       return preg_match($regexp,$string);
-    }   
+    }
+    
+    public static function validateNick($string, $maxsize = -1)
+    {
+      if(!self::checkSize($string,$maxsize)) return false;
+      $regexp = '/^[\w _\-\.@\$0-9]+$/';      
+      return preg_match($regexp,self::replaceDiacritics($string));
+    }
+    
+    public static function validateFirstName($string, $maxsize = -1)
+    {
+      if(!self::checkSize($string,$maxsize)) return false;
+      $regexp = '/^[[:alpha:] ]+$/';      
+      return preg_match($regexp,self::replaceDiacritics($string));
+    }
+    
+    public static function validateLastName($string, $maxsize = -1)
+    {
+      if(!self::checkSize($string,$maxsize)) return false;
+      $regexp = '/^[[:alpha:] ]+$/';
+      return preg_match($regexp,self::replaceDiacritics($string));
+    }
   }
 
 ?>

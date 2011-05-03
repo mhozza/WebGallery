@@ -1,11 +1,18 @@
 body
 {
   margin:0;
-  padding:0;  
+  padding:0;    
+  height:100%;  
+}
+
+#main
+{
+  width:100%;
+  position:absolute;
   height:auto !important;
   min-height:100%;
   height:100%;
-  padding-bottom:2      6px;
+  padding-bottom:40px;
 }
 
 a
@@ -180,4 +187,23 @@ td.last
 {  
   border:1px solid #88f;
   width:100%
+}
+.message, .error
+{
+  margin:10px auto;
+  border: 1px solid;
+  border-radius: 5px;  
+  width:400px;
+  text-align:center;
+  font-weight:bold;
+}
+.message
+{
+  border-color: #cc0;  
+  background-color:#ff7;  
+}
+.error
+{
+  border-color: #c00;  
+  background-color:#f77;  
 }

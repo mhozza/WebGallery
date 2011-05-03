@@ -5,6 +5,17 @@
 <div id='albumCaption'>
 <h1>Nastavenia:</h1>
 </div>
+{% if login %}
+{% for e in errors -%}
+  <div class='error'>
+    {{ e }}
+  </div>  
+{%- endfor %}
+{% for m in messages -%}
+  <div class='message'>
+    {{ m }}
+  </div>  
+{%- endfor %}
 <table cellspacing="0" celpadding="0" id='settings'>
 <tr>
 <th><label for='user_edit_name'>Meno:</label></td>
@@ -28,5 +39,8 @@
 </tr>
 </table>
 </form>
+{% else %}
+Na zmenu nastavení sa musíte prihlásiť.
+{% endif %}
 
 {% endblock %}
