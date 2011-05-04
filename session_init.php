@@ -18,6 +18,5 @@
     $lm = new LoginManager();
     $lm->logOut();
     die('Try again');
-  }*/
-  
+  }*/  
 ?>

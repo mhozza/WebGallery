@@ -1,49 +1,55 @@
 {%- extends 'layout/gallery.htm' %}
 {% block g_body %}
-  <div id='caption'>
+  <div id='captionbar' class='center'>
   <h1> {{gallery.getCurrentPhoto.getCaption}} </h1>
-  </div>
-  <div id='nav_out'>
-  <div id='nav'>
-  <div id='nav_left'>
-  {% if gallery.getCurrentPhoto.parent -%}
-    <a href = "?album={{gallery.getCurrentPhoto.getParent.getPath}}" class="nav">Späť na album</a>
-  {%- endif -%}
-  </div>
-  <div id='nav_right'>
-  {%- if gallery.getPreviousPhoto  -%}
-    <a href="?detail={{gallery.getPreviousPhoto.getPath}}" class="nav"> Predošlá</a>
-  {%- endif %}
-
-  {% for i in gallery.getPhotos -%}
-    {% if i.getId == gallery.getCurrentPhoto.getId %}
-      {{ loop.index }}
-    {% else %}
-      <a href="?detail={{i.getPath}}" class="nav">{{loop.index}}</a>
-    {%- endif -%}
-  {%- endfor %}
-
-  {% if gallery.getNextPhoto -%}
-    <a href = "?detail={{gallery.getNextPhoto.getPath}}" class="nav">Nasledujúca</a>
-  {%- endif %}
-  </div>
-  </div>
-  </div>
-  <div id='image'>
-  <img src="getimage.php?w=800&amp;h=600&amp;image={{gallery.CurrentPhoto.Path}}"/>
-  </div>    
-  <div class='rating'>
-  Hodnotenie: <span class='rating'>{{gallery.getCurrentPhoto.getRating }}</span>
-  {%if login -%}
-  <script type='text/javascript' src='js/rating.js'></script>  
-  {% for i in 1..5 -%}
-    <a href="?detail={{gallery.getCurrentPhoto.getPath}}&amp;rate={{i}}"><img src="images/star_white.png" alt="{{i}}" class="rating" onMouseOver="ratingOver(this,true)" onMouseOut="ratingOver(this,false)"/></a>
-  {%- endfor %}
-  {%- endif %}
   </div>  
-  <div id ='comments_out'>
-  <div id='comments'>
-  {% include 'parts/comments.htm' %}
-  </div>
-  </div>
+ 
+  <table id='content' width='100%' cellspacing='0' cellpadding='0'>    
+    <tr><td id='image' width='*'>
+      <div id='nav_out'>
+      <div id='nav'>
+      <div id='nav_left'>
+      {% if gallery.getCurrentPhoto.parent -%}
+        <a href = "?album={{gallery.getCurrentPhoto.getParent.getPath}}" class="nav">Späť na album</a>
+      {%- endif -%}
+      </div>
+      <div id='nav_right'>
+      {%- if gallery.getPreviousPhoto  -%}
+        <a href="?detail={{gallery.getPreviousPhoto.getPath}}" class="nav"> Predošlá</a>
+      {%- endif %}
+
+      {% for i in gallery.getPhotos -%}
+        {% if i.getId == gallery.getCurrentPhoto.getId %}
+          {{ loop.index }}
+        {% else %}
+          <a href="?detail={{i.getPath}}" class="nav">{{loop.index}}</a>
+        {%- endif -%}
+      {%- endfor %}
+
+      {% if gallery.getNextPhoto -%}
+        <a href = "?detail={{gallery.getNextPhoto.getPath}}" class="nav">Nasledujúca</a>
+      {%- endif %}
+      </div>
+      </div>
+      </div>
+      <div>
+      <img src="getimage.php?w=800&amp;h=600&amp;image={{gallery.CurrentPhoto.Path}}"/>
+      </div>
+      <div id='rating'>
+      Hodnotenie: 
+      {%if login -%}
+      <script type='text/javascript' src='js/rating.js'></script>  
+      {% for i in 1..5 -%}
+        <a href="?detail={{gallery.getCurrentPhoto.getPath}}&amp;rate={{i}}"><img src="images/star_white.png" alt="{{i}}" class="rating" onMouseOver="ratingOver(this,true)" onMouseOut="ratingOver(this,false)"/></a>
+      {%- endfor %}
+      {%- endif %}
+      <span class='rating'>{{gallery.getCurrentPhoto.getRating }}</span>
+    </div>  
+    </td>
+    <td id='comments' width='300px'>
+      {% include 'parts/comments.htm' %}
+    </td></tr>   
+  </table>
+ 
+ 
 {% endblock -%}

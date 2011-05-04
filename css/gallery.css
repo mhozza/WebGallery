@@ -1,8 +1,10 @@
-body
+html,body
 {
   margin:0;
   padding:0;    
   height:100%;  
+  min-width:1110px;
+  
 }
 
 #main
@@ -13,6 +15,7 @@ body
   min-height:100%;
   height:100%;
   padding-bottom:40px;
+  min-width:1110px;
 }
 
 a
@@ -43,36 +46,38 @@ h1
   margin:0;
 }
 
-#nav_out
-{
-  background-color:#001;  
-}
 
 #image
-{
-  background-color:#000;
+{  
+  text-align:center; 
+}
+
+#rating
+{  
+  /*clear:both;   */
   text-align:center;
+  color:#000;  
+  background-color:#f7f7f7; 
+  padding:5px;
+  background: -webkit-linear-gradient(top,  #f7f7f7, #f3f3f3);
+  border-bottom:1px solid #ddd;
+  border-top:1px solid #ddd;
 }
-div.rating
+
+#nav_out
 {
-  background-color:#001;
-  text-align:center;
-  color:#fff;
+  background-color:#f7f7f7; 
+  padding:5px;
+  background: -webkit-linear-gradient(top,  #f7f7f7, #f3f3f3);
+  border-bottom:1px solid #ddd;
 }
-#comments_out
-{
-  background-color:#ddf;  
-}
-#comments
-{
-  width:800px;
-  margin:0 auto;
-}
+
 #nav
 {
   width:800px;
   margin:0 auto;
-  color:yellow;
+  color:blue;
+  height:20px;  
 }
 #nav_left
 {
@@ -86,11 +91,11 @@ div.rating
 }
 a.nav
 {
-  color:white;
+  color:black;
 }
 a.nav:hover
 {
-  color:yellow;
+  color:blue;
 }
 
 .box_item
@@ -132,8 +137,7 @@ a.nav:hover
   border-color:#888;
   box-shadow:2px 2px 5px #888;
   -webkit-box-shadow:2px 2px 5px #888;
-  -moz-box-shadow:2px 2px 5px #888;  
-  
+  -moz-box-shadow:2px 2px 5px #888;
 }
 
 #banner
@@ -143,7 +147,12 @@ a.nav:hover
   border-bottom:1px solid #aaa;   
 }
 
-#albumCaption
+.center
+{
+  text-align:center;
+}
+
+#captionbar
 {  
   border-bottom:1px solid #aaa;   
   background-color: #eee;
@@ -206,4 +215,33 @@ td.last
 {
   border-color: #c00;  
   background-color:#f77;  
+}
+.comment
+{
+  border: 1px solid #bbf;
+  padding: 3px;
+  margin:3px;
+  background-color:#efecff;  
+}
+#comments
+{  
+ /*display:none;*/
+}
+#comment_text
+{
+  width:300px;
+  height:50px;  
+}
+#content
+{  
+  background-color:white;    
+  border:none;
+}
+td
+{
+  margin:0;
+  padding:0;
+  vertical-align:top;
+  background-color:white;  
+  border:none;
 }

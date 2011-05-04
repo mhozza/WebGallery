@@ -1,5 +1,4 @@
 <?php
-
 require_once 'LoginManager.php';
 require_once 'Privileges.php';
 require_once 'User.php'; 
@@ -725,4 +724,3 @@ class Database
 
 Database::init();
 ?>
-

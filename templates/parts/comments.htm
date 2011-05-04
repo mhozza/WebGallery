@@ -1,12 +1,15 @@
-Komentáre: <br/>
-{% for comment in gallery.getCurrentPhoto.getComments -%} 
-  <strong>Autor: {{comment.getAuthor.getDisplayName}}</strong> <br/>
-  Text: {{comment.getText}} <br/>
+ {% for comment in gallery.getCurrentPhoto.getComments -%} 
+  <div class='comment'>
+  <strong>{{comment.getAuthor.getDisplayName}} </strong>
+  {{comment.getText}}
+  </div>
 {% endfor %}
 {%- if login -%}
+  <div class='comment'>
   <script type='text/javascript' src='js/maxlength.js'></script>
   <form action="" method="post" class="comments" onSubmit="$.post(document.location.href,{comment_text:$('textarea').val(),ajax:'true'},function(data){$('#comments').html(data);});return false;"> 
     <textarea name="comment_text" id="comment_text" onChange="maxlength(this,{{CONST.MAX_COMMENT_SIZE}})" onKeyUp="maxlength(this,{{CONST.MAX_COMMENT_SIZE}})"></textarea><br/>
-    <button type="submit">Submit</button> <span id="comment_text_count"></span>       
+    <button type="submit">Pridať</button> <span id="comment_text_count"></span>       
   </form>        
+  </div>
 {%- endif %}
