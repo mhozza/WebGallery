@@ -168,7 +168,7 @@ a.nav:hover
   height:20px;
   width:100%;
   position:absolute;
-  bottom:0;       
+  bottom:0;
 }
 td,th
 {
@@ -226,6 +226,8 @@ td.last
 #comments
 {  
  /*display:none;*/
+ border-left:1px solid #ddd;
+ border-bottom:1px solid #ddd;
 }
 #comment_text
 {
@@ -237,11 +239,38 @@ td.last
   background-color:white;    
   border:none;
 }
-td
+td.detail
 {
   margin:0;
   padding:0;
   vertical-align:top;
   background-color:white;  
   border:none;
+}
+#tabs
+{
+  font-size:0.75em;  
+  width:700px;
+  margin:5PX auto;
+}
+
+fieldset
+{
+  border:1px solid #888;
+  border-radius:3px;
+}
+
+fieldset > label
+{
+  display:inline-block;
+  width:70px;
+}
+
+fieldset > input[type='text'], select
+{  
+  border:1px solid #888;  
+  padding:2px;
+  width:500px;
+  border-radius:3px;
+  background-color: #fcfcfc;
 }
