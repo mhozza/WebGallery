@@ -28,6 +28,7 @@
     <li><a href="#tabs-1">Fotky</a></li>
     <li><a href="#tabs-2">Albumy</a></li>
     <li><a href="#tabs-3">Používatelia</a></li>
+    <a id="admin_back_to_page" href="index.php">Späť na stránku</a>
   </ul>
   <div id="tabs-1">
             
@@ -56,13 +57,13 @@
     <fieldset>
     <legend><h2>Oprávnenia na fotku:</h2></legend>
     <label for='perm_photo'>Fotka:</label>
-    <select name='perm_photo' id='perm_photo'>
+    <select name='perm_photo[]' id='perm_photo' multiple='multiple'>
     {% for item in adminTools.getPhotos %}      
         <option value="{{item.getID}}"> {{item.getCaption}}({{item.getPath}}) </option>
     {% endfor %}
     </select><br/>
     <label for='perm_photo_user'>Používaťeľ:</label>
-    <select name='perm_photo_user' id='perm_photo_user'>
+    <select name='perm_photo_user[]' id='perm_photo_user' multiple='multiple'>
     {% for item in adminTools.getUsers %}      
         <option value="{{item.getID}}"> {{item.getDisplayname}}({{item.getUserName}}) </option>
     {% endfor %}
@@ -78,6 +79,7 @@
     <legend><h2>Editovať fotku:</h2></legend>
     <label for='photo_edit'>Fotka:</label>
     <select name='photo_edit' id='photo_edit'>
+    <option value="-1"> -- vyberte fotku -- </option>
     {% for item in adminTools.getPhotos %}      
         <option value="{{item.getID}}"> {{item.getCaption}}({{item.getPath}}) </option>
     {% endfor %}
@@ -118,13 +120,13 @@
     <fieldset>
     <legend><h2>Oprávnenia na album:</h2></legend>
     <label for='perm_album'>Album:</label>
-    <select name='perm_album' id='perm_album'>
+    <select name='perm_album[]' id='perm_album' multiple='multiple'>
     {% for item in adminTools.getAlbums %}      
         <option value="{{item.getID}}"> {{item.getCaption}}({{item.getPath}}) </option>
     {% endfor %}
     </select><br/>
     <label for='perm_album_user'>Používaťeľ:</label>
-    <select name='perm_album_user' id='perm_album_user'>
+    <select name='perm_album_user[]' id='perm_album_user' multiple='multiple'>
     {% for item in adminTools.getUsers %}      
         <option value="{{item.getID}}"> {{item.getDisplayname}}({{item.getUserName}}) </option>
     {% endfor %}
@@ -139,6 +141,7 @@
     <legend><h2>Editovať album:</h2></legend>
     <label for='album_edit'>Album:</label>
     <select name='album_edit' id='album_edit'>
+    <option value="-1"> -- vyberte album -- </option>
     {% for item in adminTools.getAlbums %}      
         <option value="{{item.getID}}"> {{item.getCaption}}({{item.getPath}}) </option>
     {% endfor %}
@@ -158,6 +161,7 @@
     <legend><h2>Editovať používateľa:</h2></legend>
     <label for='user_edit'>Používateľ:</label>
     <select name='user_edit' id='user_edit'>
+    <option value="-1"> -- vyberte používateľa -- </option>
     {% for item in adminTools.getUsers %}      
         <option value="{{item.getID}}"> {{item.getDisplayname}}({{item.getUserName}}) </option>
     {% endfor %}
@@ -175,9 +179,34 @@
     </form>
   </div>
   <script type='text/javascript'>
-    $( "#tabs" ).tabs();  
+    $("#tabs").tabs();
+
+     $("#photo_edit").change(function(){      
+      $.getJSON('admin.php', {action:"getPhotoInfo", ajax: true, id : $("#photo_edit").val()}, function(data) {           
+        $("#photo_edit_name").val(data.name);
+        $("#photo_edit_caption").val(data.caption);
+        $("#photo_edit_perm").val(data.permissions);        
+      });
+    });
+
+    $("#album_edit").change(function(){      
+      $.getJSON('admin.php', {action:"getAlbumInfo", ajax: true, id : $("#album_edit").val()}, function(data) {           
+        $("#album_edit_name").val(data.name);
+        $("#album_edit_caption").val(data.caption);
+        $("#album_edit_perm").val(data.permissions);        
+      });
+    });
+
+    $("#user_edit").change(function(){      
+      $.getJSON('admin.php', {action:"getUserInfo", ajax: true, id : $("#user_edit").val()}, function(data) {           
+        $("#user_edit_name").val(data.name);
+        $("#user_edit_surname").val(data.surname);
+        $("#user_edit_nick").val(data.nick);
+        $("#user_edit_mail").val(data.email);
+      });
+    });
   </script>
 </div>
-<a href="index.php">Späť na stránku</a>
+
 
 {% endblock %}

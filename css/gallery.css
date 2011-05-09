@@ -270,7 +270,14 @@ fieldset > input[type='text'], select
 {  
   border:1px solid #888;  
   padding:2px;
+  margin:3px;
   width:500px;
   border-radius:3px;
   background-color: #fcfcfc;
+}
+
+#admin_back_to_page
+{
+  float:right;
+  margin:6px;
 }

@@ -72,6 +72,48 @@ class Renderer
           $adminTools = new AdminTools();          
           $vars['adminTools'] = $adminTools;    
           //parse commands
+          
+          if($ajax)
+          {
+            if(isset($_GET['action']))
+            {
+              switch($_GET['action'])
+              {
+                case 'getUserInfo':
+                  if(isset($_GET['id']))
+                  {
+                    $user = Database::getUserInfoByID($_GET['id']);                    
+                    echo "{\n \"name\" : \"{$user['name']}\" , \"surname\" : \"{$user['surname']}\" , \"nick\" : \"{$user['nick']}\" , \"email\" : \"{$user['email']}\"\n}\n";                    
+                  }
+                  break;
+                case 'getAlbumInfo':
+                  if(isset($_GET['id']))
+                  {
+                    $album = Database::getAlbumById($_GET['id']);                   
+                    $name = basename($album['path']);
+                    echo "{\n \"caption\" : \"{$album['caption']}\" , \"name\" : \"$name\" , \"permissions\" : \"{$album['permissions']}\"\n}\n";                    
+                  }
+                  break;
+                case 'getPhotoInfo':
+                  if(isset($_GET['id']))
+                  {
+                    $photo = Database::getPhotoById($_GET['id']);      
+                    if($photo!=null)
+                    {                    
+                      $name = basename($photo->getPath());
+                      echo "{\n \"caption\" : \"{$photo->getCaption()}\" , \"name\" : \"$name\" , \"permissions\" : \"{$photo->getPermissions()}\"\n}\n";
+                    }
+                    else
+                    {
+                      echo "{\n \"caption\" : \"\" , \"name\" : \"\" , \"permissions\" : \"\"\n}\n";
+                    }
+                  }
+                  break;
+              }
+            }
+            die();
+          }
+
           if(isset($_POST['addAlbum']))
           {           
             $adminTools->addAlbum($_POST['album'],$_POST['album_name'],$_POST['album_caption'],$_POST['album_perm']);
@@ -82,11 +124,23 @@ class Renderer
           }
           if(isset($_POST['addPhotoPerms']))
           {
-            $adminTools->addPerms(PT_PHOTO,$_POST['perm_photo'],$_POST['perm_photo_user'],$_POST['perm_photo_perm']);
+            foreach($_POST['perm_photo'] as $perm_photo)
+            {
+              foreach($_POST['perm_photo_user'] as $perm_user)
+              {
+                $adminTools->addPerms(PT_PHOTO,$perm_photo,$perm_user,$_POST['perm_photo_perm']);
+              }
+            }
           }
           if(isset($_POST['addAlbumPerms']))
           {
-            $adminTools->addPerms(PT_ALBUM,$_POST['perm_album'],$_POST['perm_album_user'],$_POST['perm_album_perm']);
+            foreach($_POST['perm_album'] as $perm_album)
+            {
+              foreach($_POST['perm_album_user'] as $perm_user)
+              {
+                $adminTools->addPerms(PT_ALBUM,$perm_album, $perm_user,$_POST['perm_album_perm']);
+              }
+            }
           }
           if(isset($_POST['editAlbum']))
           {
