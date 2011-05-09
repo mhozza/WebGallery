@@ -116,11 +116,11 @@ class Renderer
 
           if(isset($_POST['addAlbum']))
           {           
-            $adminTools->addAlbum($_POST['album'],$_POST['album_name'],$_POST['album_caption'],$_POST['album_perm']);
+            $retcode = $adminTools->addAlbum($_POST['album'],$_POST['album_name'],$_POST['album_caption'],$_POST['album_perm']);
           }
           if(isset($_POST['addPhoto']))
           {
-            $adminTools->addPhoto($_POST['photo_album'],basename($_FILES['photo_file']['name']),$_FILES['photo_file']['tmp_name'],$_POST['photo_caption'],$_POST['photo_perm']);
+            $retcode = $adminTools->addPhoto($_POST['photo_album'],basename($_FILES['photo_file']['name']),$_FILES['photo_file']['tmp_name'],$_POST['photo_caption'],$_POST['photo_perm']);
           }
           if(isset($_POST['addPhotoPerms']))
           {
@@ -128,7 +128,7 @@ class Renderer
             {
               foreach($_POST['perm_photo_user'] as $perm_user)
               {
-                $adminTools->addPerms(PT_PHOTO,$perm_photo,$perm_user,$_POST['perm_photo_perm']);
+                $retcode = $adminTools->addPerms(PT_PHOTO,$perm_photo,$perm_user,$_POST['perm_photo_perm']);
               }
             }
           }
@@ -138,21 +138,39 @@ class Renderer
             {
               foreach($_POST['perm_album_user'] as $perm_user)
               {
-                $adminTools->addPerms(PT_ALBUM,$perm_album, $perm_user,$_POST['perm_album_perm']);
+                $retcode = $adminTools->addPerms(PT_ALBUM,$perm_album, $perm_user,$_POST['perm_album_perm']);
               }
             }
           }
           if(isset($_POST['editAlbum']))
           {
-            $adminTools->editAlbum($_POST['album_edit'],$_POST['album_edit_name'],$_POST['album_edit_caption'],$_POST['album_edit_perm']);
+            $retcode =  $adminTools->editAlbum($_POST['album_edit'],$_POST['album_edit_name'],$_POST['album_edit_caption'],$_POST['album_edit_perm']);
           }
           if(isset($_POST['editPhoto']))
           {
-            $adminTools->editPhoto($_POST['photo_edit'],$_POST['photo_edit_name'],$_POST['photo_edit_caption'],$_POST['photo_edit_perm']);
+            $retcode =  $adminTools->editPhoto($_POST['photo_edit'],$_POST['photo_edit_name'],$_POST['photo_edit_caption'],$_POST['photo_edit_perm']);
+            switch($retcode)
+            {
+              case ST_OK:
+                $vars['messages'][] = 'Nastavenia boli úspešne uložené';
+              break;      
+              
+            }              
           }        
           if(isset($_POST['editUser']))
           {
-            $adminTools->editUser($_POST['user_edit'],$_POST['user_edit_name'],$_POST['user_edit_surname'],$_POST['user_edit_nick'],$_POST['user_edit_mail']);
+            $retcode =  $adminTools->editUser($_POST['user_edit'],$_POST['user_edit_name'],$_POST['user_edit_surname'],$_POST['user_edit_nick'],$_POST['user_edit_mail']);
+            switch($retcode)
+            {
+              case ST_OK:
+                $vars['messages'][] = 'Nastavenia boli úspešne uložené';
+              break;
+              case ST_INVALID_MAIL:
+                $vars['errors'][] = 'Nesprávny email.';
+              break;
+              default:
+                $vars['errors'][] = 'Nastala chyba.';
+            }              
           }        
 
           break;

@@ -9,6 +9,7 @@ define('ST_INVALID_MAIL',11);
 define('ST_INVALID_NICK',12);
 define('ST_INVALID_FIRSTNAME',13);
 define('ST_INVALID_LASTNAME',14);
+define('ST_INVALID_FILENAME',21);
 define('ST_OK',0);
 
 
@@ -115,6 +116,10 @@ class AdminTools
     }
     if($albumCaption!='')
       $album->setCaption($albumCaption);
+
+    if($albumPerms<0 || $albumPerms>1 ) 
+      throw new SecurityException('Invalid parameter.');
+
     if($albumPerms!='')
       $album->setPermissions($albumPerms);    
         
@@ -129,7 +134,7 @@ class AdminTools
     settype($photoID,'integer');
     $photo = Database::getPhotoById($photoID);
     
-    if($photoName!='')
+    if($photoName!='' && Validator::validateFileName($photoName,32))
     {
       $oldname = $photo->getPath();
       $photo->setName($photoName);
@@ -137,13 +142,21 @@ class AdminTools
       if(!rename($oldname,$newname))
         throw new RuntimeException('Could not rename photo');      
     }
+    else
+    {
+      return ST_INVALID_FILENAME;
+    }
+    
     if($photoCaption!='')
       $photo->setCaption($photoCaption);
+    if($photoPerms<0 || $photoPerms>1 ) 
+      throw new SecurityException('Invalid parameter.');
     if($photoPerms!='')
       $photo->setPermissions($photoPerms);    
         
     //add to DB
     Database::editPhoto($photo);    
+    return ST_OK;
   }
   
   public function editUser($userID,$name,$surname,$nick,$email)

@@ -60,11 +60,11 @@
       {
         /*39 - right
         37 - left*/
-        if(event.keyCode==37)
+        if(event.keyCode==37 && $('#previous_photo').length>0)
         {        
           location.href = ($('#previous_photo').attr("href"));
         }
-        if(event.keyCode==39)
+        if(event.keyCode==39 && $('#next_photo').length>0)
         {
           location.href = ($('#next_photo').attr("href"));
         }
