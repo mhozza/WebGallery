@@ -9,26 +9,28 @@
       <div id='nav_out'>
       <div id='nav'>
       <div id='nav_left'>
-      {% if gallery.getCurrentPhoto.parent -%}
-        <a href = "?album={{gallery.getCurrentPhoto.getParent.getPath}}" class="nav">Späť na album</a>
-      {%- endif -%}
+        {%- if gallery.getPreviousPhoto  -%}
+          <a href="?detail={{gallery.getPreviousPhoto.getPath}}" class="nav" id="previous_photo"> Predošlá</a>
+        {%- endif %}
+
+        {% for i in gallery.getPhotos -%}
+          {% if loop.index > gallery.getCurrentPhotoIndex-5 and loop.index < gallery.getCurrentPhotoIndex+5 %}
+            {% if i.getId == gallery.getCurrentPhoto.getId %}
+              {{ loop.index }}
+            {% else %}
+              <a href="?detail={{i.getPath}}" class="nav">{{loop.index}}</a>
+            {%- endif -%}
+          {%- endif -%}
+        {%- endfor %}
+
+        {% if gallery.getNextPhoto -%}
+          <a href = "?detail={{gallery.getNextPhoto.getPath}}" class="nav" id="next_photo">Nasledujúca</a>
+        {%- endif %}  
       </div>
       <div id='nav_right'>
-      {%- if gallery.getPreviousPhoto  -%}
-        <a href="?detail={{gallery.getPreviousPhoto.getPath}}" class="nav"> Predošlá</a>
-      {%- endif %}
-
-      {% for i in gallery.getPhotos -%}
-        {% if i.getId == gallery.getCurrentPhoto.getId %}
-          {{ loop.index }}
-        {% else %}
-          <a href="?detail={{i.getPath}}" class="nav">{{loop.index}}</a>
+        {% if gallery.getCurrentPhoto.parent -%}
+          <a href = "?album={{gallery.getCurrentPhoto.getParent.getPath}}" class="nav">Späť na album</a>
         {%- endif -%}
-      {%- endfor %}
-
-      {% if gallery.getNextPhoto -%}
-        <a href = "?detail={{gallery.getNextPhoto.getPath}}" class="nav">Nasledujúca</a>
-      {%- endif %}
       </div>
       </div>
       </div>
@@ -50,6 +52,37 @@
       {% include 'parts/comments.htm' %}
     </td></tr>   
   </table>
- 
+
+  <script type="text/javascript" >
+    key_capture_enabled = true;
+    $('body').keyup(function(event) {
+      if(key_capture_enabled)
+      {
+        /*39 - right
+        37 - left*/
+        if(event.keyCode==37)
+        {        
+          location.href = ($('#previous_photo').attr("href"));
+        }
+        if(event.keyCode==39)
+        {
+          location.href = ($('#next_photo').attr("href"));
+        }
+      }
+    }); 
+    $('textarea').focus(function() {
+      if(key_capture_enabled)
+      {
+        key_capture_enabled = false;
+      }
+    });
+
+    $('textarea').blur(function() {
+      if(!key_capture_enabled)
+      {
+        key_capture_enabled = true;
+      }
+    });
+  </script>
  
 {% endblock -%}

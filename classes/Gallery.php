@@ -42,6 +42,11 @@ class Gallery
     return $this->currentAlbum->getCurrentPhoto();
   } // end of member function getCurrentPhoto
 
+  public function getCurrentPhotoIndex( ) 
+  {
+    return $this->currentAlbum->getCurrentPhotoIndex();
+  }
+
   public function getNextPhoto( ) 
   {    
     return $this->currentAlbum->getNextPhoto();

@@ -49,7 +49,7 @@
     <label for='photo_file'>Fotka:</label>
     <input type="file" name="photo_file" id="photo_file" /><br/>
     {{_self.prava('photo_perm') }}
-    <button type='submit' name='addPhoto'>Pridaj</button>
+    <button type='submit' name='addPhoto'>Pridaj</button>    
     </fieldset>
     </form>
 
@@ -69,7 +69,7 @@
     {% endfor %}
     </select><br/>
     {{_self.prava_typ('perm_photo_perm')}}
-    <button type='submit' name='addPhotoPerms'>Pridaj</button>
+    <button type='submit' name='addPhotoPerms'>Nastav</button>    
     </fieldset>
     </form>
 
@@ -91,7 +91,7 @@
     {#<label for='photo_edit_file'>Fotka:</label>
     <input type="file" name="photo_edit_file" id="photo_edit_file" /><br/>#}
     {{_self.prava('photo_edit_perm') }}
-    <button type='submit' name='editPhoto'>Pridaj</button>
+    <button type='submit' name='editPhoto'>Uprav</button>
     </fieldset>
     </form>
 
@@ -132,7 +132,7 @@
     {% endfor %}
     </select><br/>
     {{_self.prava_typ('perm_album_perm')}}
-    <button type='submit' name='addAlbumPerms'>Pridaj</button>
+    <button type='submit' name='addAlbumPerms'>Nastav</button>
     </fieldset>
     </form>
 
@@ -151,7 +151,7 @@
     <label for='album_edit_caption'>Nadpis:</label>
     <input type='text' name='album_edit_caption' id='album_edit_caption'/><br/>
     {{_self.prava('album_edit_perm') }}
-    <button type='submit' name='editAlbum'>Pridaj</button>
+    <button type='submit' name='editAlbum'>Uprav</button>
     </fieldset>
     </form>
   </div>
@@ -174,7 +174,7 @@
     <input type='text' name='user_edit_nick' id='user_edit_nick'/><br/>
     <label for='user_edit_mail'>Email:</label>
     <input type='text' name='user_edit_mail' id='user_edit_mail'/><br/>
-    <button type='submit' name='editUser'>Pridaj</button>
+    <button type='submit' name='editUser'>Uprav</button>
     </fieldset>
     </form>
   </div>

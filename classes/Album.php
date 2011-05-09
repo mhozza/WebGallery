@@ -96,11 +96,17 @@ class Album extends GalleryItem
    * @return Photo
    * @access public
    */
-  public function getCurrentPhoto( ) 
+  public function getCurrentPhoto(  ) 
   {    
     return $this->currentPhoto;
   } // end of member function getCurrentPhoto
+  
+  public function getCurrentPhotoIndex(  ) 
+  {    
+    return $this->indexMap[$this->currentPhoto->getId()];        
+  } // end of member function getCurrentPhoto
 
+  
   public function setCurrentPhoto( $photo ) {
     $this->currentPhoto = $photo;        
     $photos = $this->getPhotos();

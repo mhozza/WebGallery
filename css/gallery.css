@@ -31,7 +31,7 @@ a
   border-bottom:1px solid #aaa;   
   background-color: #edf3ff, #c8d4ff;
   /* Safari 5.1+, Chrome 10+ */
-  background: -webkit-linear-gradient(top,  #edf3ff, #c8d4ff);
+  background: -webkit-linear-gradient(top,  #edf3ff, #deedf7);
   padding:4px;
   
   
@@ -44,6 +44,8 @@ a
 h1
 {
   margin:0;
+  font-size:26px;
+  font-family:Modern, Serif;
 }
 
 
@@ -157,6 +159,7 @@ a.nav:hover
   border-bottom:1px solid #aaa;   
   background-color: #eee;
   background: -webkit-linear-gradient(top,  #eee, #ddd);
+  padding:3px;  
 }
 
 #footer
@@ -174,7 +177,7 @@ td,th
 {
   padding:5px;
   border-bottom:1px solid #ccf;  
-  background-color:#ececff;
+  background-color:#e2eff8;
 }
 th
 {
@@ -190,6 +193,7 @@ td.last
 {
   margin:20px auto;
   border:1px solid #88f;  
+  border-radius:5px;
   width:500px;
 }
 .editbox
@@ -221,7 +225,7 @@ td.last
   border: 1px solid #bbf;
   padding: 3px;
   margin:3px;
-  background-color:#efecff;  
+  background-color:#e2eff8;  
 }
 #comments
 {  
@@ -250,22 +254,19 @@ td.detail
 #tabs
 {
   font-size:0.75em;  
-  width:700px;
-  margin:5PX auto;
+  width:650px;
+  margin:5px auto;
 }
-
 fieldset
 {
   border:1px solid #888;
   border-radius:3px;
 }
-
 fieldset > label
 {
   display:inline-block;
   width:70px;
 }
-
 fieldset > input[type='text'], select
 {  
   border:1px solid #888;  
@@ -275,7 +276,6 @@ fieldset > input[type='text'], select
   border-radius:3px;
   background-color: #fcfcfc;
 }
-
 #admin_back_to_page
 {
   float:right;
