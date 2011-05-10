@@ -1,0 +1,5 @@
+INSTALL.txt
+------------------------
+1) nastavte Udaje k DB do config.php
+2) importujte subor apaloosa-gallery-db.sql do databazy
+3) prihlaste sa - prvy prihlaseny pouzivatel sa automaticky stava administratorom

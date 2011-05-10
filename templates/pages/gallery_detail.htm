@@ -47,8 +47,11 @@
       {%- endif %}
       <span class='rating'>{{gallery.getCurrentPhoto.getRating }}</span>
     </div>  
-    </td>
+    </td>    
     <td id='comments' width='300px' class='detail'>
+      <div id='comment_title'>
+        Komentáre:
+      </div>
       {% include 'parts/comments.htm' %}
     </td></tr>   
   </table>
