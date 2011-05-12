@@ -19,21 +19,28 @@
     public static function validateFileName($string, $maxsize = -1)
     {
       if(!self::checkSize($string,$maxsize)) return false;
-      $regexp = '/^[\w_]*$/';      
+      $regexp = '/^[\w_\.]+$/';      
       return preg_match($regexp,$string);
-    }   
+    }
+
+    public static function validateCaption($string, $maxsize = -1)
+    {
+      if(!self::checkSize($string,$maxsize)) return false;
+      $regexp = '/^[\w _\-\.@\$0-9]*$/';      
+      return preg_match($regexp,self::replaceDiacritics($string));
+    }      
     
     public static function validateEmail($string, $maxsize = -1)
     {
       if(!self::checkSize($string,$maxsize)) return false;
-      $regexp = '/^[\w\-\_\.]+@[\w\-\_\.]+\.[a-z]+$/';      
+      $regexp = '/^[\w\-_\.]+@[\w\-_\.]+\.[a-z]+$/';      
       return preg_match($regexp,$string);
     }
     
     public static function validateNick($string, $maxsize = -1)
     {
       if(!self::checkSize($string,$maxsize)) return false;
-      $regexp = '/^[\w _\-\.@\$0-9]+$/';      
+      $regexp = '/^[\w _\-\.@\$0-9]*$/';      
       return preg_match($regexp,self::replaceDiacritics($string));
     }
     

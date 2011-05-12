@@ -10,6 +10,7 @@ define('ST_INVALID_NICK',12);
 define('ST_INVALID_FIRSTNAME',13);
 define('ST_INVALID_LASTNAME',14);
 define('ST_INVALID_FILENAME',21);
+define('ST_INVALID_CAPTION',22);
 define('ST_OK',0);
 
 
@@ -47,8 +48,7 @@ class AdminTools
   
   public function addPhoto($parentID,$photoName,$photoTmpName,$photoCaption,$photoPerms)
   {
-
-    //TODO: sklontrolovat veci co  prisli
+    if(!Validator::validateCaption($photoCaption)) return ST_INVALID_CAPTION;    
     settype($parentID,'integer');
     $parent = new Album($parentID);
     $info['path'] = $parent->getPath().'/'.$photoName;
@@ -67,14 +67,15 @@ class AdminTools
     else
       throw new RuntimeException('Could not upload photo');    
     
-      
-    
+    return ST_OK;    
   }
 
   public function addAlbum($parentID,$albumName,$albumCaption,$albumPerms)
   {
 
-    //TODO: sklontrolovat veci co  prisli
+    if(!Validator::validateFileName($albumName)) return ST_INVALID_FILENAME;
+    if(!Validator::validateCaption($albumCaption)) return ST_INVALID_CAPTION;
+
     settype($parentID,'integer');
     $parent = new Album($parentID);
     $info['path'] = $parent->getPath().'/'.$albumName;
@@ -90,6 +91,8 @@ class AdminTools
     }
     else
       throw new RuntimeException('Could not create directory');
+
+    return ST_OK;
   }
 
   public function addPerms($type,$id,$uid,$perms)
@@ -106,7 +109,7 @@ class AdminTools
     settype($albumID,'integer');
     $album = new Album($albumID);
     
-    if($albumName!='')
+    if($albumName!='' && Validator::validateFileName($albumName,32))
     {
       $oldname = $album->getPath();
       $album->setName($albumName);
@@ -114,8 +117,16 @@ class AdminTools
       if(!rename($oldname,$newname))
         throw new RuntimeException('Could not rename album');      
     }
-    if($albumCaption!='')
+    else
+    {
+      return ST_INVALID_FILENAME;
+    }
+    if(Validator::validateCaption($albumCaption,32))
       $album->setCaption($albumCaption);
+     else
+    {
+      return ST_INVALID_CAPTION;
+    }
 
     if($albumPerms<0 || $albumPerms>1 ) 
       throw new SecurityException('Invalid parameter.');
@@ -125,6 +136,7 @@ class AdminTools
         
     //add to DB
     Database::editAlbum($album);    
+    return ST_OK;
   }
 
   public function editPhoto($photoID,$photoName,$photoCaption,$photoPerms)
@@ -147,8 +159,12 @@ class AdminTools
       return ST_INVALID_FILENAME;
     }
     
-    if($photoCaption!='')
+    if(Validator::validateCaption($photoCaption,32))
       $photo->setCaption($photoCaption);
+    else
+    {
+      return ST_INVALID_CAPTION;
+    }
     if($photoPerms<0 || $photoPerms>1 ) 
       throw new SecurityException('Invalid parameter.');
     if($photoPerms!='')
@@ -183,7 +199,7 @@ class AdminTools
       return ST_INVALID_LASTNAME;
     }
 
-    if($nick!='' && Validator::validateNick($nick,128))
+    if(Validator::validateNick($nick,128))
     {
       $user->setFriendlyName($nick);    
     }

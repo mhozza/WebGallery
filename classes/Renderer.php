@@ -117,34 +117,80 @@ class Renderer
           if(isset($_POST['addAlbum']))
           {           
             $retcode = $adminTools->addAlbum($_POST['album'],$_POST['album_name'],$_POST['album_caption'],$_POST['album_perm']);
+            switch($retcode)
+            {
+              case ST_OK:
+                $vars['messages'][] = 'Nastavenia boli úspešne uložené';
+                break;      
+              case ST_INVALID_FILENAME:
+                $vars['errors'][] = 'Nesprávny názov.';
+                break;
+              case ST_INVALID_CAPTION:
+                $vars['errors'][] = 'Nesprávny nadpis.';
+                break;
+              default:
+                $vars['errors'][] = 'Nastala chyba.';
+            }              
           }
           if(isset($_POST['addPhoto']))
           {
             $retcode = $adminTools->addPhoto($_POST['photo_album'],basename($_FILES['photo_file']['name']),$_FILES['photo_file']['tmp_name'],$_POST['photo_caption'],$_POST['photo_perm']);
+            switch($retcode)
+            {
+              case ST_OK:
+                $vars['messages'][] = 'Nastavenia boli úspešne uložené';
+                break;      
+              case ST_INVALID_FILENAME:
+                $vars['errors'][] = 'Nesprávny názov.';
+                break;
+              case ST_INVALID_CAPTION:
+                $vars['errors'][] = 'Nesprávny nadpis.';
+                break;
+              default:
+                $vars['errors'][] = 'Nastala chyba.';
+            }              
           }
           if(isset($_POST['addPhotoPerms']))
           {
+            $retcode = 0;
             foreach($_POST['perm_photo'] as $perm_photo)
             {
               foreach($_POST['perm_photo_user'] as $perm_user)
               {
-                $retcode = $adminTools->addPerms(PT_PHOTO,$perm_photo,$perm_user,$_POST['perm_photo_perm']);
+                $retcode += $adminTools->addPerms(PT_PHOTO,$perm_photo,$perm_user,$_POST['perm_photo_perm']);
               }
             }
+            if($retcode==0) $vars['messages'][] = 'Nastavenia boli úspešne uložené';
           }
           if(isset($_POST['addAlbumPerms']))
           {
+            $retcode = 0;
             foreach($_POST['perm_album'] as $perm_album)
             {
               foreach($_POST['perm_album_user'] as $perm_user)
               {
-                $retcode = $adminTools->addPerms(PT_ALBUM,$perm_album, $perm_user,$_POST['perm_album_perm']);
+                $retcode += $adminTools->addPerms(PT_ALBUM,$perm_album, $perm_user,$_POST['perm_album_perm']);                              
               }
             }
+            if($retcode==0) $vars['messages'][] = 'Nastavenia boli úspešne uložené';
           }
           if(isset($_POST['editAlbum']))
           {
             $retcode =  $adminTools->editAlbum($_POST['album_edit'],$_POST['album_edit_name'],$_POST['album_edit_caption'],$_POST['album_edit_perm']);
+            switch($retcode)
+            {
+              case ST_OK:
+                $vars['messages'][] = 'Nastavenia boli úspešne uložené';
+                break;      
+              case ST_INVALID_FILENAME:
+                $vars['errors'][] = 'Nesprávny názov.';
+                break;
+              case ST_INVALID_CAPTION:
+                $vars['errors'][] = 'Nesprávny nadpis.';
+                break;
+              default:
+                $vars['errors'][] = 'Nastala chyba.';
+            }              
           }
           if(isset($_POST['editPhoto']))
           {
@@ -153,8 +199,15 @@ class Renderer
             {
               case ST_OK:
                 $vars['messages'][] = 'Nastavenia boli úspešne uložené';
-              break;      
-              
+                break;      
+              case ST_INVALID_FILENAME:
+                $vars['errors'][] = 'Nesprávny názov.';
+                break;
+              case ST_INVALID_CAPTION:
+                $vars['errors'][] = 'Nesprávny nadpis.';
+                break;
+              default:
+                $vars['errors'][] = 'Nastala chyba.';
             }              
           }        
           if(isset($_POST['editUser']))
@@ -167,6 +220,15 @@ class Renderer
               break;
               case ST_INVALID_MAIL:
                 $vars['errors'][] = 'Nesprávny email.';
+              break;
+              case ST_INVALID_FIRSTNAME:
+                $vars['errors'][] = 'Nesprávne meno.';
+              break;
+              case ST_INVALID_LASTNAME:
+                $vars['errors'][] = 'Nesprávne priezvisko.';
+              break;
+              case ST_INVALID_NICK:
+                $vars['errors'][] = 'Nesprávna prezývka.';
               break;
               default:
                 $vars['errors'][] = 'Nastala chyba.';
@@ -216,9 +278,18 @@ class Renderer
               case ST_INVALID_MAIL:
                 $vars['errors'][] = 'Nesprávny email.';
               break;
+              case ST_INVALID_FIRSTNAME:
+                $vars['errors'][] = 'Nesprávne meno.';
+              break;
+              case ST_INVALID_LASTNAME:
+                $vars['errors'][] = 'Nesprávne priezvisko.';
+              break;
+              case ST_INVALID_NICK:
+                $vars['errors'][] = 'Nesprávna prezývka.';
+              break;
               default:
                 $vars['errors'][] = 'Nastala chyba.';
-            }                      
+            }                    
             $lm->getUser()->reload();
           }        
           break;
