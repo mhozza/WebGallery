@@ -106,6 +106,11 @@ class Album extends GalleryItem
     return $this->indexMap[$this->currentPhoto->getId()];        
   } // end of member function getCurrentPhoto
 
+  public function getPhotoCount(  ) 
+  {    
+    return sizeof($this->getPhotos());
+  } // end of member function getCurrentPhoto
+
   
   public function setCurrentPhoto( $photo ) {
     $this->currentPhoto = $photo;        

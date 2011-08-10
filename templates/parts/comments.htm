@@ -1,6 +1,6 @@
  {% for comment in gallery.getCurrentPhoto.getComments -%} 
   <div class='comment'>
-  <strong>{{comment.getAuthor.getDisplayName}} </strong>
+  <strong>{{comment.getAuthor.getDisplayName}}: </strong>
   {{comment.getText}}
   </div>
 {% endfor %}

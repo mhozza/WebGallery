@@ -47,6 +47,12 @@ class Gallery
     return $this->currentAlbum->getCurrentPhotoIndex();
   }
 
+  public function getPhotoCount( ) 
+  {
+    return $this->currentAlbum->getPhotoCount();
+  }
+
+
   public function getNextPhoto( ) 
   {    
     return $this->currentAlbum->getNextPhoto();

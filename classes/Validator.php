@@ -22,6 +22,13 @@
       $regexp = '/^[\w_\.]+$/';      
       return preg_match($regexp,$string);
     }
+    
+    public static function validatePhotoFileName($string, $maxsize = -1)
+    {
+      if(!self::checkSize($string,$maxsize)) return false;
+      $regexp = '/^[\w_\.]+\.(j|J)(p|P)(g|G)$/';      
+      return preg_match($regexp,$string);
+    }
 
     public static function validateCaption($string, $maxsize = -1)
     {

@@ -45,6 +45,7 @@ class Renderer
 
     $template_path_main = 'pages/gallery_main.htm';
     $template_path_detail = 'pages/gallery_detail.htm';
+    $template_path_detail_sa = 'parts/gallery_detail_stand_alone.htm';
     $template_path_admin = 'pages/gallery_admin.htm';    
     $template_path_settings = 'pages/gallery_settings.htm';    
     
@@ -146,6 +147,9 @@ class Renderer
               case ST_INVALID_CAPTION:
                 $vars['errors'][] = 'Nesprávny nadpis.';
                 break;
+              case ST_INVALID_PHOTO:
+                $vars['errors'][] = 'Nesprávny formát obrázku.';
+                break;
               default:
                 $vars['errors'][] = 'Nastala chyba.';
             }              
@@ -237,7 +241,11 @@ class Renderer
 
           break;
         case MODE_DETAIL:          
-          $template = $this->twig->loadTemplate($template_path_detail);
+	  if(!$ajax)
+	    $template = $this->twig->loadTemplate($template_path_detail);
+	  else
+	    $template = $this->twig->loadTemplate($template_path_detail_sa);
+
           $g->setPhoto($_GET['detail']);
           //parse commands          
           if(isset($_POST['comment_text']) && $this->lm->getUser()->getId()!=UID_UNLOGGED)
@@ -261,8 +269,7 @@ class Renderer
               header('Location: index.php?detail='.$_GET['detail']);
             }
           }
-          $vars['CONST']['MAX_COMMENT_SIZE'] = MAX_COMMENT_SIZE;
-
+          $vars['CONST']['MAX_COMMENT_SIZE'] = MAX_COMMENT_SIZE;	  
           break;
         case MODE_SETTINGS: 
           $template = $this->twig->loadTemplate($template_path_settings);

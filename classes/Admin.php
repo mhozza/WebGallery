@@ -11,8 +11,8 @@ define('ST_INVALID_FIRSTNAME',13);
 define('ST_INVALID_LASTNAME',14);
 define('ST_INVALID_FILENAME',21);
 define('ST_INVALID_CAPTION',22);
+define('ST_INVALID_PHOTO',23);
 define('ST_OK',0);
-
 
 /**
  * class Gallery
@@ -20,8 +20,6 @@ define('ST_OK',0);
  */
 class AdminTools
 {
-  
-
   /**
    * 
    * @access private
@@ -56,8 +54,18 @@ class AdminTools
     $info['id'] = 0;
     $info['caption'] = $photoCaption;
     $info['permissions'] = $photoPerms;
-    $info['rating'] = 0;
-    
+    $info['rating'] = 0;  
+
+    if(!Validator::validatePhotoFileName($photoName))
+    {
+      return ST_INVALID_PHOTO;
+    }
+    else
+    {
+      if(strtolower(mime_content_type($photoTmpName))!="image/jpeg")
+        return ST_INVALID_PHOTO;
+    }
+
     //make dir
     if(move_uploaded_file($photoTmpName,$info['path']))
     {
