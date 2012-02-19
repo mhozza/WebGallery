@@ -5,7 +5,8 @@
   
   {% if item.getClass == 'Album' %}
     {% set beginlink = '?album=' %}    
-    {% set imagesrc = 'images/album.png' %}    
+    {% set imagesrc = 'images/album.png' %}
+    {% set imagesrc = 'albumthumbnail.php?w=200&h=140&image='~item.getPath %}
     {% set caption = item.getCaption %}     
     {% set link = '<a href = "'~beginlink~item.getPath~'">' %}     
   {% else %}

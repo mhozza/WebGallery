@@ -48,7 +48,8 @@ Gallery.prototype.itemBox = function(item)
   if(item.class == 'Album')
   {
     var beginlink = 'g.setDir(\'';
-    imagesrc = 'images/album.png';
+    //imagesrc = 'images/album.png';
+    imagesrc = 'albumthumbnail.php?w=200&h=140&image=' + item.path;
     caption = item.caption;
     link = '<a href = "#" onclick="'+ beginlink + item.path +'\',\''+ item.parentPath + '\');">';
   }
