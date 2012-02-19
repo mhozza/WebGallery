@@ -1,6 +1,6 @@
 <div id="login">
 {%- if login -%}
-{{user.getDisplayName}} {% if linkbar %}{{linkbar}}{% endif %} | {% if user.isAdmin %} <a href="admin.php">Admin panel</a> | {%endif %} <a href="index.php?settings">Nastavenia</a> | <a href="logout.php">logout</a>
+<div class="loginbutton">{{user.getDisplayName}}</div> {% if linkbar %}{{linkbar}}{% endif %} {% if user.isAdmin %} <div class="loginbutton"><a href="admin.php">Admin panel</a></div> {%endif %} <div class="loginbutton"><a href="index.php?settings">Nastavenia</a> </div> <div class="loginbutton"><a href="logout.php">logout</a></div>
 {% else %}
 <form action="" method="post"> 
   <input type="text" name="openid_identifier" id="openid_identifier"/>  

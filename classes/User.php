@@ -2,7 +2,7 @@
 require_once 'Database.php';
 
 define('UID_UNLOGGED',-1);
-define('UID_ROOT', 8);
+define('UID_ROOT', 1);
 /**
  * class User
  * 
@@ -141,6 +141,11 @@ class User
   public function isAdmin()
   {
    return $this->uid == UID_ROOT; 
+  }
+
+  public function isEditor()
+  {
+   return isAdmin(); //TODO: odlisit
   }
 
   public function reload()

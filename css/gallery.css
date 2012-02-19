@@ -1,20 +1,21 @@
 html,body
 {
   margin:0;
-  padding:0;    
+  padding:0;
   height:100%;  
-  min-width:1110px;  
+  /*min-width:1110px;*/
 }
 
 #main
 {
-  width:100%;
-  position:absolute;
-  height:auto !important;
+  /*width:100%;*/
+  /*position:absolute;
+  height:auto !important;*/
   /*min-height:100%;
   height:100%;
   padding-bottom:40px;*/
-  min-width:1110px;
+  /*min-width:1110px;*/
+  padding:10px;
 }
 
 a
@@ -25,23 +26,48 @@ a
 #login
 {
   
-  background-color:#eee;
+  /*background-color:#eee;
   text-align:right;
   border-bottom:1px solid #aaa;   
-  padding: 4px;
   background-color: #edf3ff;  
   background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#edf3ff), to(#f3f3f3));
   background-image: -webkit-linear-gradient(top,  #edf3ff, #deedf7);  
   background-image: -moz-linear-gradient(top,  #edf3ff, #deedf7);
   background-image: -o-linear-gradient(top,  #edf3ff, #deedf7);
-  background-image: linear-gradient(top,  #edf3ff, #deedf7);  
+  background-image: linear-gradient(top,  #edf3ff, #deedf7);  */
+  padding: 4px;
+  border: none;  
+  float: right;  
+  /*height:24px;*/
+  position: relative;
+  top:20px;
   
 }
+
+/*
+.loginbutton
+{
+  padding: 4px;
+  margin: 4px;
+  border: 1px solid #aaa;
+  background-color: #ccc;  
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ddd), to(#ccc));
+  background-image: -webkit-linear-gradient(top,  #ddd, #ccc);  
+  background-image: -moz-linear-gradient(top,  #ddd, #ccc);
+  background-image: -o-linear-gradient(top,  #ddd, #ccc);
+  background-image: linear-gradient(top,  #ddd, #ccc);
+  border-radius:3px;
+  height:20px;
+  float:left;
+}
+*/
+
 #caption
 {
   background-color:#ddf;
-  text-align:center;
+  text-align:center;    
 }
+
 h1
 {
   margin:0;
@@ -158,7 +184,7 @@ a.nav:hover
 
 #banner
 {
-  text-align:center;
+  text-align:left;
   background-image:url('../images/lblue142.gif');
   border-bottom:1px solid #aaa;   
 }
@@ -166,31 +192,6 @@ a.nav:hover
 .center
 {
   text-align:center;
-}
-
-#captionbar
-{  
-  border-bottom:1px solid #aaa;   
-  background-color: #eee;
-  background: -webkit-linear-gradient(top,  #eee, #ddd);
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#eee), to(#ddd));
-  background-image: -webkit-linear-gradient(top,  #eee, #ddd);  
-  background-image: -moz-linear-gradient(top,  #eee, #ddd);
-  background-image: -o-linear-gradient(top,  #eee, #ddd);
-  background-image: linear-gradient(top,  #eee, #ddd);  
-  padding:3px;  
-}
-
-#footer
-{
-  padding:10px 0;
-  text-align:center;
-  border-top:1px solid #aaa;   
-  background-color:#dde;
-  height:20px;
-  width:100%;
-  position:absolute;
-  bottom:0;
 }
 
 td,th
@@ -364,7 +365,7 @@ fieldset > input[type='text'], select
 {
   width:800px;
   text-align:center;
-  margin:0 auto;
+  margin:0 auto;  
 }
 
 #shadow
@@ -379,11 +380,91 @@ fieldset > input[type='text'], select
   z-index:100;
 }
 
-#image_frmae, img
+#image_frame, img
 {
   margin:0;
   padding:0;
   border:0;  
 }
 
+/*new*/
 
+#album_plane
+{
+  clear:both;
+  border: solid 1px #aaa;
+}
+
+#album_title
+{
+  float:left;
+}
+
+#toolbar, #userbar
+{
+  height:32px;
+  float:right;
+  border:1px solid #aaa;
+  border-radius:3px;
+  margin:4px 0 4px 8px;
+  background-color: #eee;
+  background: -webkit-linear-gradient(top,  #eee, #ddd);
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#eee), to(#ddd));
+  background-image: -webkit-linear-gradient(top,  #eee, #ddd);
+  background-image: -moz-linear-gradient(top,  #eee, #ddd);
+  background-image: -o-linear-gradient(top,  #eee, #ddd);
+  background-image: linear-gradient(top,  #eee, #ddd);  
+}
+
+#toggle_user
+{
+  padding:8px 0;
+}
+
+a.toolbutton, .userbar_item
+{
+  height:16px;
+  float:left;
+  padding:8px;
+  border-right:1px solid #aaa;
+  display:block;
+  overflow:hidden;
+}
+
+a.toolbutton:last-child, .userbar_item:last-child
+{
+  border-right:none;
+}
+
+#username
+{
+  text-align:right;
+}
+
+#header_panel
+{  
+  /*border-bottom:1px solid #aaa;
+   * /*background-color: #eee;
+   * background: -webkit-linear-gradient(top,  #eee, #ddd);
+   * background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#eee), to(#ddd));
+   * background-image: -webkit-linear-gradient(top,  #eee, #ddd);
+   * background-image: -moz-linear-gradient(top,  #eee, #ddd);
+   * background-image: -o-linear-gradient(top,  #eee, #ddd);
+   * background-image: linear-gradient(top,  #eee, #ddd);
+   * padding:3px;  */
+}
+
+#footer
+{
+  padding:10px 0;
+  width:100%;
+  text-align:center;
+  color:#555;
+  font-size:0.9em;
+}
+
+.cleaner
+{
+  clear:both;
+  display:block;
+}

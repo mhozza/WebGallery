@@ -1,4 +1,4 @@
-var photos = new Array();
+/*var photos = new Array();
 
 function init()
 {
@@ -38,7 +38,23 @@ function load_rating(photo)
 function load_caption(photo)
 {
   
+}*/
+
+function Gallery(currentDir)
+{
+    this.currentDir = currentDir;
 }
+
+Gallery.prototype.loadPhotos = function()
+{
+  
+}
+
+$(document).ready(function() {
+  gallery = new Gallery('gallery');
+});
+
+
 
 
 
