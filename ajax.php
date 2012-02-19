@@ -2,9 +2,9 @@
 
 require_once 'session_init.php';
 require_once 'lib/Twig/Autoloader.php';
-require_once 'Gallery.php';
-require_once 'LoginManager.php';
-require_once 'Admin.php';
+require_once 'classes/Gallery.php';
+require_once 'classes/LoginManager.php';
+require_once 'classes/Admin.php';
 //require_once 'Twig/Extension.php';
 
 define('MODE_MAIN',0);
@@ -32,24 +32,65 @@ if(isset($_POST['action']))
 
 if($data_mode == -1) die();
 
-function getData($name)
+class AjaxInterface
 {
-  if($data_mode == DATA_MODE_GET)
-  {
-    if(isset($_GET[$name]))
-      return $_GET[$name];
-  }  
-  else
-  {
-    if(isset($_POST[$name]))
-      return $_POST[$name];
+  private $admin;
+  private $lm;
+  private $data_mode;
+  
+  function __construct($data_mode,$admin = false) {
+    $this->admin = $admin;
+    $this->lm = new LoginManager();
+    $this->data_mode = $data_mode;
   }
-  return false;
-}
 
-switch($action)
-{
-  case 'getPhotos':
-    
-    break;
-}
+  private function getData($name)
+  {
+    if($this->data_mode == DATA_MODE_GET)
+    {
+      if(isset($_GET[$name]))
+        return $_GET[$name];
+    }
+    else
+    {
+      if(isset($_POST[$name]))
+        return $_POST[$name];
+    }
+    throw new RuntimeException("Invalid parameter: $name.");
+  }
+
+  
+  public function action($action)
+  {
+
+    $vars = array();
+    include 'login.php';
+    try
+    {      
+      switch($action)
+      {   
+      case 'getPhotos':
+        $g = new Gallery();
+        $g->setAlbum($this->getData('album'));
+        $items = array();
+        foreach($g->getItems() as $item)
+        {
+          $items[] = $item->toArray();
+        }
+        echo json_encode($items);
+        break;
+      }
+    }
+    catch(Exception $e)
+    {
+      echo $e->getMessage();
+      die();
+    }
+  }
+
+} // end of AjaxInterface
+
+$ajaxInterface = new AjaxInterface($data_mode);
+$ajaxInterface->action($action);
+
+

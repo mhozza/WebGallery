@@ -19,7 +19,7 @@ class Renderer
 {
   //private $cache = 'templates_cache';
   private $cache = false;
-  
+
   private $twig;
 
   private $admin;

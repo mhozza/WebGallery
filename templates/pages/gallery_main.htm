@@ -13,7 +13,7 @@
     {% set endlink = '\');' %}
     {% set imagesrc = 'getimage.php?w=200&h=140&image='~item.getPath %}
     {% set caption = item.getCaption %}    
-    {% set link = '<a href = "#" onclick="'~beginlink~item.getPath~endlink~'">' %}     
+    {% set link = '<a href = "#" onclick="'~beginlink~item.getPath~endlink~'">' %}    {# TODO: zmenit na no-js #}
   {% endif %}
  
 {{link | raw}}
@@ -55,7 +55,7 @@
 {%- if login -%}
 <div id="toolbar">
 {% if gallery.getAlbum.parent %}
-<a href = "?album={{gallery.getAlbum.getParent.getPath}}" class="toolbutton" id="goToParentButton">
+<a href = "?album={{gallery.getAlbum.getParent.getPath}}" class="toolbutton">
 <div class="toolbutton">
        ../
 </div>

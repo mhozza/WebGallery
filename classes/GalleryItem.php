@@ -15,35 +15,10 @@ class GalleryItem
   protected $parent = null;
 
   protected $permissions;
-  /**
-   * 
-   * @access private
-   */
-  protected $rating = 0;
-
-  /**
-   * 
-   * @access protected
-   */
-  
+  protected $rating = 0; 
   protected $parentID;
-  
-  /**
-   * 
-   * @access protected
-   */
   protected $id;
-
-  /**
-   * 
-   * @access protected
-   */
   protected $caption;
-
-  /**
-   * 
-   * @access protected
-   */
   protected $path;
 
 
@@ -56,56 +31,23 @@ class GalleryItem
     $this->parentID = $parentID;
   }
 
-
- 
-
-  /**
-   * 
-   *
-   * @return float
-   * @access public
-   */
   public function getRating( ) {
     if($this->rating==0) return 'neohodnotené';
     return $this->rating;
   } // end of member function getRating
 
-  /**
-   * 
-   *
-   * @return string
-   * @access public
-   */
   public function getCaption( ) {
     return $this->caption;
   } // end of member function getCaption
 
-  /**
-   * 
-   *
-   * @return string
-   * @access public
-   */
   public function setCaption($c ) {
     $this->caption = $c;
   } // end of member function getCaption
  
-  /**
-   * 
-   *
-   * @return int
-   * @access public
-   */
   public function getId( ) {
     return $this->id;
   } // end of member function getId
 
-  /**
-   * 
-   *
-   * @return string
-   * @access public
-   */
   public function getPath( ) {
     return $this->path;
   } // end of member function getPath
@@ -123,12 +65,6 @@ class GalleryItem
     
   } // end of member function getPath
 
-  /**
-   * 
-   *
-   * @return string
-   * @access public
-   */
   public function getClass( ) {
     return get_class($this);
   } // end of member function getClass
@@ -171,6 +107,12 @@ class GalleryItem
     }
     return $this->parent;
   } // end of member function getParent
+
+  public function toArray()
+  {
+    return array('id' => $this->id, 'caption' => $this->caption, 'path' => $this->path,  'parentId' => $this->parentID, 'class' =>  $this->getClass());
+  }
+
   
 } // end of GalleryItem
 ?>
