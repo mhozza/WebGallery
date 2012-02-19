@@ -110,7 +110,12 @@ class GalleryItem
 
   public function toArray()
   {
-    return array('id' => $this->id, 'caption' => $this->caption, 'path' => $this->path,  'parentId' => $this->parentID, 'class' =>  $this->getClass());
+    $parentPath = '';
+    if($this->getParent()!=null)
+    {
+      $parentPath = $this->getParent()->getPath();
+    }
+    return array('id' => $this->id, 'caption' => $this->caption, 'path' => $this->path,  'parentId' => $this->parentID, 'class' =>  $this->getClass(), 'parentPath' => $parentPath);
   }
 
   

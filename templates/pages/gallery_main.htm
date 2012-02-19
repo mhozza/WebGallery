@@ -55,7 +55,7 @@
 
 <div id="toolbar" {%- if not (login or gallery.getAlbum.parent) -%} class="hidden" {%endif%} >
 
-<a href = "?album={{gallery.getAlbum.getParent.getPath}}" class="toolbutton {% if not gallery.getAlbum.parent %} hidden {%endif%}" >
+<a href = "?album={{gallery.getAlbum.getParent.getPath}}" class="toolbutton {% if not gallery.getAlbum.parent %} hidden {%endif%}" id="parentDir">
 <div class="toolbutton">
        ../
 </div>

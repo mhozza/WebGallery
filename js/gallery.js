@@ -34,9 +34,10 @@ function load_caption(photo)
 }*/
 
 
-function Gallery(currentDir)
+function Gallery()
 {
-    this.currentDir = currentDir;
+    /*this.currentDir = currentDir;
+    this.setParent*/
 }
 
 Gallery.prototype.itemBox = function(item)
@@ -49,7 +50,7 @@ Gallery.prototype.itemBox = function(item)
     var beginlink = 'g.setDir(\'';
     imagesrc = 'images/album.png';
     caption = item.caption;
-    link = '<a href = "#" onclick="'+ beginlink + item.path +'\');">';
+    link = '<a href = "#" onclick="'+ beginlink + item.path +'\',\''+ item.parentPath + '\');">';
   }
   else
   {
@@ -59,14 +60,33 @@ Gallery.prototype.itemBox = function(item)
     caption = item.caption;
     link = '<a href = "#" onclick="' + beginlink + item.path +endlink + '">';
   }
-  return link + "<div class='box_item '><div class='box_image'><img src='"+ imagesrc + "'  /></div><div class='box_caption'>"+caption+"</div></div></a>";  
+  return link + "<div class='box_item '><div class='box_image'><img src='"+ imagesrc + "'/></div><div class='box_caption'>"+caption+"</div></div></a>";
 }
 
-Gallery.prototype.setDir = function(dir)
+Gallery.prototype.setDir = function(dir,parent)
 {
   this.currentDir = dir;
   this.loadPhotos();
+  this.setParent(parent);
 }
+
+Gallery.prototype.setParent = function(parent)
+{
+  g = this;
+  //alert(parent);
+  this.parent = parent;
+  if(this.parent!=undefined && this.parent!='')
+    $('#parentDir').removeClass('hidden');
+  else
+    $('#parentDir').addClass('hidden');
+  $('#parentDir').attr('href','#');
+
+  $('#parentDir').off('click');
+  $('#parentDir').click(function() {
+    g.setDir(parent);
+  });
+}
+
 
 Gallery.prototype.loadPhotos = function()
 {
@@ -88,10 +108,10 @@ Gallery.prototype.loadPhotos = function()
   });
 }
 
-var g = new Gallery('gallery');
+var g = new Gallery();
 
-$(document).ready(function() {  
-  g.loadPhotos();
+$(document).ready(function() {
+  g.setDir('gallery','');  
 });
 
 
