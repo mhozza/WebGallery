@@ -46,10 +46,10 @@ Gallery.prototype.itemBox = function(item)
   var caption;
   if(item.class == 'Album')
   {
-    var beginlink = '?album=';
+    var beginlink = 'g.setDir(\'';
     imagesrc = 'images/album.png';
     caption = item.caption;
-    link = '<a href = "" onclick="' + beginlink + item.path +'">';
+    link = '<a href = "#" onclick="'+ beginlink + item.path +'\');">';
   }
   else
   {
@@ -60,6 +60,12 @@ Gallery.prototype.itemBox = function(item)
     link = '<a href = "#" onclick="' + beginlink + item.path +endlink + '">';
   }
   return link + "<div class='box_item '><div class='box_image'><img src='"+ imagesrc + "'  /></div><div class='box_caption'>"+caption+"</div></div></a>";  
+}
+
+Gallery.prototype.setDir = function(dir)
+{
+  this.currentDir = dir;
+  this.loadPhotos();
 }
 
 Gallery.prototype.loadPhotos = function()
@@ -82,9 +88,10 @@ Gallery.prototype.loadPhotos = function()
   });
 }
 
+var g = new Gallery('gallery');
+
 $(document).ready(function() {  
-  var g = new Gallery('gallery');
-  g.loadPhotos('gallery');
+  g.loadPhotos();
 });
 
 

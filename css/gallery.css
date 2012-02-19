@@ -389,6 +389,17 @@ fieldset > input[type='text'], select
 
 /*new*/
 
+.cleaner
+{
+  clear:both;
+  display:block;
+}
+
+.hidden
+{
+  display:none;
+}
+
 #album_plane
 {
   clear:both;
@@ -421,13 +432,18 @@ fieldset > input[type='text'], select
   padding:8px 0;
 }
 
+#loginform
+{
+  padding:3px;
+  height:24px;
+}
+
 a.toolbutton, .userbar_item
 {
   height:16px;
   float:left;
   padding:8px;
-  border-right:1px solid #aaa;
-  display:block;
+  border-right:1px solid #aaa;  
   overflow:hidden;
 }
 
@@ -463,8 +479,3 @@ a.toolbutton:last-child, .userbar_item:last-child
   font-size:0.9em;
 }
 
-.cleaner
-{
-  clear:both;
-  display:block;
-}
