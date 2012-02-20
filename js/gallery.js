@@ -1,37 +1,37 @@
-function Gallery(currentDir)
+// Read a page's GET URL variables and return them as an associative array.
+function getUrlVars(url)
 {
-    //this.root = root;
+  var vars = [], hash;
+  var hashes = url.slice(url.indexOf('?') + 1).split('&');
+  for(var i = 0; i < hashes.length; i++)
+  {
+    hash = hashes[i].split('=');
+    vars.push(hash[0]);
+    vars[hash[0]] = hash[1];
+  }
+  return vars;
+}
+
+//Gallery class
+function Gallery(currentDir)
+{    
     this.currentDir = currentDir;
-    /*this.setParent*/
-    // Prepare
-    var History = window.History; // Note: We are using a capital H instead of a lower h
+
+    //History
+    var History = window.History; 
     if ( !History.enabled ) {
       // History.js is disabled for this browser.
       // This is because we can optionally choose to support HTML4 browsers or not.
       return false;
     }
     g = this;
+
     // Bind to StateChange Event
-    History.Adapter.bind(window,'statechange',function(){ // Note: We are using statechange instead of popstate
-      var State = History.getState(); // Note: We are using History.getState() instead of event.state
-      //History.log(State.data, State.title, State.url);
-      var urlVars = g.getUrlVars(State.url);
+    History.Adapter.bind(window,'statechange',function(){
+      var State = History.getState();      
+      var urlVars = getUrlVars(State.url);
       if(urlVars['album']!=undefined) g.setDir(urlVars['album']);
     });
-}
-
-// Read a page's GET URL variables and return them as an associative array.
-Gallery.prototype.getUrlVars = function (url)
-{
-    var vars = [], hash;
-    var hashes = url.slice(url.indexOf('?') + 1).split('&');
-    for(var i = 0; i < hashes.length; i++)
-    {
-        hash = hashes[i].split('=');
-        vars.push(hash[0]);
-        vars[hash[0]] = hash[1];
-    }
-    return vars;
 }
 
 Gallery.prototype.itemBox = function(item)
@@ -41,8 +41,7 @@ Gallery.prototype.itemBox = function(item)
   var caption;
   if(item.class == 'Album')
   {
-    var beginlink = 'g.setUrl(\'';
-    //imagesrc = 'images/album.png';
+    var beginlink = 'g.setUrl(\'';    
     imagesrc = 'albumthumbnail.php?w=200&h=140&image=' + item.path;
     caption = item.caption;
     link = '<a href = "JavaScript:void(0);" onclick="'+ beginlink + item.path +'\',\''+ item.parentPath + '\');">';
@@ -60,8 +59,7 @@ Gallery.prototype.itemBox = function(item)
 
 Gallery.prototype.setUrl = function(dir)
 {
-  this.currentDir = dir;  
-  // Change our States
+  this.currentDir = dir;    
   History.pushState(null, null, '?album='+this.currentDir);  
 }
 
@@ -124,10 +122,13 @@ Gallery.prototype.loadPhotos = function()
   });
 }
 
-var g = new Gallery('gallery');
+var album = getUrlVars(window.location.href)['album'];
+if(album==undefined)
+  album = 'gallery';
+
+var g = new Gallery(album);
 
 $(document).ready(function() {
-  //g.setDir('gallery','');
   g.loadPhotos();  
 });
 
