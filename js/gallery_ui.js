@@ -22,7 +22,7 @@ $(document).ready(function() {
   if($("#username").length>0)
   {
     $("#username > div").css('width',$("#username").width());
-    var toggle_user_button = '<a href="#" id="toggle_user" class="userbar_item"><div><img src="images/toolbar/user.png" alt="user"/></div></a>';
+    var toggle_user_button = '<div id="toggle_user" class="userbar_item"><img src="images/toolbar/user.png" alt="user"/></div>';
     $("#userbar").prepend(toggle_user_button);
     /*$("#toggle_user").click(function() {
       showHideUsername();
