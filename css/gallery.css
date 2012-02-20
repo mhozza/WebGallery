@@ -427,9 +427,14 @@ fieldset > input[type='text'], select
   background-image: linear-gradient(top,  #eee, #ddd);  
 }
 
+#toolbar:empty
+{
+  display:none;
+}
+
 #toggle_user
 {
-  padding:8px 0;
+  padding:8px 4px;
 }
 
 #loginform
@@ -437,6 +442,17 @@ fieldset > input[type='text'], select
   padding:3px;
   height:24px;
 }
+
+a.toolbutton
+{
+  opacity:0.7;
+}
+
+a.toolbutton:hover
+{
+  opacity:1;
+}
+
 
 a.toolbutton, .userbar_item
 {

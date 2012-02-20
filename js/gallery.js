@@ -77,9 +77,16 @@ Gallery.prototype.setParent = function(parent)
   //alert(parent);
   this.parent = parent;
   if(this.parent!=undefined && this.parent!='')
+  {
     $('#parentDir').removeClass('hidden');
+    $('#toolbar').removeClass('hidden');
+  }
   else
-    $('#parentDir').addClass('hidden');
+  {    
+    $('#parentDir').addClass('hidden');    
+    if($('#toolbar > *').length==1)
+      $('#toolbar').addClass('hidden');
+  }
   $('#parentDir').attr('href','#');
 
   $('#parentDir').off('click');
