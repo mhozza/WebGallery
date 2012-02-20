@@ -71,8 +71,9 @@ class AjaxInterface
       {   
       case 'getPhotos':
         $g = new Gallery();
+        $a = new Album($this->getData('album'));
         $g->setAlbum($this->getData('album'));
-        $items = array();
+        $items = array($a->toArray());
         foreach($g->getItems() as $item)
         {
           $items[] = $item->toArray();
