@@ -4,17 +4,16 @@
 {% macro item_box(item) %}  
   
   {% if item.getClass == 'Album' %}
-    {% set beginlink = '?album=' %}    
-    {% set imagesrc = 'images/album.png' %}
+    {% set beginlink = '?album=' %}        
     {% set imagesrc = 'albumthumbnail.php?w=200&h=140&image='~item.getPath %}
     {% set caption = item.getCaption %}     
-    {% set link = '<a href = "'~beginlink~item.getPath~'">' %}     
+    {% set link = '<a class="item_album" href = "'~beginlink~item.getPath~'">' %}     
   {% else %}
     {% set beginlink = 'loadDetail(\'?detail=' %}
     {% set endlink = '\');' %}
     {% set imagesrc = 'getimage.php?w=200&h=140&image='~item.getPath %}
     {% set caption = item.getCaption %}    
-    {% set link = '<a href = "#" onclick="'~beginlink~item.getPath~endlink~'">' %}    {# TODO: zmenit na no-js #}
+    {% set link = '<a class="item_photo" href = "#" onclick="'~beginlink~item.getPath~endlink~'">' %}    {# TODO: zmenit na no-js #}
   {% endif %}
  
 {{link | raw}}
@@ -52,15 +51,21 @@
 {% endif %}
 </div>
 
-
-
 <div id="toolbar" {%- if not (login or gallery.getAlbum.parent) -%} class="hidden" {%endif%} >
 
 <a href = "?album={{gallery.getAlbum.getParent.getPath}}" class="toolbutton {% if not gallery.getAlbum.parent %} hidden {%endif%}" id="parentDir">
 <div class="toolbutton">
-       ../
+         <img src="images/toolbar/arrow.png" alt="../"/>
 </div>
 </a>
+{% if user.isEditor %}
+<a href="" class="toolbutton">
+  <div class="toolbutton">
+    <img src="images/toolbar/folder_add.png" alt="Add album"/>
+  </div>
+</a>
+{%endif %}
+
 {% if user.isAdmin %}
 <a href="admin.php" class="toolbutton">
   <div class="toolbutton">
@@ -68,6 +73,8 @@
   </div>
 </a>
 {%endif %}
+
+
 {%- if login -%}
 <a href="index.php?settings" class="toolbutton">
   <div class="toolbutton">
@@ -80,11 +87,11 @@
 </div>
 
 <div id="album_plane">
-{#
+
 {% for item in gallery.getItems %}      
   {{_self.item_box(item)}}
 {% endfor %}
-#}
+
 <div class="cleaner">&nbsp;</div>
 </div>
 

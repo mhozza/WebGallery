@@ -145,7 +145,7 @@ class User
 
   public function isEditor()
   {
-   return isAdmin(); //TODO: odlisit
+   return $this->isAdmin(); //TODO: odlisit
   }
 
   public function reload()

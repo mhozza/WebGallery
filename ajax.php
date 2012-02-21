@@ -73,7 +73,12 @@ class AjaxInterface
         $g = new Gallery();
         $a = new Album($this->getData('album'));
         $g->setAlbum($this->getData('album'));
-        $items = array($a->toArray());
+        $albumArray = $a->toArray();
+        if($a->getParent()!=null)
+          $albumArray['parentCaption'] = $a->getParent()->getCaption();
+        else
+          $albumArray['parentCaption'] = '';
+        $items = array($albumArray);
         foreach($g->getItems() as $item)
         {
           $items[] = $item->toArray();

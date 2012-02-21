@@ -44,7 +44,7 @@ Gallery.prototype.itemBox = function(item)
     var beginlink = 'g.setUrl(\'';    
     imagesrc = 'albumthumbnail.php?w=200&h=140&image=' + item.path;
     caption = item.caption;
-    link = '<a href = "JavaScript:void(0);" onclick="'+ beginlink + item.path +'\',\''+ item.parentPath + '\');">';
+    link = '<a href = "JavaScript:void(0);" onclick="'+ beginlink + item.path +'\',\''+ item.caption + '\');">';
   }
   else
   {
@@ -57,10 +57,10 @@ Gallery.prototype.itemBox = function(item)
   return link + "<div class='box_item '><div class='box_image'><img src='"+ imagesrc + "'/></div><div class='box_caption'>"+caption+"</div></div></a>";
 }
 
-Gallery.prototype.setUrl = function(dir)
+Gallery.prototype.setUrl = function(dir, title)
 {
   this.currentDir = dir;    
-  History.pushState(null, null, '?album='+this.currentDir);  
+  History.pushState(null, title, '?album='+this.currentDir);
 }
 
 Gallery.prototype.setDir = function(dir)
@@ -87,7 +87,7 @@ Gallery.prototype.setParent = function()
   $('#parentDir').off('click');
   g = this;
   $('#parentDir').click(function() {
-    g.setUrl(g.dirObject.parentPath);
+    g.setUrl(g.dirObject.parentPath,g.dirObject.parentCaption);
   });
 }
 
@@ -122,6 +122,13 @@ Gallery.prototype.loadPhotos = function()
   });
 }
 
+/*Gallery.prototype.rewriteLinks = function()
+{
+  g = this;
+  $('#album_plane > a.item_album').attr('onclick','g.setUrl(\'' + $(this).attr('href') +'\')');
+  $('#album_plane > a.item_album').attr('href','JavaScript:void(0);');
+}*/
+
 var album = getUrlVars(window.location.href)['album'];
 if(album==undefined)
   album = 'gallery';
@@ -129,7 +136,8 @@ if(album==undefined)
 var g = new Gallery(album);
 
 $(document).ready(function() {
-  g.loadPhotos();  
+  g.loadPhotos();
+  //g.rewriteLinks();
 });
 
 
