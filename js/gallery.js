@@ -54,7 +54,7 @@ Gallery.prototype.itemBox = function(item)
     caption = item.caption;
     link = '<a href = "JavaScript:void(0);" onclick="' + beginlink + item.path +endlink + '">';
   }
-  return link + "<div class='box_item '><div class='box_image'><img src='"+ imagesrc + "'/></div><div class='box_caption'>"+caption+"</div></div></a>";
+  return link + "<div class='box_item '><div class='box_image'><div class='box_tools'>&nbsp;</div><img src='"+ imagesrc + "'/><div class='box_caption'>"+caption+"</div></div></div></a>";
 }
 
 Gallery.prototype.setUrl = function(dir, title)
@@ -119,6 +119,21 @@ Gallery.prototype.loadPhotos = function()
     }
     g.setParent();
     g.setCaption();
+    g.setupItemBars();
+  });
+}
+
+Gallery.prototype.setupItemBars = function()
+{
+  $('.box_caption, .box_tools').hide();
+  $('.box_item').hover(function(){
+    $('.box_caption').hide();
+    $('.box_tools').hide();
+    $('.box_caption',this).show();
+    $('.box_tools',this).show();
+  },function(){
+    $('.box_caption',this).hide();
+    $('.box_tools',this).hide();
   });
 }
 

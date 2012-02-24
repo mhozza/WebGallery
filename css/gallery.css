@@ -140,47 +140,6 @@ a.nav:hover
   color:#aaf;
 }
 
-.box_item
-{
-  float:left;
-  margin:5px;
-  padding:10px;
-  border-width:0px;
-  border-style:solid;
-  border-color:#888;  
-}
-
-.box_caption
-{
-  border-width:0px;
-  /*border-bottom-width:1px;*/
-  border-style:solid;
-  border-color:#888;
-  /*background-color:#c8d4ff;*/
-  text-align:center;
-  margin-bottom:3px;
-  font-weight:bold;
-  color:black;
-  height:22px;
-  vertical-align:middle;
-  text-decoration:none;  
-}
-
-.box_image
-{
-  height:160px;
-}
-
-.box_image > img
-{
-  padding:5px;
-  border-width:1px;
-  border-style:solid;
-  border-color:#888;
-  box-shadow:2px 2px 5px #888;
-  -webkit-box-shadow:2px 2px 5px #888;
-  -moz-box-shadow:2px 2px 5px #888;
-}
 
 #banner
 {
@@ -495,3 +454,63 @@ a.toolbutton:last-child, .userbar_item:last-child
   font-size:0.9em;
 }
 
+.box_item
+{
+  float:left;
+  margin:5px;
+  padding:10px;
+  border-width:0px;
+  border-style:solid;
+  border-color:#888;
+}
+
+.box_tools
+{
+  position:relative;
+  color:white;
+  border-width:0px;
+  background-color:rgba(0,0,0,0.7);
+  border-style:solid;
+  border-color:#888;
+  text-align:center;
+  margin:6px;
+  margin-bottom:-28px;
+  font-weight:bold;
+  height:22px;
+  vertical-align:middle;
+  text-decoration:none;
+}
+
+
+.box_caption
+{
+  position:relative;
+  color:white;
+  border-width:0px;
+  background-color:rgba(0,0,0,0.7);
+  border-style:solid;
+  border-color:#888;
+  text-align:center;
+  margin:6px;
+  margin-top:-33px;
+  font-weight:bold;  
+  height:22px;
+  vertical-align:middle;
+  text-decoration:none;
+}
+
+.box_image
+{
+  height:160px;
+}
+
+.box_image > img
+{
+  padding:5px;
+  border-width:1px;
+  border-style:solid;
+  border-color:#888;
+  box-shadow:2px 2px 5px #888;
+  -webkit-box-shadow:2px 2px 5px #888;
+  -moz-box-shadow:2px 2px 5px #888;
+}
