@@ -465,7 +465,7 @@ a.toolbutton:last-child, .userbar_item:last-child
 }
 
 .box_tools
-{
+{  
   position:relative;
   color:white;
   border-width:0px;
@@ -473,11 +473,10 @@ a.toolbutton:last-child, .userbar_item:last-child
   border-style:solid;
   border-color:#888;
   text-align:center;
-  margin:6px;
-  margin-bottom:-28px;
+  top:6px;
+  margin:0px 6px -22px 6px;
   font-weight:bold;
-  height:22px;
-  vertical-align:middle;
+  height:22px;  
   text-decoration:none;
 }
 
@@ -490,12 +489,10 @@ a.toolbutton:last-child, .userbar_item:last-child
   background-color:rgba(0,0,0,0.7);
   border-style:solid;
   border-color:#888;
-  text-align:center;
-  margin:6px;
-  margin-top:-33px;
+  text-align:center;  
+  margin:-32px 6px 0px 6px;
   font-weight:bold;  
-  height:22px;
-  vertical-align:middle;
+  height:22px;  
   text-decoration:none;
 }
 
