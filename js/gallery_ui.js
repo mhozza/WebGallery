@@ -5,16 +5,13 @@ var hoverShow = false;
 function showHideUsername()
 {
   $("#username").animate({'width':'toggle', 'padding-left':'toggle', 'padding-right':'toggle'},400, function(){
-  /*if(usernameDisplayed)
-  {
-    $("#toggle_user img").attr('src','images/toolbar/show.png');
-  }
-  else
-  {
-    $("#toggle_user img").attr('src','images/toolbar/hide.png');
-  }*/
-  usernameDisplayed = !usernameDisplayed;
+    usernameDisplayed = !usernameDisplayed;
   });
+}
+
+function showNewAlbumDialog()
+{  
+  
 }
 
 $(document).ready(function() {
@@ -42,4 +39,26 @@ $(document).ready(function() {
     });
     timeout = window.setTimeout('showHideUsername()',1000);
   }
+
+  $('#add_album').attr('href','JavaScript:void(0);');
+  $('#album_dialog').dialog({
+    autoOpen: false,
+    modal: true,
+    resizable: false,
+    buttons: {
+      "Add": function() {
+        $( this ).dialog( "close" );        
+      },
+      Cancel: function() {
+        $( this ).dialog( "close" );
+      }
+    },
+    close: function() {
+      allFields.val( "" ).removeClass( "ui-state-error" );
+    }
+  });
+      
+  $('#add_album').click(function(){
+    $( "#album_dialog" ).dialog( "open" );
+  });
 });

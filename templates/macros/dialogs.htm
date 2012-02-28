@@ -1,0 +1,26 @@
+{% macro prava(name,class) %}
+<label for='{{name}}'>Permissions:</label>
+<select name='{{name}}' id='{{name}}' class="{{class}}">
+<option value="0"> Public </option>
+<option value="1"> Logged in only </option>
+<option value="2"> Private </option>
+</select><br/>
+{% endmacro %}
+
+
+{% macro newAlbumDialog(hidden) %}
+
+<div id="album_dialog" title="New album" {% if hidden %} style="display:none;" {%endif%}>
+<form action='' method='post'>
+    <fieldset>    
+    <label for='album_caption'>Caption:</label>
+    <input type='text' name='album_caption' id='album_caption'  class="ui-widget-content ui-corner-all"/>
+    <label for='album_name'>Foldername:</label>
+    <input type='text' name='album_name' id='album_name' class="ui-widget-content ui-corner-all"/>
+    {{_self.prava('album_perm', 'ui-widget-content ui-corner-all') }}
+    </fieldset>
+    </form>
+
+</div>
+
+{%endmacro%}

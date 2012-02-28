@@ -1,0 +1,49 @@
+
+<div id="userbar">
+{%- if login -%}
+<div class="userbar_item" id="username"><div>{{user.getDisplayName}} (<a href="logout.php">logout</a>)</div></div>
+{% else %}
+<div class="userbar_item" id="loginform">
+<form action="" method="post">
+  <input type="text" name="openid_identifier" id="openid_identifier"/>
+  <script id="__openidselector" src="https://www.idselector.com/widget/button/1"></script>
+  <input type="submit" value="Sign in" style="vertical-align:middle;"/>
+</form>
+</div>
+{% endif %}
+</div>
+
+<div id="toolbar" {%- if not (login or gallery.getAlbum.parent) -%} class="hidden" {%endif%} >
+
+<a href = "?album={{gallery.getAlbum.getParent.getPath}}" class="toolbutton {% if not gallery.getAlbum.parent %} hidden {%endif%}" id="parentDir">
+<div class="toolbutton">
+         <img src="images/toolbar/arrow.png" alt="../"/>
+</div>
+</a>
+{% if user.isEditor %}
+<a href="Javascript:void(0);" class="toolbutton" id="add_album">
+  <div class="toolbutton">
+    <img src="images/toolbar/folder_add.png" alt="Add album"/>
+  </div>
+</a>
+{%endif %}
+
+{% if user.isAdmin %}
+<a href="admin.php" class="toolbutton">
+  <div class="toolbutton">
+    <img src="images/toolbar/key.png" alt="Admin panel"/>
+  </div>
+</a>
+{%endif %}
+
+
+{%- if login -%}
+<a href="index.php?settings" class="toolbutton">
+  <div class="toolbutton">
+    <img src="images/toolbar/cog.png" alt="Nastavenia"/>
+  </div>
+</a>
+{% endif %}
+</div>
+
+</div>

@@ -3,18 +3,10 @@ html,body
   margin:0;
   padding:0;
   height:100%;  
-  /*min-width:1110px;*/
 }
 
 #main
 {
-  /*width:100%;*/
-  /*position:absolute;
-  height:auto !important;*/
-  /*min-height:100%;
-  height:100%;
-  padding-bottom:40px;*/
-  /*min-width:1110px;*/
   padding:10px;
 }
 
@@ -23,44 +15,6 @@ a
   text-decoration:none;
 }
 
-#login
-{
-  
-  /*background-color:#eee;
-  text-align:right;
-  border-bottom:1px solid #aaa;   
-  background-color: #edf3ff;  
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#edf3ff), to(#f3f3f3));
-  background-image: -webkit-linear-gradient(top,  #edf3ff, #deedf7);  
-  background-image: -moz-linear-gradient(top,  #edf3ff, #deedf7);
-  background-image: -o-linear-gradient(top,  #edf3ff, #deedf7);
-  background-image: linear-gradient(top,  #edf3ff, #deedf7);  */
-  padding: 4px;
-  border: none;  
-  float: right;  
-  /*height:24px;*/
-  position: relative;
-  top:20px;
-  
-}
-
-/*
-.loginbutton
-{
-  padding: 4px;
-  margin: 4px;
-  border: 1px solid #aaa;
-  background-color: #ccc;  
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ddd), to(#ccc));
-  background-image: -webkit-linear-gradient(top,  #ddd, #ccc);  
-  background-image: -moz-linear-gradient(top,  #ddd, #ccc);
-  background-image: -o-linear-gradient(top,  #ddd, #ccc);
-  background-image: linear-gradient(top,  #ddd, #ccc);
-  border-radius:3px;
-  height:20px;
-  float:left;
-}
-*/
 
 #caption
 {
@@ -84,18 +38,7 @@ h1
 
 #comment_title
 {
-/*  background-color:#f7f7f7; 
-  
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f7f7f7), to(#f3f3f3));
-  background-image: -webkit-linear-gradient(top,  #f7f7f7, #f3f3f3);  
-  background-image: -moz-linear-gradient(top,  #f7f7f7, #f3f3f3);
-  background-image: -o-linear-gradient(top,  #f7f7f7, #f3f3f3);
-  background-image: linear-gradient(top,  #f7f7f7, #f3f3f3);      
-  
-  */
-
-  border-bottom:1px solid #ddd;
-  
+  border-bottom:1px solid #ddd;  
   padding:2px;
   height:20px;  
 }
@@ -212,23 +155,12 @@ td.last
 {  
   margin:3px;     
   padding:5px;
-  
-/*
-  background-color:#f7f7f7;    
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f7f7f7), to(#f3f3f3));
-  background-image: -webkit-linear-gradient(top,  #f7f7f7, #f3f3f3);  
-  background-image: -moz-linear-gradient(top,  #f7f7f7, #f3f3f3);
-  background-image: -o-linear-gradient(top,  #f7f7f7, #f3f3f3);
-  background-image: linear-gradient(top,  #f7f7f7, #f3f3f3);  
-  border-radius:4px;
-  */   
   border-bottom:1px dashed #ddd;    
   overflow:auto;
 }
 
 #comments
 {  
- /*display:none;*/
  position:fixed;
  border-left:1px solid #ddd;
  border-bottom:1px solid #ddd;
@@ -271,6 +203,7 @@ td.detail
   width:650px;
   margin:5px auto;
 }
+
 fieldset
 {
   border:1px solid #888;
@@ -290,6 +223,7 @@ fieldset > input[type='text'], select
   border-radius:3px;
   background-color: #fcfcfc;
 }
+
 #admin_back_to_page
 {
   float:right;
@@ -432,19 +366,6 @@ a.toolbutton:last-child, .userbar_item:last-child
   text-align:right;
 }
 
-#header_panel
-{  
-  /*border-bottom:1px solid #aaa;
-   * /*background-color: #eee;
-   * background: -webkit-linear-gradient(top,  #eee, #ddd);
-   * background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#eee), to(#ddd));
-   * background-image: -webkit-linear-gradient(top,  #eee, #ddd);
-   * background-image: -moz-linear-gradient(top,  #eee, #ddd);
-   * background-image: -o-linear-gradient(top,  #eee, #ddd);
-   * background-image: linear-gradient(top,  #eee, #ddd);
-   * padding:3px;  */
-}
-
 #footer
 {
   padding:10px 0;
@@ -510,4 +431,27 @@ a.toolbutton:last-child, .userbar_item:last-child
   box-shadow:2px 2px 5px #888;
   -webkit-box-shadow:2px 2px 5px #888;
   -moz-box-shadow:2px 2px 5px #888;
+}
+
+.ui-dialog label, .ui-dialog input, .ui-dialog select
+{
+  display:block;  
+}
+
+.ui-dialog input[type='text'], .ui-dialog select
+{
+  margin-bottom:12px;
+  width:95%;
+  padding: .4em;  
+}
+ 
+.ui-dialog fieldset
+{
+  padding:0;
+  border:0;
+  margin-top:25px;  
+}
+
+.ui-dialog .ui-state-error {
+  padding: .3em;  
 }
