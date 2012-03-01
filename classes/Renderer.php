@@ -10,6 +10,7 @@ define('MODE_MAIN',0);
 define('MODE_DETAIL',1);
 define('MODE_SETTINGS',2);
 define('MODE_ADMIN',3);
+define('MODE_UPLOAD',4);
 
 /**
  * class Renderer
@@ -47,7 +48,8 @@ class Renderer
     $template_path_detail = 'pages/gallery_detail.htm';
     $template_path_detail_sa = 'parts/gallery_detail_stand_alone.htm';
     $template_path_admin = 'pages/gallery_admin.htm';    
-    $template_path_settings = 'pages/gallery_settings.htm';    
+    $template_path_settings = 'pages/gallery_settings.htm';
+    $template_path_js_upload = 'pages/js_upload.htm';
     
     //set mode
     $mode = MODE_MAIN;
@@ -57,6 +59,8 @@ class Renderer
       $mode = MODE_SETTINGS;
     if($this->admin)
       $mode = MODE_ADMIN;
+    if(isset($_GET['upload']))
+      $mode = MODE_UPLOAD;
 
     $vars = array();
     include 'login.php';
@@ -299,6 +303,10 @@ class Renderer
             }                    
             $lm->getUser()->reload();
           }        
+          break;
+        case MODE_UPLOAD:
+          $template = $this->twig->loadTemplate($template_path_js_upload);
+
           break;
         default:
           $template = $this->twig->loadTemplate($template_path_main);
