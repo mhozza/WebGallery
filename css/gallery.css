@@ -438,7 +438,7 @@ a.toolbutton:last-child, .userbar_item:last-child
   display:block;  
 }
 
-.ui-dialog input[type='text'], .ui-dialog select
+.ui-dialog input[type='text'], .ui-dialog select, .ui-dialog input[type='file']
 {
   margin-bottom:12px;
   width:95%;

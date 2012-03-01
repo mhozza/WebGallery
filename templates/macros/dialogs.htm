@@ -24,3 +24,22 @@
 </div>
 
 {%endmacro%}
+
+{% macro addPhotosDialog(hidden) %}
+
+<div id="photos_dialog" title="Add photos" {% if hidden %} style="display:none;" {%endif%}>
+<form action='' method='post'>    
+    <form action='' method='post' enctype="multipart/form-data">
+    <fieldset>
+    <input type="hidden" name="MAX_FILE_SIZE" value="5000000" />{# 5MB #}
+    <label for='photo_caption'>Caption:</label>
+    <input type='text' name='photo_caption' id='photo_caption' class='ui-widget-content ui-corner-all'/><br/>
+    <label for='photo_file'>Filename:</label>
+    <input type="file" name="photo_file" id="photo_file" class="ui-widget-content ui-corner-all"/><br/>
+    {{_self.prava('photo_perm') }}    
+    </fieldset>
+    </form>
+
+</div>
+
+{%endmacro%}

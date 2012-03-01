@@ -9,11 +9,6 @@ function showHideUsername()
   });
 }
 
-function showNewAlbumDialog()
-{  
-  
-}
-
 $(document).ready(function() {
 
   if($("#username").length>0)
@@ -54,11 +49,33 @@ $(document).ready(function() {
       }
     },
     close: function() {
-      allFields.val( "" ).removeClass( "ui-state-error" );
+      //allFields.val( "" ).removeClass( "ui-state-error" );
     }
   });
       
   $('#add_album').click(function(){
     $( "#album_dialog" ).dialog( "open" );
+  });
+
+  $('#add_photos').attr('href','JavaScript:void(0);');
+  $('#photos_dialog').dialog({
+    autoOpen: false,
+    modal: true,
+    resizable: false,
+    buttons: {
+      "Add": function() {
+        $( this ).dialog( "close" );
+      },
+      Cancel: function() {
+        $( this ).dialog( "close" );
+      }
+    },
+    close: function() {
+      //allFields.val( "" ).removeClass( "ui-state-error" );
+    }
+  });
+  
+  $('#add_photos').click(function(){
+    $( "#photos_dialog" ).dialog( "open" );
   });
 });
