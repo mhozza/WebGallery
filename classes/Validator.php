@@ -26,7 +26,7 @@
     public static function validatePhotoFileName($string, $maxsize = -1)
     {
       if(!self::checkSize($string,$maxsize)) return false;
-      $regexp = '/^[\w_\.]+\.(j|J)(p|P)(g|G)$/';      
+      $regexp = '/^[\w_\.]+\.(j|J)(p|P)(e|E)?(g|G)$/';      
       return preg_match($regexp,$string);
     }
 

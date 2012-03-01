@@ -50,8 +50,9 @@
 
 {%import 'macros/dialogs.htm' as dialogs%}
 
+{% if user.isEditor %}
 {{dialogs.newAlbumDialog(true)}}
 {{dialogs.addPhotosDialog(true)}}
-
+{% endif %}
 
 {% endblock %}
