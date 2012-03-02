@@ -1,5 +1,5 @@
 gallery/*
 *~
 session/*
-fileupload/server/php/files/*
-fileupload/server/php/thumbnails/*
+server/php/files/*
+server/php/thumbnails/*
