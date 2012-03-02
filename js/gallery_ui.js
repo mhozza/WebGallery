@@ -35,6 +35,7 @@ $(document).ready(function() {
     timeout = window.setTimeout('showHideUsername()',1000);
   }
 
+  //add album
   $('#add_album').attr('href','JavaScript:void(0);');
   $('#album_dialog').dialog({
     autoOpen: false,
@@ -57,6 +58,7 @@ $(document).ready(function() {
     $( "#album_dialog" ).dialog( "open" );
   });
 
+  //add photos
   $('#add_photos').attr('href','JavaScript:void(0);');
   $('#photos_dialog').dialog({
     autoOpen: false,
@@ -78,4 +80,22 @@ $(document).ready(function() {
   $('#add_photos').click(function(){
     $( "#photos_dialog" ).dialog( "open" );
   });
+
+  $('#fileupload').fileupload({
+    dataType: 'json',
+    url: 'server/php/',
+    dropZone: $('photosDialog'),
+    done: function (e, data) {
+      $.each(data.result, function (index, file) {
+        $('<p style="background:green;"/>').text(file.name).appendTo($('#photos_dialog'));
+      });
+    },
+    add: function (e, data) {
+      $.each(data.files, function (index, file) {
+        $('<p/>').text(file.name).appendTo($('#photos_dialog'));
+      });
+      data.submit();
+    }    
+  });
+  
 });

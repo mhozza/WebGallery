@@ -49,26 +49,6 @@
 {#todo: podpora bezjavascriptoveho uploadu#}
 <div id="photos_dialog" title="Add photos" {% if hidden %} style="display:none;" {%endif%}>
 <input id="fileupload" type="file" name="files[]" multiple>
-<script src="js/vendor/jquery.ui.widget.js"></script>
-<script src="js/jquery.iframe-transport.js"></script>
-<script src="js/jquery.fileupload.js"></script>
-<script src="http://blueimp.github.com/JavaScript-Load-Image/load-image.min.js"></script>
-<script src="http://blueimp.github.com/JavaScript-Canvas-to-Blob/canvas-to-blob.min.js"></script>
-<script src="js/jquery.fileupload-ip.js"></script>
-<script>
-$(function () {
-    $('#fileupload').fileupload({
-        dataType: 'json',
-        url: 'server/php/',
-        done: function (e, data) {
-            $.each(data.result, function (index, file) {
-                $('<p/>').text(file.name).appendTo(document.body);
-            });
-        }
-
-    });
-});
-</script>
 </div>
 
 {%endmacro%}
