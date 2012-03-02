@@ -439,7 +439,7 @@ a.toolbutton:last-child, .userbar_item:last-child
   display:block;  
 }
 
-.ui-dialog input[type='text'], .ui-dialog select, .ui-dialog input[type='file']
+.ui-dialog input[type='text'], .ui-dialog select/*, .ui-dialog input[type='file']*/
 {
   margin-bottom:12px;
   width:95%;
@@ -455,4 +455,34 @@ a.toolbutton:last-child, .userbar_item:last-child
 
 .ui-dialog .ui-state-error {
   padding: .3em;  
+}
+
+.fileinput-button {
+  cursor: pointer;
+  display: inline-block;
+  overflow: hidden;
+  position: relative;
+}
+
+.fileinput-button input {  
+  cursor: pointer;
+  height: 100%;
+  position: absolute;
+  right: 0;
+  top: 0;
+  filter: alpha(opacity=0);
+  -moz-opacity: 0;
+  opacity: 0;
+}
+
+
+/* Fix for IE 6: */
+*html .fileinput-button {
+  line-height: 22px;
+  margin: 1px -3px 0 0;
+}
+
+/* Fix for IE 7: */
+*+html .fileinput-button {
+  margin: 1px 0 0 0;
 }

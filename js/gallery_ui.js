@@ -40,7 +40,7 @@ $(document).ready(function() {
   $('#album_dialog').dialog({
     autoOpen: false,
     modal: true,
-    resizable: false,
+    //resizable: false,
     buttons: {
       "Add": function() {
         $( this ).dialog( "close" );        
@@ -63,7 +63,7 @@ $(document).ready(function() {
   $('#photos_dialog').dialog({
     autoOpen: false,
     modal: true,
-    resizable: false,
+    //resizable: false,
     buttons: {
       "Add": function() {
         $( this ).dialog( "close" );
@@ -81,6 +81,9 @@ $(document).ready(function() {
     $( "#photos_dialog" ).dialog( "open" );
   });
 
+  //todo: upload interface
+  
+  $('.fileinput-button').button();  
   $('#fileupload').fileupload({
     dataType: 'json',
     url: 'server/php/',

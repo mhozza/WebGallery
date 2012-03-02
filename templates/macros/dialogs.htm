@@ -48,7 +48,11 @@
 
 {#todo: podpora bezjavascriptoveho uploadu#}
 <div id="photos_dialog" title="Add photos" {% if hidden %} style="display:none;" {%endif%}>
-<input id="fileupload" type="file" name="files[]" multiple>
+Drag photos here<br/> or <br/>
+<span class="fileinput-button">
+<span>Add photos from computer</span>
+<input id="fileupload" type="file" name="files[]" multiple/>
+</span>
 </div>
 
 {%endmacro%}
