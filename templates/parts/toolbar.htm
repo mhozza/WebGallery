@@ -1,54 +1,61 @@
-
-<div id="userbar">
-{%- if login -%}
-<div class="userbar_item" id="username"><div>{{user.getDisplayName}} (<a href="logout.php">logout</a>)</div></div>
-{% else %}
-<div class="userbar_item" id="loginform">
-<form action="" method="post">
-  <input type="text" name="openid_identifier" id="openid_identifier"/>
-  <script id="__openidselector" src="https://www.idselector.com/widget/button/1"></script>
-  <input type="submit" value="Sign in" style="vertical-align:middle;"/>
-</form>
-</div>
-{% endif %}
-</div>
-
-<div id="toolbar" {%- if not (login or gallery.getAlbum.parent) -%} class="hidden" {%endif%} >
-
-<a href = "?album={{gallery.getAlbum.getParent.getPath}}" class="toolbutton {% if not gallery.getAlbum.parent %} hidden {%endif%}" id="parentDir">
-<div class="toolbutton">
+<ul class="nav pull-right">
+<li>
+<div>
+<a href = "?album={{gallery.getAlbum.getParent.getPath}}" class="btn toolbutton{% if not gallery.getAlbum.parent %} hidden{%endif%}" id="parentDir">
          <img src="images/toolbar/arrow.png" alt="../"/>
-</div>
 </a>
+</div>
+
 {% if user.isEditor %}
-<a href="Javascript:void(0);" class="toolbutton" id="add_photos">
-  <div class="toolbutton">
+<li>
+<div class="btn-group" > 
+ 
+  <a href="Javascript:void(0);" class="btn toolbutton" id="add_photos">
     <img src="images/toolbar/add.png" alt="Add photos"/>
-  </div>
-</a>
-<a href="Javascript:void(0);" class="toolbutton" id="add_album">
-  <div class="toolbutton">
+  </a>
+  
+  <a href="Javascript:void(0);" class="btn toolbutton" id="add_album">
     <img src="images/toolbar/folder_add.png" alt="Add album"/>
-  </div>
-</a>
-{%endif %}
+  </a>
+</div>
+</li>
+{%endif %}  
+</li>
 
-{% if user.isAdmin %}
-<a href="admin.php" class="toolbutton">
-  <div class="toolbutton">
-    <img src="images/toolbar/key.png" alt="Admin panel"/>
-  </div>
+{% if login %}
+<li class="dropdown">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+  {{user.getDisplayName}}  
+  <span class="caret"></span>
 </a>
-{%endif %}
+<ul class="dropdown-menu">
+  {% if user.isAdmin %}  
+  <li>
+    <a href="admin.php" {#class="btn toolbutton"#}>{#<img src="images/toolbar/key.png" alt="Admin panel"/>#}
+      Admin panel
+    </a>
+  </li>
+  {%endif %}
 
-
-{%- if login -%}
-<a href="index.php?settings" class="toolbutton">
-  <div class="toolbutton">
-    <img src="images/toolbar/cog.png" alt="Nastavenia"/>
-  </div>
-</a>
+  {%- if login -%}
+  <li>
+    <a href="index.php?settings" {#class="btn toolbutton"#}>
+      {#<img src="images/toolbar/cog.png" alt="Nastavenia"/>#}
+      Settings
+    </a>
+  </li>
+  {% endif %}
+  <li><a href="logout.php">Logout</a></li>
+</ul>
+</li>
+{% else %}
+<li id="loginform">
+<form action="" method="post" class="pull-right navbar-form">
+  <input type="text" name="openid_identifier" id="openid_identifier"/>
+  <script id="__openidselector" src="js/openidselector.js"></script>
+  <input type="submit" value="Sign in" class="btn btn-primary"/>
+</form>
+</li>
 {% endif %}
-</div>
+</ul>
 
-</div>

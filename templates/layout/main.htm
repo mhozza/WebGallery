@@ -1,39 +1,49 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="sk">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="keywords" content="Michal Hozza, Mio, software, webdesign, fotky, osobna stranka" />
-<meta name="description" content="WEB Gallery" />
-<meta name="author" content="Michal Hozza"/>
-<meta name="robots" content="index, follow" />
-<meta name="revisit-after" content="1 days" />
-<meta http-equiv="content-language" content="sk"/>
+<!DOCTYPE html>
+<html lang="sk">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="keywords" content="Michal Hozza, Mio, software, webdesign, fotky, osobna stranka" />
+        <meta name="description" content="WEB Gallery" />
+        <meta name="author" content="Michal Hozza"/>
+        <meta name="robots" content="index, follow" />
+        <meta name="revisit-after" content="1 days" />
+        <meta http-equiv="content-language" content="sk"/>
 
-<title>Gallery</title>
+        <title>Gallery</title>
 
-<link type="text/css" href="css/smoothness/jquery-ui-1.8.18.custom.css" rel="Stylesheet" />
-<link href="css/gallery.css" rel="stylesheet" type="text/css" />
+        <!-- Bootstrap -->    
+        <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+        <link href="css/jq_bootstrap/jquery-ui.css" rel="stylesheet" />    
 
-<script type="text/javascript" src="js/jquery.js"></script>
-<script type='text/javascript' src='js/jquery-ui.js'></script>
-<script type='text/javascript' src='js/jquery.history.js'></script>
-<script type='text/javascript' src='js/gallery_ui.js'></script>
-<script type='text/javascript' src='js/gallery.js'></script>
-<script src="js/vendor/jquery.ui.widget.js"></script>
-<script src="js/jquery.iframe-transport.js"></script>
-<script src="js/jquery.fileupload.js"></script>
-{#
-<script src="http://blueimp.github.com/JavaScript-Load-Image/load-image.min.js"></script>
-<script src="http://blueimp.github.com/JavaScript-Canvas-to-Blob/canvas-to-blob.min.js"></script>
-<script src="js/jquery.fileupload-ip.js"></script>
-#}
 
-{% block g_head %}{% endblock %}
+        <link type="text/css" href="css/smoothness/jquery-ui-1.8.18.custom.css" rel="Stylesheet" />
+        <link href="css/gallery.css" rel="stylesheet" type="text/css" />
 
-</head>
-<body>
-<div id='main'>
-{% block main_body %}{% endblock %}
-</div>
-</body>
+        {#<script src="http://code.jquery.com/jquery-latest.js"></script>#}
+        <script src="js/jquery.js"></script>
+        <script src="js/jquery-ui.min.js"></script>
+        {#
+        <script src="http://blueimp.github.com/JavaScript-Load-Image/load-image.min.js"></script>
+        <script src="http://blueimp.github.com/JavaScript-Canvas-to-Blob/canvas-to-blob.min.js"></script>
+        <script src="js/jquery.fileupload-ip.js"></script>
+        #}
+
+        {% block g_head %}{% endblock %}
+
+    </head>
+    <body>            
+        {% block navigation %}{% endblock %}
+        <div class="container-fluid" id="__content_container__">
+            {% block main_body %}{% endblock %}            
+        </div>
+        <script src="js/bootstrap.min.js"></script>         
+        <script src="js/jquery-ui-timepicker-addon.js"></script>
+        <script type="text/javascript" src="js/jquery.history.js"></script>
+        <script type="text/javascript" src="js/gallery_ui.js"></script>
+        <script type="text/javascript" src="js/gallery.js"></script>
+        <script src="js/vendor/jquery.ui.widget.js"></script>
+        <script src="js/jquery.iframe-transport.js"></script>
+        <script src="js/jquery.fileupload.js"></script>
+    
+    </body>
 </html>

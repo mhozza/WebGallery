@@ -1,33 +1,12 @@
-html,body
+body
 {
-  font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
-  margin:0;
-  padding:0;
-  height:100%;  
+  background-color: #eeeeee;
 }
-
-#main
-{
-  padding:10px;
-}
-
-a
-{
-  text-decoration:none;
-}
-
 
 #caption
 {
   background-color:#ddf;
   text-align:center;    
-}
-
-h1
-{
-  margin:0;
-  font-size:26px;
-  font-family:Modern, Serif;
 }
 
 
@@ -198,6 +177,7 @@ td.detail
   background-color:white;  
   border:none;
 }
+
 #tabs
 {
   font-size:0.75em;  
@@ -210,11 +190,13 @@ fieldset
   border:1px solid #888;
   border-radius:3px;
 }
+
 fieldset > label
 {
   display:inline-block;
   width:70px;
 }
+
 fieldset > input[type='text'], select
 {  
   border:1px solid #888;  
@@ -297,7 +279,8 @@ fieldset > input[type='text'], select
 #album_plane
 {
   clear:both;
-  border: solid 1px #aaa;
+  background-color: white;
+  /*border: solid 1px #aaa;*/
 }
 
 #album_title
@@ -307,18 +290,7 @@ fieldset > input[type='text'], select
 
 #toolbar, #userbar
 {
-  height:32px;
-  float:right;
-  border:1px solid #aaa;
-  border-radius:3px;
-  margin:4px 0 4px 8px;
-  background-color: #eee;
-  background: -webkit-linear-gradient(top,  #eee, #ddd);
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#eee), to(#ddd));
-  background-image: -webkit-linear-gradient(top,  #eee, #ddd);
-  background-image: -moz-linear-gradient(top,  #eee, #ddd);
-  background-image: -o-linear-gradient(top,  #eee, #ddd);
-  background-image: linear-gradient(top,  #eee, #ddd);  
+  float:right;   
 }
 
 #toolbar:empty
@@ -328,13 +300,7 @@ fieldset > input[type='text'], select
 
 #toggle_user
 {
-  padding:8px 4px;
-}
-
-#loginform
-{
-  padding:3px;
-  height:24px;
+  /*padding:8px 4px;*/
 }
 
 a.toolbutton
@@ -350,21 +316,17 @@ a.toolbutton:hover
 
 a.toolbutton, .userbar_item
 {
-  height:16px;
-  float:left;
-  padding:8px;
-  border-right:1px solid #aaa;  
-  overflow:hidden;
-}
-
-a.toolbutton:last-child, .userbar_item:last-child
-{
-  border-right:none;
+  /*height:16px;*/
+  /*float:left;*/
+  /*padding:8px;*/
+  /*border-right:1px solid #aaa;  */
+  /*overflow:hidden;*/
 }
 
 #username
 {
   text-align:right;
+  margin-left: 1em;
 }
 
 #footer
@@ -399,7 +361,7 @@ a.toolbutton:last-child, .userbar_item:last-child
   margin:0px 6px -22px 6px;
   font-weight:bold;
   height:22px;  
-  text-decoration:none;
+  text-decoration:none;  
 }
 
 
@@ -412,7 +374,7 @@ a.toolbutton:last-child, .userbar_item:last-child
   border-style:solid;
   border-color:#888;
   text-align:center;  
-  margin:-32px 6px 0px 6px;
+  margin:-28px 6px 0px 6px;
   font-weight:bold;  
   height:22px;  
   text-decoration:none;

@@ -1,4 +1,17 @@
 {% extends 'layout/gallery.htm' %}
+
+{% block navigation %}
+<div id="header_panel" class="navbar navbar-static-top">
+  <div class="navbar-inner">
+    <div id='album_title' class="brand">
+      {{gallery.getAlbum.caption}}
+    </div>
+
+    {%include 'parts/toolbar.htm'%}
+  </div>
+</div>
+{% endblock %}
+
 {% block g_body %}
 
 {% macro item_box(item) %}  
@@ -32,20 +45,13 @@
 <div id="detail_content"></div>
 <script type="text/javascript" src="js/load_detail.js"></script>
 
-<div id="header_panel">
-<div id='album_title'>
-<h1>{{gallery.getAlbum.caption}} :</h1>
-</div>
-
-{%include 'parts/toolbar.htm'%}
-
 <div id="album_plane">
 
-{% for item in gallery.getItems %}      
-  {{_self.item_box(item)}}
-{% endfor %}
+  {% for item in gallery.getItems %}      
+    {{_self.item_box(item)}}
+  {% endfor %}
 
-<div class="cleaner">&nbsp;</div>
+  <div class="cleaner">&nbsp;</div>
 </div>
 
 {%import 'macros/dialogs.htm' as dialogs%}
