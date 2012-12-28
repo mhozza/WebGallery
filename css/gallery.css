@@ -69,28 +69,6 @@ a.nav:hover
   text-align:center;
 }
 
-.message, .error
-{
-  margin:10px auto;
-  border: 1px solid;
-  border-radius: 5px;  
-  width:400px;
-  text-align:center;
-  font-weight:bold;
-}
-
-.message
-{
-  border-color: #cc0;  
-  background-color:#ff7;  
-}
-
-.error
-{
-  border-color: #c00;  
-  background-color:#f77;  
-}
-
 .comment
 {  
   margin:3px;     

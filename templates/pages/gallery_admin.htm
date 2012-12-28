@@ -30,19 +30,19 @@
 {% endmacro %}
 
 
-{% for e in errors -%}
-  <div class='error'>
-    {{ e }}
-  </div>  
-{%- endfor %}
-{% for m in messages -%}
-  <div class='message'>
-    {{ m }}
-  </div>  
-{%- endfor %}
 
 <div class="content">
     <div class="container">
+        {% for e in errors -%}
+          <div class='alert alert-error'>
+            {{ e }}
+          </div>  
+        {%- endfor %}
+        {% for m in messages -%}
+          <div class='alert alert-success'>
+            {{ m }}
+          </div>  
+        {%- endfor %}
         <div id='tabs' class="tabbable tabbable-bordered">
             <ul class="nav nav-tabs">
                 <li class="active"><a href="#fotky">Fotky</a></li>
