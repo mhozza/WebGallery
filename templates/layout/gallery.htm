@@ -1,4 +1,57 @@
 {% extends 'layout/main.htm' %}
+{% block navigation %}
+<div id="header_panel" class="navbar navbar-static-top">
+  <div class="navbar-inner">
+    <div class="brand" id="caption">
+      {%block caption%}Apaloosa{%endblock%}      
+    </div>
+    <ul class="nav pull-right">
+    
+    {%block toolbar%}{%endblock%}
+
+    {% if login %}
+    <li class="dropdown">
+    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+      {{user.getDisplayName}}  
+      <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu">
+      {% if user.isAdmin %}  
+      <li>
+        <a href="admin.php" {#class="btn toolbutton"#}>{#<img src="images/toolbar/key.png" alt="Admin panel"/>#}
+          Admin panel
+        </a>
+      </li>
+      {%endif %}
+
+      {%- if login -%}
+      <li>
+        <a href="index.php?settings" {#class="btn toolbutton"#}>
+          {#<img src="images/toolbar/cog.png" alt="Nastavenia"/>#}
+          Settings
+        </a>
+      </li>
+      {% endif %}
+      <li><a href="logout.php">Logout</a></li>
+    </ul>
+    </li>
+    {% else %}
+    <li id="loginform">
+    <form action="" method="post" class="pull-right navbar-form">
+      <input type="text" name="openid_identifier" id="openid_identifier"/>
+      <script id="__openidselector" src="js/openidselector.js"></script>
+      <input type="submit" value="Sign in" class="btn btn-primary"/>
+    </form>
+    </li>
+    {% endif %}
+    </ul>
+
+
+    
+  </div>
+</div>
+{% endblock %}
+
 {% block main_body %}
 {#<div id="banner"><a href='index.php'><img src="images/apaloosaLogo.png" alt="Apaloosa webGallery"/></a>{% include 'parts/linkbar.htm' %}</div>#}
 {% block g_body %}{% endblock %}

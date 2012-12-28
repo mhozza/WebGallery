@@ -1,16 +1,10 @@
 {% extends 'layout/gallery.htm' %}
 
-{% block navigation %}
-<div id="header_panel" class="navbar navbar-static-top">
-  <div class="navbar-inner">
-    <div id='album_title' class="brand">
-      {{gallery.getAlbum.caption}}
-    </div>
+{%block caption%}{{gallery.getAlbum.caption}}{%endblock%}
 
-    {%include 'parts/toolbar.htm'%}
-  </div>
-</div>
-{% endblock %}
+{%block toolbar%}
+{%include 'parts/toolbar.htm'%}
+{%endblock%}
 
 {% block g_body %}
 
@@ -45,7 +39,7 @@
 <div id="detail_content"></div>
 <script type="text/javascript" src="js/load_detail.js"></script>
 
-<div id="album_plane">
+<div id="album_plane" class="content">
 
   {% for item in gallery.getItems %}      
     {{_self.item_box(item)}}
@@ -54,6 +48,8 @@
   <div class="cleaner">&nbsp;</div>
 </div>
 
+
+
 {%import 'macros/dialogs.htm' as dialogs%}
 
 {% if user.isEditor %}
@@ -61,4 +57,11 @@
 {{dialogs.addPhotosDialog(true)}}
 {% endif %}
 
+
+
 {% endblock %}
+
+{%block scripts%}
+<script type="text/javascript" src="js/gallery.js"></script>
+<script type="text/javascript" src="js/gallery_ui.js"></script>   
+{%endblock%}

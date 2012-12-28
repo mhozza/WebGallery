@@ -1,4 +1,3 @@
-<ul class="nav pull-right">
 <li>
 <div>
 <a href = "?album={{gallery.getAlbum.getParent.getPath}}" class="btn toolbutton{% if not gallery.getAlbum.parent %} hidden{%endif%}" id="parentDir">
@@ -21,41 +20,3 @@
 </li>
 {%endif %}  
 </li>
-
-{% if login %}
-<li class="dropdown">
-<a class="dropdown-toggle" data-toggle="dropdown" href="#">
-  {{user.getDisplayName}}  
-  <span class="caret"></span>
-</a>
-<ul class="dropdown-menu">
-  {% if user.isAdmin %}  
-  <li>
-    <a href="admin.php" {#class="btn toolbutton"#}>{#<img src="images/toolbar/key.png" alt="Admin panel"/>#}
-      Admin panel
-    </a>
-  </li>
-  {%endif %}
-
-  {%- if login -%}
-  <li>
-    <a href="index.php?settings" {#class="btn toolbutton"#}>
-      {#<img src="images/toolbar/cog.png" alt="Nastavenia"/>#}
-      Settings
-    </a>
-  </li>
-  {% endif %}
-  <li><a href="logout.php">Logout</a></li>
-</ul>
-</li>
-{% else %}
-<li id="loginform">
-<form action="" method="post" class="pull-right navbar-form">
-  <input type="text" name="openid_identifier" id="openid_identifier"/>
-  <script id="__openidselector" src="js/openidselector.js"></script>
-  <input type="submit" value="Sign in" class="btn btn-primary"/>
-</form>
-</li>
-{% endif %}
-</ul>
-

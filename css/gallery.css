@@ -3,13 +3,6 @@ body
   background-color: #eeeeee;
 }
 
-#caption
-{
-  background-color:#ddf;
-  text-align:center;    
-}
-
-
 #image
 {  
   text-align:center; 
@@ -178,40 +171,12 @@ td.detail
   border:none;
 }
 
-#tabs
-{
-  font-size:0.75em;  
-  width:650px;
-  margin:5px auto;
-}
-
-fieldset
-{
-  border:1px solid #888;
-  border-radius:3px;
-}
-
-fieldset > label
-{
-  display:inline-block;
-  width:70px;
-}
-
-fieldset > input[type='text'], select
-{  
-  border:1px solid #888;  
-  padding:2px;
-  margin:3px;
-  width:500px;
-  border-radius:3px;
-  background-color: #fcfcfc;
-}
-
 #admin_back_to_page
 {
   float:right;
   margin:6px;
 }
+
 #hide_comments
 {
   position:absolute;
@@ -276,11 +241,14 @@ fieldset > input[type='text'], select
   display:none;
 }
 
+.content
+{
+  background-color: white;    
+}
+
 #album_plane
 {
   clear:both;
-  background-color: white;
-  /*border: solid 1px #aaa;*/
 }
 
 #album_title
@@ -311,16 +279,6 @@ a.toolbutton
 a.toolbutton:hover
 {
   opacity:1;
-}
-
-
-a.toolbutton, .userbar_item
-{
-  /*height:16px;*/
-  /*float:left;*/
-  /*padding:8px;*/
-  /*border-right:1px solid #aaa;  */
-  /*overflow:hidden;*/
 }
 
 #username
@@ -447,4 +405,14 @@ a.toolbutton, .userbar_item
 /* Fix for IE 7: */
 *+html .fileinput-button {
   margin: 1px 0 0 0;
+}
+
+#parentDir
+{
+  margin-right: 1em
+}
+
+#tabs
+{
+  margin:1em;
 }

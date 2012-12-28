@@ -93,7 +93,7 @@ Gallery.prototype.setParent = function()
 
 Gallery.prototype.setCaption = function()
 {
-  $('#album_title').text(this.dirObject.caption);
+  $('#caption').text(this.dirObject.caption);
 }
 
 
