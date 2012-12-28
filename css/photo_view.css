@@ -1,3 +1,8 @@
+#apaloosa_gallery_view_wrapper
+{
+    overflow: hidden;
+}
+
 #shadow
 {
   position:fixed;
@@ -33,4 +38,21 @@
     height: 24px;
     position: absolute;
     z-index: 210;
+}
+
+#comments
+{
+  color:black;
+  background-color:white;    
+  border:solid 1px #999;
+  overflow:auto;
+  display: block;
+  position:absolute;
+  border-radius: 5px;
+  z-index:200;
+  margin: 2em 2em 2em 0;
+  padding: 1em;
+  overflow: hidden;
+  width: 14%;
+  min-width: 160px;
 }
