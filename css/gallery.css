@@ -95,18 +95,7 @@ a.nav:hover
   height:50px;    
 }
 
-#content
-{  
-  color:white;
-  background-color:transparent;    
-  border:none;
-  overflow:auto;
-  max-height:100%;
 
-  position:relative;
-  z-index:200;
-
-}
 td.detail
 {
   margin:0;
@@ -152,18 +141,6 @@ td.detail
   width:800px;
   text-align:center;
   margin:0 auto;  
-}
-
-#shadow
-{
-  position:fixed;
-  left:0;
-  top:0;
-  width:100%;
-  height:100%;
-  opacity:0.9;
-  background-color:black; 
-  z-index:100;
 }
 
 #image_frame, img
@@ -300,6 +277,12 @@ a.toolbutton:hover
   -moz-box-shadow:2px 2px 5px #888;
 }
 
+#parentDir
+{
+  margin-right: 1em
+}
+
+/* UI */
 .ui-dialog label, .ui-dialog input, .ui-dialog select
 {
   display:block;  
@@ -351,9 +334,4 @@ a.toolbutton:hover
 /* Fix for IE 7: */
 *+html .fileinput-button {
   margin: 1px 0 0 0;
-}
-
-#parentDir
-{
-  margin-right: 1em
 }
