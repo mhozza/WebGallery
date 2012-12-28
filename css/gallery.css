@@ -1,6 +1,6 @@
 body
 {
-  background-color: #eeeeee;
+  background-color: whiteSmoke;
 }
 
 #image
@@ -67,39 +67,6 @@ a.nav:hover
 .center
 {
   text-align:center;
-}
-
-td,th
-{
-  padding:5px;
-  border-bottom:1px solid #ccf;  
-  background-color:#e2eff8;
-}
-
-th
-{
-  padding:5px;
-  border-right:1px solid #ccf;
-  text-align:left;
-}
-
-td.last
-{
-  border-bottom:0px;
-}
-
-#settings
-{
-  margin:20px auto;
-  border:1px solid #88f;  
-  border-radius:5px;
-  width:500px;
-}
-
-.editbox
-{  
-  border:1px solid #88f;
-  width:100%
 }
 
 .message, .error
@@ -243,6 +210,7 @@ td.detail
 
 .content
 {
+  padding: 1em;
   background-color: white;    
 }
 
@@ -410,9 +378,4 @@ a.toolbutton:hover
 #parentDir
 {
   margin-right: 1em
-}
-
-#tabs
-{
-  margin:1em;
 }

@@ -1,10 +1,11 @@
 {% extends 'layout/gallery.htm' %}
-{% block g_body %}
 
-<form action='' method='post'>
-<div id='captionbar'>
-<h1>Nastavenia:</h1>
-</div>
+{% block caption %}Nastavenia{% endblock %}
+
+{% block g_body %}
+<div class="content">
+    <div class="container">        
+<form class="form-horizontal" action='' method='post'>
 {% if login %}
 {% for e in errors -%}
   <div class='error'>
@@ -16,31 +17,44 @@
     {{ m }}
   </div>  
 {%- endfor %}
-<table cellspacing="0" celpadding="0" id='settings'>
-<tr>
-<th><label for='user_edit_name'>Meno:</label></td>
-<td><input type='text' name='user_edit_name' id='user_edit_name' class='editbox' value='{{user.getFirstName}}'/></th>
-</tr>
-<tr>
-<th><label for='user_edit_surname'>Priezvisko:</label></th>
-<td>
-<input type='text' name='user_edit_surname' id='user_edit_surname' class='editbox' value='{{user.getLastName}}'/></td>
-<tr>
-<th><label for='user_edit_nick'>Prezývka:</label></th>
-<td>
-<input type='text' name='user_edit_nick' id='user_edit_nick' class='editbox' value='{{user.getFriendlyName}}'/></td>
-<tr>
-<th><label for='user_edit_mail'>Email:</label></th>
-<td>
-<input type='text' name='user_edit_mail' id='user_edit_mail' class='editbox' value='{{user.getEmail}}'/></td>
-</tr>
-<tr>
-<td colspan='2' class='last'><button type='submit' name='editUser'>Uprav</button></td>
-</tr>
+
+<div class="control-group">
+    <label class="control-label" for='user_edit_name'>Meno:</label>
+    <div class="controls">
+        <input type='text' name='user_edit_name' id='user_edit_name' class='editbox' value='{{user.getFirstName}}'/>
+    </div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for='user_edit_surname'>Priezvisko:</label>
+<div class="controls">
+<input type='text' name='user_edit_surname' id='user_edit_surname' class='editbox' value='{{user.getLastName}}'/>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for='user_edit_nick'>Prezývka:</label>
+<div class="controls">
+<input type='text' name='user_edit_nick' id='user_edit_nick' class='editbox' value='{{user.getFriendlyName}}'/>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for='user_edit_mail'>Email:</label>
+<div class="controls">
+<input type='text' name='user_edit_mail' id='user_edit_mail' class='editbox' value='{{user.getEmail}}'/>
+</div>
+</div>
+
+<div class="form-actions">
+    <button class="btn btn-primary" type='submit' name='editUser'>Uprav</button>
+</div>
 </table>
 </form>
 {% else %}
 Na zmenu nastavení sa musíte prihlásiť.
 {% endif %}
+</div>
+</div>
 
 {% endblock %}
