@@ -10,7 +10,7 @@
   z-index:100;
 }
 
-#content
+#photo_view
 {  
   color:white;
   background-color:black;    
@@ -25,3 +25,8 @@
   overflow: hidden;
 }
 
+#photo_view_container
+{
+    position: absolute;
+    display:block;
+}
