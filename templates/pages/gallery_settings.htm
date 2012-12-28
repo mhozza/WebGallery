@@ -7,17 +7,7 @@
     <div class="container">        
 <form class="form-horizontal" action='' method='post'>
 {% if login %}
-{% for e in errors -%}
-  <div class='error'>
-    {{ e }}
-  </div>  
-{%- endfor %}
-{% for m in messages -%}
-  <div class='message'>
-    {{ m }}
-  </div>  
-{%- endfor %}
-
+{%include 'parts/messages.html'%}
 <div class="control-group">
     <label class="control-label" for='user_edit_name'>Meno:</label>
     <div class="controls">
