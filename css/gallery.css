@@ -3,13 +3,20 @@ body
   background-color: whiteSmoke;
 }
 
-#image
+#banner
+{
+  text-align:left;
+  background-image:url('../images/lblue142.gif');
+  border-bottom:1px solid #aaa;   
+}
+
+/*#image
 {  
   text-align:center; 
   margin-right:236px;
 }
-
-#comment_title
+*/
+/*#comment_title
 {
   border-bottom:1px solid #ddd;  
   padding:2px;
@@ -55,21 +62,15 @@ a.nav:hover
 {
   color:#aaf;
 }
+*/
 
 
-#banner
-{
-  text-align:left;
-  background-image:url('../images/lblue142.gif');
-  border-bottom:1px solid #aaa;   
-}
-
-.center
+/*.center
 {
   text-align:center;
 }
-
-.comment
+*/
+/*.comment
 {  
   margin:3px;     
   padding:5px;
@@ -77,26 +78,14 @@ a.nav:hover
   overflow:auto;
 }
 
-#comments
-{  
- position:fixed;
- border-left:1px solid #ddd;
- border-bottom:1px solid #ddd;
- width:236px;
- overflow-y:scroll;
- right:0;
- top:0;
- height:100%; 
-}
-
 #comment_text
 {
   width:200px;  
   height:50px;    
 }
+*/
 
-
-td.detail
+/*td.detail
 {
   margin:0;
   padding:0;
@@ -104,14 +93,14 @@ td.detail
   background-color:white;  
   border:none;
 }
-
-#admin_back_to_page
+*/
+/*#admin_back_to_page
 {
   float:right;
   margin:6px;
 }
-
-#hide_comments
+*/
+/*#hide_comments
 {
   position:absolute;
   top:0;
@@ -123,32 +112,33 @@ td.detail
   right:0;
   margin-right:262px;
 }
-
-#rating
+*/
+/*#rating
 {  
   float:right;
   text-align:right;  
 }
-
-#photo_count
+*/
+/*#photo_count
 {  
   float:left;
   text-align:left;  
 }
-
-#photo_caption_bar
+*/
+/*#photo_caption_bar
 {
   width:800px;
   text-align:center;
   margin:0 auto;  
 }
-
-#image_frame, img
+*/
+/*#image_frame, img
 {
   margin:0;
   padding:0;
   border:0;  
 }
+*/
 
 /*new*/
 

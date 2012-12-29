@@ -20,14 +20,16 @@
   color:whiteSmoke;
   background-color:black;    
   border:solid 1px whiteSmoke;
-  overflow:auto;    
+  /*overflow:auto;    */
   display: block;
   position:absolute;
   border-radius: 5px;
   z-index:200;
   margin: 2em;
-  padding: 1em;
+  padding: 1em 60px;
   overflow: hidden;
+  top: 0;
+  left: 0;
 }
 
 
@@ -35,8 +37,7 @@
 {
   color:black;
   background-color:white;    
-  border:solid 1px #999;
-  overflow:auto;
+  border:solid 1px #999;  
   display: block;
   position:absolute;
   border-radius: 5px;
@@ -44,8 +45,11 @@
   margin: 2em 2em 2em 0;
   padding: 1em;
   overflow: hidden;
+  /*overflow-y:auto;*/
   width: 14%;
   min-width: 160px;
+  right:0;
+  top:0;
 }
 
 .button
@@ -100,3 +104,18 @@ hr.divider
     color: whiteSmoke;
 }
 
+#image_wrapper
+{
+    owerflow:hidden; 
+}
+
+.photo_nav
+{
+    background-color: transparent;
+    position:absolute;
+    z-index: 220;        
+    padding: 7% 0;
+    margin: 2em 0;
+    border: solid 1px transparent;
+    top:0;
+}

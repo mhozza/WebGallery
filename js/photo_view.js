@@ -30,20 +30,23 @@ function resizeWindow()
   $("#photo_view").innerHeight(mainHeight);
   $("#comments").innerHeight(commentsHeight);
 
-  $("#photo_view").css({'left': 0, 'top':0});  
-
   resizeImage();
 
+  //nav
+  $(".photo_nav").innerHeight(mainHeight);
+  $("#prev_photo").css({'left':mainSpaceLeft});
+  $("#next_photo").css({'right':mainSpaceRight});
+
   //Buttons
-  closeW = parseFloat($("#photo_view_close_button").width());
-  closeH = parseFloat($("#photo_view_close_button").height());
+  closeW = parseFloat($("#photo_view_close_button").outerWidth(true));
+  closeH = parseFloat($("#photo_view_close_button").outerHeight(true));
 
   $("#photo_view_close_button").css({'right':mainSpaceRight-closeW/2, 'top':mainSpaceTop-closeH/2});
 
   if($("#comments").hasClass("hidden"))
   {
     showCommentsLeft = $("#photo_view_close_button").position().left;
-    showCommentsTop = $("#photo_view_close_button").position().top+$("#photo_view_close_button").height()+8;
+    showCommentsTop = $("#photo_view_close_button").position().top+$("#photo_view_close_button").height()+8;//TODO: zrusit magicku konstantu
     $("#show_comments_button").css({'left':showCommentsLeft, 'top':showCommentsTop});
   }
 }
@@ -74,10 +77,12 @@ function openWindow()
   <div id="shadow"></div>\
   <div id="photo_view">\
     <div id="image_wrapper">\
-    <img src="gallery/cesta_do_neznama_wallpaper.jpg"/>\
-    <div id="photo_title"><strong class="photo_title">Cesta do neznáma</strong><br/><span class="photo_subtitle">by Michal Hozza</span></div>\
+      <img src="gallery/cesta_do_neznama_wallpaper.jpg"/>\
+      <div id="photo_title"><strong class="photo_title">Cesta do neznáma</strong><br/><span class="photo_subtitle">by Michal Hozza</span></div>\
     </div>\
   </div>\
+  <div id="prev_photo" class="photo_nav"><img src="images/previous.png"/></div>\
+  <div id="next_photo" class="photo_nav"><img src="images/next.png"/></div>\
   <div id="comments"><strong>Komentáre</strong> <a id="hide_comments_button" title="skryť" class="pull-right" href="javascript:hideComments()">&gt;&gt;</a><hr class="divider"/></div>\
   <a id="photo_view_close_button" class="button" href="javascript:closeWindow()"><i class="icon-remove icon-white"></i></a>\
   </div>\
@@ -86,6 +91,8 @@ function openWindow()
   $("body").append(html);
 
   $("#hide_comments_button").tooltip({'placement':'left'});
+
+  //TODO: title fade out + show
 
   //get ImgSize
   $("<img/>") // Make in memory copy of image to avoid css issues
