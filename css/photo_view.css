@@ -17,9 +17,9 @@
 
 #photo_view
 {  
-  color:white;
+  color:whiteSmoke;
   background-color:black;    
-  border:solid 1px;
+  border:solid 1px whiteSmoke;
   overflow:auto;    
   display: block;
   position:absolute;
@@ -30,15 +30,6 @@
   overflow: hidden;
 }
 
-#photo_view_close_button
-{
-    background-image: url("../images/close.png");
-    background-color: black;
-    width: 24px;
-    height: 24px;
-    position: absolute;
-    z-index: 210;
-}
 
 #comments
 {
@@ -55,4 +46,28 @@
   overflow: hidden;
   width: 14%;
   min-width: 160px;
+}
+
+.button
+{
+    border: 1px solid white;
+    border-radius: 3px;
+    color:white;
+    text-align: center;
+    padding-top: 2px;
+    background-color: black;
+    width: 22px;
+    height: 20px;
+    position: absolute;
+    z-index: 210;
+}
+
+.hidden
+{
+    display:none;
+}
+
+hr.divider
+{
+    margin: 0.6em 0;    
 }

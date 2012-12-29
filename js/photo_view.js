@@ -2,7 +2,14 @@ var imgWidth, imgHeight;
 
 function resizeWindow()       
 {
-  commentsWidth = parseFloat($("#comments").outerWidth(true));
+  if($("#comments").hasClass("hidden"))
+  {
+    commentsWidth = 0;
+  } 
+  else 
+  {
+    commentsWidth = parseFloat($("#comments").outerWidth(true));
+  }
 
   windowWidth = parseFloat($(window).innerWidth());
   mainSpaceLeft = parseFloat($("#photo_view").css("margin-left"))+parseFloat($("#photo_view").css("border-left-width"));
@@ -27,11 +34,18 @@ function resizeWindow()
 
   resizeImage();
 
+  //Buttons
   closeW = parseFloat($("#photo_view_close_button").width());
   closeH = parseFloat($("#photo_view_close_button").height());
 
   $("#photo_view_close_button").css({'right':mainSpaceRight-closeW/2, 'top':mainSpaceTop-closeH/2});
 
+  if($("#comments").hasClass("hidden"))
+  {
+    showCommentsLeft = $("#photo_view_close_button").position().left;
+    showCommentsTop = $("#photo_view_close_button").position().top+$("#photo_view_close_button").height()+8;
+    $("#show_comments_button").css({'left':showCommentsLeft, 'top':showCommentsTop});
+  }
 }
 
 function resizeImage()
@@ -58,8 +72,8 @@ function openWindow()
   <div id="photo_view">\
     <img src="gallery/cesta_do_neznama_wallpaper.jpg"/>\
   </div>\
-  <div id="comments"></div>\
-  <a id="photo_view_close_button" href="javascript:closeWindow()"></a>\
+  <div id="comments"><strong>Komentáre</strong> <a class="pull-right" href="javascript:hideComments()">&gt;&gt;</a><hr class="divider"/></div>\
+  <a id="photo_view_close_button" class="button" href="javascript:closeWindow()"><i class="icon-remove icon-white"></i></a>\
   </div>\
   ';
 
@@ -80,4 +94,20 @@ function openWindow()
 function closeWindow()
 {
   $("#apaloosa_gallery_view_wrapper").remove();  
+}
+
+function hideComments()
+{
+  $("#comments").addClass("hidden");
+  html='<a id="show_comments_button" class="button" href="javascript:showComments()"><i class="icon-comment icon-white"></i></a>';
+  $("#apaloosa_gallery_view_wrapper").append(html);
+  resizeWindow();  
+  
+}
+
+function showComments()
+{
+  $("#show_comments_button").remove();
+  $("#comments").removeClass("hidden");
+  resizeWindow();
 }
