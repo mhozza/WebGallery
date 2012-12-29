@@ -71,3 +71,32 @@ hr.divider
 {
     margin: 0.6em 0;    
 }
+
+#photo_title
+{
+    height:40px;
+    padding: 10px;    
+    background-color: rgba(0,0,0,0.65);    
+    text-align: center;
+    font-size: 1.2em;
+    width:90%;
+    border-radius: 5px;
+    margin: -80px auto 0;
+    position: relative;    
+    box-shadow: 0 0 5px 5px rgba(0,0,0,0.65);
+    z-index: 210;
+    color: white;
+}
+
+.photo_title
+{
+    font-weight: bold;
+}
+
+.photo_subtitle
+{
+    font-size: 0.8em;
+    font-style: italic;
+    color: whiteSmoke;
+}
+

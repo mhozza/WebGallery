@@ -52,12 +52,15 @@ function resizeImage()
 {
   zoom = Math.max(imgHeight/parseFloat($("#photo_view").height()), imgWidth/parseFloat($("#photo_view").width()));  
   
-  $("#photo_view img").height(imgHeight/zoom);  
-  $("#photo_view img").width(imgWidth/zoom);  
+  $("#image_wrapper img").height(imgHeight/zoom);  
+  $("#image_wrapper img").width(imgWidth/zoom);    
+
+  $("#image_wrapper").height(imgHeight/zoom);  
+  $("#image_wrapper").width(imgWidth/zoom);    
 
   imgLeft = (parseFloat($("#photo_view").width()) - imgWidth/zoom)/2;
   imgTop = (parseFloat($("#photo_view").height()) - imgHeight/zoom)/2;
-  $("#photo_view img").css({'margin-left': imgLeft, 'margin-top':imgTop});  
+  $("#image_wrapper").css({'margin-left': imgLeft, 'margin-top':imgTop});  
 }
 
 $(window).resize(function(){resizeWindow();});
@@ -70,7 +73,10 @@ function openWindow()
   <div id="apaloosa_gallery_view_wrapper">\
   <div id="shadow"></div>\
   <div id="photo_view">\
+    <div id="image_wrapper">\
     <img src="gallery/cesta_do_neznama_wallpaper.jpg"/>\
+    <div id="photo_title"><strong class="photo_title">Cesta do neznáma</strong><br/><span class="photo_subtitle">by Michal Hozza</span></div>\
+    </div>\
   </div>\
   <div id="comments"><strong>Komentáre</strong> <a class="pull-right" href="javascript:hideComments()">&gt;&gt;</a><hr class="divider"/></div>\
   <a id="photo_view_close_button" class="button" href="javascript:closeWindow()"><i class="icon-remove icon-white"></i></a>\
