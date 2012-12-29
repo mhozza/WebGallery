@@ -11,56 +11,54 @@
 
         <title>Gallery</title>
 
-        <!-- Bootstrap -->    
+        <!-- Bootstrap -->
         <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
         <link href="css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
         <link href="css/jasny-bootstrap.min.css" rel="stylesheet" media="screen">
         <link href="css/jasny-bootstrap-responsive.min.css" rel="stylesheet" media="screen">
-       
-        <link href="css/jq_bootstrap/jquery-ui.css" rel="stylesheet" />    
+
+        <link href="css/jq_bootstrap/jquery-ui.css" rel="stylesheet" />
 
         <link href="css/gallery.css" rel="stylesheet" type="text/css" />
         <link href="css/photo_view.css" rel="stylesheet" type="text/css" />
 
         <script src="js/jquery.js"></script>
-        <script src="js/jquery-ui.min.js"></script>
+
+        <!-- <script src="js/jquery-ui.min.js"></script> -->
 
     </head>
-    <body>        
-        
-        <div class="container-fluid" id="__content_container__">        
+    <body>
+
+        <div class="container-fluid" id="__content_container__">
           <script type="text/javascript" src="js/photo_view.js"></script>
           <a href="javascript:openWindow()">Open</a>
-        </div>        
+        </div>
         <div id="footer">
             Apaloosa webGallery, <strong>&copy; Michal Hozza 2011</strong>, developed for <a href="http://mio.hozza.eu">mio.hozza.eu</a><br/>
             Git: <a href="https://github.com/mhozza/Apaloosa">https://github.com/mhozza/Apaloosa</a>
         </div>
-
-        <script src="js/bootstrap.min.js"></script>    
-        <script src="js/jasny-bootstrap.min.js"></script>    
-
-        <script src="js/jquery-ui-timepicker-addon.js"></script>
-        <script type="text/javascript" src="js/jquery.history.js"></script>
-             
-        <script src="js/vendor/jquery.ui.widget.js"></script>
-        <script src="js/jquery.iframe-transport.js"></script>
-        <script src="js/jquery.fileupload.js"></script>
         
+        <script type="text/javascript" src="js/jquery.history.js"></script>
+
+        <!--<script src="js/jquery.iframe-transport.js"></script>
+        <script src="js/jquery.fileupload.js"></script> -->
+
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/jasny-bootstrap.min.js"></script>
     </body>
 </html>
 
 <!-- ------------------------------------------------------------------------------------------------ -->
-  <!--<div id='content'>    
-     <div id="hide_comments"><img src="images/hide.png" alt="Skryt"/></div>            
+  <!--<div id='content'>
+     <div id="hide_comments"><img src="images/hide.png" alt="Skryt"/></div>
     {% if gallery.getCurrentPhoto.parent -%}
-    <div id="detail_close">  
+    <div id="detail_close">
     <a href = "?album={{gallery.getCurrentPhoto.getParent.getPath}}" class="nav"><img src="images/close.png" alt="Zavri"/></a>
-    </div>      
-    {%- endif -%}   
-     
-    <div id='image' class='detail'>      
-      
+    </div>
+    {%- endif -%}
+
+    <div id='image' class='detail'>
+
       <div id='nav_left'>
         {%- if gallery.getPreviousPhoto  -%}
           <a href="?detail={{gallery.getPreviousPhoto.getPath}}" class="nav" id="previous_photo"> <img src="images/previous.png" alt="Predošlá"/></a>
@@ -68,31 +66,31 @@
 
         {% for i in gallery.getPhotos -%}
           {% if loop.index > gallery.getCurrentPhotoIndex-5 and loop.index <= gallery.getCurrentPhotoIndex+6 %}
-            {% if i.getId == gallery.getCurrentPhoto.getId %}         
+            {% if i.getId == gallery.getCurrentPhoto.getId %}
           </div>
           <div id="nav_right">
           {% if gallery.getNextPhoto -%}
         <a href = "?detail={{gallery.getNextPhoto.getPath}}" class="nav" id="next_photo"> <img src="images/next.png" alt="Nasledujúca"/></a>
-          {%- endif %}  
+          {%- endif %}
             {% else %}
           <div class="nav_num">
         <a href="?detail={{i.getPath}}" class="nav">{{loop.index}}</a>
           </div>
             {%- endif -%}
           {%- endif -%}
-        {%- endfor %}        
-      </div>     
-      <div id="image_frame">      
-    <img id="photo_img" src="getimage.php?w=800&amp;h=600&amp;image={{gallery.CurrentPhoto.Path}}"/>      
-      </div>      
+        {%- endfor %}
+      </div>
+      <div id="image_frame">
+    <img id="photo_img" src="getimage.php?w=800&amp;h=600&amp;image={{gallery.CurrentPhoto.Path}}"/>
+      </div>
       <div id="photo_caption_bar">
     <div id="photo_count">
       {{gallery.getCurrentPhotoIndex+1}} z {{gallery.getPhotoCount}}
     </div>
-    
-    <div id='rating'>     
+
+    <div id='rating'>
       {%if login -%}
-      <script type='text/javascript' src='js/rating.js'></script>  
+      <script type='text/javascript' src='js/rating.js'></script>
       {% for i in 1..5 -%}
         <a href="?detail={{gallery.getCurrentPhoto.getPath}}&amp;rate={{i}}"><img src="images/star_white.png" alt="{{i}}" class="rating" onMouseOver="ratingOver(this,true)" onMouseOut="ratingOver(this,false)"/></a>
       {%- endfor %}
@@ -104,7 +102,7 @@
       <strong> {{gallery.getCurrentPhoto.getCaption}} </strong>
     </div>
       </div>
-    </div>    
+    </div>
     <div id='comments' class='detail'>
       <div id='comment_title'>
         Komentáre:
@@ -121,7 +119,7 @@
         /*39 - right
         37 - left*/
         if(event.keyCode==37 && $('#previous_photo').length>0)
-        {        
+        {
           location.href = ($('#previous_photo').attr("href"));
         }
         if(event.keyCode==39 && $('#next_photo').length>0)
@@ -129,7 +127,7 @@
           location.href = ($('#next_photo').attr("href"));
         }
       }
-    }); 
+    });
     $('textarea').focus(function() {
       if(key_capture_enabled)
       {
@@ -145,28 +143,28 @@
     });
 
     comments_hidden = false;
-    $('#hide_comments').click(function(event) {      
+    $('#hide_comments').click(function(event) {
       if(!comments_hidden)
       {
         $('#comments').css('visibility','hidden');
-        $('#image').css('margin','0');      
-    $('#hide_comments').html('<img src="images/show.png" alt="Zobraziť"/>');    
-    $('#hide_comments').css('right','0');   
-    $('#detail_close').css('margin-right','26px');   
+        $('#image').css('margin','0');
+    $('#hide_comments').html('<img src="images/show.png" alt="Zobraziť"/>');
+    $('#hide_comments').css('right','0');
+    $('#detail_close').css('margin-right','26px');
     comments_hidden = true;
       }
       else
       {
     $('#comments').css('visibility','visible');
-        $('#image').css('margin-right','236px');    
-    $('#hide_comments').html('<img src="images/hide.png" alt="Skryť"/>');    
+        $('#image').css('margin-right','236px');
+    $('#hide_comments').html('<img src="images/hide.png" alt="Skryť"/>');
     $('#hide_comments').css('right','236px');
-    $('#detail_close').css('margin-right','262px');   
+    $('#detail_close').css('margin-right','262px');
     comments_hidden = false;
-      }      
+      }
     });
 
     //resize_image
-    
+
     //$('#photo_img').height($('body').height()-$('#photo_caption_bar').height()-6);
   </script> -->

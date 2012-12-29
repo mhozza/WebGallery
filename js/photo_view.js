@@ -78,12 +78,14 @@ function openWindow()
     <div id="photo_title"><strong class="photo_title">Cesta do neznáma</strong><br/><span class="photo_subtitle">by Michal Hozza</span></div>\
     </div>\
   </div>\
-  <div id="comments"><strong>Komentáre</strong> <a class="pull-right" href="javascript:hideComments()">&gt;&gt;</a><hr class="divider"/></div>\
+  <div id="comments"><strong>Komentáre</strong> <a id="hide_comments_button" title="skryť" class="pull-right" href="javascript:hideComments()">&gt;&gt;</a><hr class="divider"/></div>\
   <a id="photo_view_close_button" class="button" href="javascript:closeWindow()"><i class="icon-remove icon-white"></i></a>\
   </div>\
   ';
 
   $("body").append(html);
+
+  $("#hide_comments_button").tooltip({'placement':'left'});
 
   //get ImgSize
   $("<img/>") // Make in memory copy of image to avoid css issues
