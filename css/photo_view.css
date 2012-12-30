@@ -19,7 +19,7 @@
 {  
   color:whiteSmoke;
   background-color:black;    
-  border:solid 1px whiteSmoke;
+  border:solid 1px gray;
   /*overflow:auto;    */
   display: block;
   position:absolute;
@@ -134,4 +134,22 @@ hr.divider
 #next_photo
 {
   text-align: right;
+}
+
+#comments_text
+{
+  width:100%;
+}
+
+.comment
+{
+  margin: 0.5em 0;
+  padding: 0 0 0.5em 0;
+  border-bottom: dashed 1px #ddd;
+
+}
+
+.comment_title
+{
+  /*font-weight: bold;*/
 }

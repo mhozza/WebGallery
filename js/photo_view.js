@@ -34,6 +34,9 @@ function resizeWindow()
 
   resizeImage();
 
+  //comments
+  $("#comment_text").outerWidth($("#comments").width());
+
   //nav
   $(".photo_nav").height($("#prev_photo img").height());  
   $(".photo_nav").css({'padding':(mainHeight-$("#prev_photo img").height())/2 + 'px 4px'});  
@@ -98,10 +101,20 @@ function openWindow()
   <div id="photo_title"><strong class="photo_title">Cesta do neznáma</strong><br/><span class="photo_subtitle">by Michal Hozza</span></div>\
   <a href="#" id="prev_photo" class="photo_nav"><img src="images/previous_photo.png"/></a>\
   <a href="#" id="next_photo" class="photo_nav"><img src="images/next_photo.png"/></a>\
-  <div id="comments"><strong>Komentáre</strong> <a id="hide_comments_button" title="skryť" class="pull-right" href="javascript:hideComments()">&gt;&gt;</a><hr class="divider"/></div>\
+  <div id="comments"><strong class="text-info">Komentáre</strong> <a id="hide_comments_button" title="skryť" class="pull-right" href="javascript:hideComments()">&gt;&gt;</a><hr class="divider"/>\
+  <div class="comment"><div class="comment_title"><span class="label label-inverse">Michal Hozza</span> <small class="muted pull-right">5 minutes ago</small></div> <div class="comment_body">Nejaky zmysluplny text, ktory nie je prilis dlhy</div></div>\
+  <div class="comment"><div class="comment_title"><span class="label label-inverse">Michal Hozza</span> <small class="muted pull-right">5 minutes ago</small></div> <div class="comment_body">Nejaky zmysluplny text, ktory nie je prilis dlhy</div></div>\
+  <form action="" method="post" class="comments">\
+    <textarea name="comment_text" id="comment_text"></textarea><br/>\
+    <button class="btn btn-primary" type="submit">Pridať</button><span id="comment_text_count"></span>\
+  </form>\
+  </div>\
   <a id="photo_view_close_button" class="button" href="javascript:closeWindow()"><i class="icon-remove icon-white"></i></a>\
   </div>\
   ';
+
+  //onSubmit="$.post(document.location.href,{comment_text:$(\'textarea\').val(),ajax:\'true\'},function(data){$(\'#comments\').html(data);});return false;"
+  //onChange="maxlength(this,{{CONST.MAX_COMMENT_SIZE}})" onKeyUp="maxlength(this,{{CONST.MAX_COMMENT_SIZE}})"
 
   $("body").append(html);
 
@@ -156,4 +169,10 @@ function showComments()
 function hideTitle()
 {
   $("#photo_title").animate({'opacity':0});
+}
+
+function maxlength(element,length)
+{  
+  if (element.value.length>length) element.value=element.value.substring(0,length);
+  $("#"+element.id+"_count").html("Zostáva "+(length-element.value.length)+" znakov.");  
 }
