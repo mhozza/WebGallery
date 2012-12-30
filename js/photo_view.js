@@ -1,4 +1,6 @@
-var imgWidth, imgHeight;
+var imgWidth, imgHeight, titleTimeout;
+
+var mainSpaceLeft, mainSpaceBottom;
 
 function resizeWindow()       
 {
@@ -33,7 +35,8 @@ function resizeWindow()
   resizeImage();
 
   //nav
-  $(".photo_nav").innerHeight(mainHeight);
+  $(".photo_nav").height($("#prev_photo img").height());  
+  $(".photo_nav").css({'padding':(mainHeight-$("#prev_photo img").height())/2 + 'px 4px'});  
   $("#prev_photo").css({'left':mainSpaceLeft});
   $("#next_photo").css({'right':mainSpaceRight});
 
@@ -55,15 +58,29 @@ function resizeImage()
 {
   zoom = Math.max(imgHeight/parseFloat($("#photo_view").height()), imgWidth/parseFloat($("#photo_view").width()));  
   
-  $("#image_wrapper img").height(imgHeight/zoom);  
-  $("#image_wrapper img").width(imgWidth/zoom);    
+  $("#photo_view img").height(imgHeight/zoom);  
+  $("#photo_view img").width(imgWidth/zoom);  
 
-  $("#image_wrapper").height(imgHeight/zoom);  
-  $("#image_wrapper").width(imgWidth/zoom);    
-
+  $("#photo_title").width($("#photo_view img").width() 
+     - parseFloat($("#photo_title").css('margin-left')) 
+     - parseFloat($("#photo_title").css('margin-right'))
+     - parseFloat($("#photo_title").css('padding-left')) 
+     - parseFloat($("#photo_title").css('padding-right'))
+     - parseFloat($("#photo_title").css('border-left-width')) 
+     - parseFloat($("#photo_title").css('border-right-width'))
+    );
+  
   imgLeft = (parseFloat($("#photo_view").width()) - imgWidth/zoom)/2;
   imgTop = (parseFloat($("#photo_view").height()) - imgHeight/zoom)/2;
-  $("#image_wrapper").css({'margin-left': imgLeft, 'margin-top':imgTop});  
+  
+  $("#photo_view img").css({'margin-left': imgLeft, 'margin-top':imgTop});
+
+  $("#photo_title").css({
+    'left':   mainSpaceLeft + parseFloat($("#photo_view").css("padding-left")) + imgLeft,
+    'top': imgTop + mainSpaceBottom + parseFloat($("#photo_view").css("padding-bottom")) + $("#photo_view img").height() - $("#photo_title").outerHeight(true)
+  });
+  
+
 }
 
 $(window).resize(function(){resizeWindow();});
@@ -76,13 +93,11 @@ function openWindow()
   <div id="apaloosa_gallery_view_wrapper">\
   <div id="shadow"></div>\
   <div id="photo_view">\
-    <div id="image_wrapper">\
       <img src="gallery/cesta_do_neznama_wallpaper.jpg"/>\
-      <div id="photo_title"><strong class="photo_title">Cesta do neznáma</strong><br/><span class="photo_subtitle">by Michal Hozza</span></div>\
-    </div>\
   </div>\
-  <div id="prev_photo" class="photo_nav"><img src="images/previous.png"/></div>\
-  <div id="next_photo" class="photo_nav"><img src="images/next.png"/></div>\
+  <div id="photo_title"><strong class="photo_title">Cesta do neznáma</strong><br/><span class="photo_subtitle">by Michal Hozza</span></div>\
+  <a href="#" id="prev_photo" class="photo_nav"><img src="images/previous_photo.png"/></a>\
+  <a href="#" id="next_photo" class="photo_nav"><img src="images/next_photo.png"/></a>\
   <div id="comments"><strong>Komentáre</strong> <a id="hide_comments_button" title="skryť" class="pull-right" href="javascript:hideComments()">&gt;&gt;</a><hr class="divider"/></div>\
   <a id="photo_view_close_button" class="button" href="javascript:closeWindow()"><i class="icon-remove icon-white"></i></a>\
   </div>\
@@ -102,6 +117,17 @@ function openWindow()
         imgHeight = this.height; // work for in memory images.
         resizeWindow();
     });
+
+  $("#photo_title").mouseenter(function(){
+    $(this).css({'opacity':1});
+    window.clearTimeout(titleTimeout);
+  });
+
+  $("#photo_title").mouseleave(function(){
+    titleTimeout = window.setTimeout('hideTitle()',1000);
+  });
+
+  titleTimeout = window.setTimeout('hideTitle()',2000);
 
   resizeWindow();
 }
@@ -125,4 +151,9 @@ function showComments()
   $("#show_comments_button").remove();
   $("#comments").removeClass("hidden");
   resizeWindow();
+}
+
+function hideTitle()
+{
+  $("#photo_title").animate({'opacity':0});
 }
