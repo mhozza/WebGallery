@@ -1,5 +1,7 @@
-var imgWidth, imgHeight, titleTimeout;
+$(document).ready(function(){openWindow();});
+$(window).resize(function(){resizeWindow();});
 
+var imgWidth, imgHeight, titleTimeout;
 var mainSpaceLeft, mainSpaceBottom;
 
 function resizeWindow()       
@@ -30,13 +32,22 @@ function resizeWindow()
 
   $("#photo_view").innerWidth(mainWidth);
   $("#photo_view").innerHeight(mainHeight);
+
+  //comments & rating
   $("#comments").innerHeight(commentsHeight);
-  $("#rating").outerWidth(parseFloat($("#comments").width()));
-
-  resizeImage();
-
-  //comments
   $("#comment_text").outerWidth($("#comments").width());
+  $("#comments_footer").outerWidth(parseFloat($("#comments").width()));
+  $("#comments_footer").css({'bottom': mainSpaceBottom})
+  $("#comments_content").height($("#comments").height()
+    - $("#comments_footer").outerHeight(true)
+    - $("#comments_title").outerHeight(true)
+    - parseFloat($("#comments_content").css('padding-bottom')) 
+    - parseFloat($("#comments_content").css('padding-top'))
+    - parseFloat($("#comments_content").css('margin-bottom')) 
+    - parseFloat($("#comments_content").css('margin-top'))
+    );
+  
+  resizeImage();
 
   //nav
   $(".photo_nav").height($("#prev_photo img").height());  
@@ -55,7 +66,7 @@ function resizeWindow()
     showCommentsLeft = $("#photo_view_close_button").position().left;
     showCommentsTop = $("#photo_view_close_button").position().top+$("#photo_view_close_button").height()+8;//TODO: zrusit magicku konstantu
     $("#show_comments_button").css({'left':showCommentsLeft, 'top':showCommentsTop});
-  }
+  }  
 }
 
 function resizeImage()
@@ -87,40 +98,67 @@ function resizeImage()
 
 }
 
-$(window).resize(function(){resizeWindow();});
-
-$(document).ready(function(){openWindow();});
-
 function openWindow()
 {
   html = '\
   <div id="apaloosa_gallery_view_wrapper">\
-  <div id="shadow"></div>\
-  <div id="photo_view">\
-      <img src="gallery/cesta_do_neznama_wallpaper.jpg"/>\
-  </div>\
-  <div id="photo_title"><strong class="photo_title">Cesta do neznáma</strong><br/><span class="photo_subtitle">by Michal Hozza</span></div>\
-  <a href="#" id="prev_photo" class="photo_nav"><img src="images/previous_photo.png"/></a>\
-  <a href="#" id="next_photo" class="photo_nav"><img src="images/next_photo.png"/></a>\
-  <div id="comments"><strong id="comments_title">Komentáre</strong> <a id="hide_comments_button" title="skryť" class="pull-right" href="javascript:hideComments()">&gt;&gt;</a><hr class="divider"/>\
-  <div class="comment"><div class="comment_title"><span class="label label-inverse">Michal Hozza</span> <small class="muted pull-right">pred 5 minútami</small></div> <div class="comment_body">Nejaky zmysluplny text, ktory nie je prilis dlhy</div></div>\
-  <div class="comment"><div class="comment_title"><span class="label label-inverse">Michal Hozza</span> <small class="muted pull-right">pred 5 minútami</small></div> <div class="comment_body">Nejaky zmysluplny text, ktory nie je prilis dlhy</div></div>\
-  <form action="" method="post" class="comments">\
-    <textarea name="comment_text" id="comment_text"></textarea><br/>\
-    <button class="btn btn-primary" type="submit">Pridať</button><span id="comment_text_count"></span>\
-  </form>\
-  <div id="rating"><span id="rate_label" class="label label-inverse">Ohodnoťte:</span>&nbsp;<span id="rating_stars" class="pull-right">'+stars()+'</span></div>\
-  </div>\
-  <a id="photo_view_close_button" class="button" href="javascript:closeWindow()"><i class="icon-remove icon-white"></i></a>\
+    <div id="shadow"></div>\
+    \
+    <div id="photo_view">\
+        <img src="gallery/cesta_do_neznama_wallpaper.jpg"/>\
+    </div>\
+    \
+    <div id="photo_title">\
+      <strong class="photo_title">Cesta do neznáma</strong><br/>\
+      <span class="photo_subtitle">by Michal Hozza</span>\
+    </div>\
+    \
+    <a href="#" id="prev_photo" class="photo_nav"><img src="images/previous_photo.png"/></a>\
+    <a href="#" id="next_photo" class="photo_nav"><img src="images/next_photo.png"/></a>\
+    \
+    <div id="comments">\
+      <strong id="comments_title">Komentáre</strong>\
+      <a id="hide_comments_button" title="skryť" class="pull-right" href="javascript:hideComments()">&gt;&gt;</a>\
+      \
+      <div id="comments_content">\
+      <div class="comment"><div class="comment_title"><span class="label label-inverse">Michal Hozza</span> <small class="muted pull-right">pred 5 minútami</small></div> <div class="comment_body">Nejaky zmysluplny text, ktory nie je prilis dlhy</div></div>\
+      <div class="comment"><div class="comment_title"><span class="label label-inverse">Michal Hozza</span> <small class="muted pull-right">pred 5 minútami</small></div> <div class="comment_body">Nejaky zmysluplny text, ktory nie je prilis dlhy</div></div>\
+      </div>\
+      <div id="comments_fake_footer">&nbsp;</div>\
+      <div id="comments_footer">\
+      <form action="" method="post" class="comments">\
+        <textarea name="comment_text" id="comment_text"></textarea><br/>\
+        <button class="btn btn-primary" type="submit">Pridať</button> <button class="btn" type="reset">Zrušiť</button><span id="comment_text_count"></span>\
+      </form>\
+        <div id="rating">\
+          <span id="rate_label">Ohodnoť:</span>&nbsp;\
+          <span id="rating_stars" class="rating pull-right">\
+            <span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>\
+          </span>\
+        </div>\
+        <div class="dropup">\
+          <a href="#" id="share_button" data-toggle="dropdown" class="cleaner dropdown-toggle btn btn-block"><i class="icon-share-alt"></i> Zdieľať</a>\
+          <ul class="dropdown-menu pull-right" role="menu">\
+            <li><a tabindex="-1" href="#"><i class="icon-google-plus-sign"></i> Google+</a></li>\
+            <li><a tabindex="-1" href="#"><i class="icon-facebook-sign"></i> Facebook</a></li>\
+            <li><a tabindex="-1" href="#"><i class="icon-twitter-sign"></i> Twitter</a></li>\
+          </ul>\
+        </div>\
+      </div>\
+    </div>\
+    <a id="photo_view_close_button" class="button" href="javascript:closeWindow()"><i class="icon-remove icon-white"></i></a>\
   </div>\
   ';
 
+  // <span id="rate_label" class="label">Ohodnoťte:</span>&nbsp;<span id="rating_stars" class="rating pull-right">'+stars()+'</span></div>\
   //onSubmit="$.post(document.location.href,{comment_text:$(\'textarea\').val(),ajax:\'true\'},function(data){$(\'#comments\').html(data);});return false;"
   //onChange="maxlength(this,{{CONST.MAX_COMMENT_SIZE}})" onKeyUp="maxlength(this,{{CONST.MAX_COMMENT_SIZE}})"
 
   $("body").append(html);
 
   $("#hide_comments_button").tooltip({'placement':'left'});
+  // $("#share_button").tooltip({'placement':'left'});
+  $("#share_button").dropdown();
 
   //TODO: title fade out + show
 
