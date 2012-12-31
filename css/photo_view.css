@@ -153,3 +153,34 @@ hr.divider
 {
   /*font-weight: bold;*/
 }
+
+#comments_title
+{
+  color:#08c;
+}
+
+#rating
+{
+  border-top: solid 1px #ddd;  
+  padding: 0.5em 0;
+  position: absolute;
+  bottom: 0;  
+}
+
+#rating a
+{
+  text-decoration: none;
+}
+
+#rate_label
+{
+  display: inline-block;
+  float: left;
+  margin: 4px 0;
+}
+
+#rating_stars
+{
+  float:right;
+  right:0;
+}

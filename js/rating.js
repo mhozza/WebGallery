@@ -1,3 +1,14 @@
+function stars()
+{
+  s = "";  
+  for (var i = 0; i < 5; i++) {    
+    s+= '<a href="#">\
+    <img src="images/star_white.png" alt="'+ i +'" class="rating" onMouseOver="ratingOver(this,true)" onMouseOut="ratingOver(this,false)"/>\
+    </a>';
+  }
+  return s;
+}
+
 function ratingOver(element,over)
 {  
   if(over)

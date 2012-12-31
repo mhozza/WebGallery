@@ -31,6 +31,7 @@ function resizeWindow()
   $("#photo_view").innerWidth(mainWidth);
   $("#photo_view").innerHeight(mainHeight);
   $("#comments").innerHeight(commentsHeight);
+  $("#rating").outerWidth(parseFloat($("#comments").width()));
 
   resizeImage();
 
@@ -101,13 +102,14 @@ function openWindow()
   <div id="photo_title"><strong class="photo_title">Cesta do neznáma</strong><br/><span class="photo_subtitle">by Michal Hozza</span></div>\
   <a href="#" id="prev_photo" class="photo_nav"><img src="images/previous_photo.png"/></a>\
   <a href="#" id="next_photo" class="photo_nav"><img src="images/next_photo.png"/></a>\
-  <div id="comments"><strong class="text-info">Komentáre</strong> <a id="hide_comments_button" title="skryť" class="pull-right" href="javascript:hideComments()">&gt;&gt;</a><hr class="divider"/>\
-  <div class="comment"><div class="comment_title"><span class="label label-inverse">Michal Hozza</span> <small class="muted pull-right">5 minutes ago</small></div> <div class="comment_body">Nejaky zmysluplny text, ktory nie je prilis dlhy</div></div>\
-  <div class="comment"><div class="comment_title"><span class="label label-inverse">Michal Hozza</span> <small class="muted pull-right">5 minutes ago</small></div> <div class="comment_body">Nejaky zmysluplny text, ktory nie je prilis dlhy</div></div>\
+  <div id="comments"><strong id="comments_title">Komentáre</strong> <a id="hide_comments_button" title="skryť" class="pull-right" href="javascript:hideComments()">&gt;&gt;</a><hr class="divider"/>\
+  <div class="comment"><div class="comment_title"><span class="label label-inverse">Michal Hozza</span> <small class="muted pull-right">pred 5 minútami</small></div> <div class="comment_body">Nejaky zmysluplny text, ktory nie je prilis dlhy</div></div>\
+  <div class="comment"><div class="comment_title"><span class="label label-inverse">Michal Hozza</span> <small class="muted pull-right">pred 5 minútami</small></div> <div class="comment_body">Nejaky zmysluplny text, ktory nie je prilis dlhy</div></div>\
   <form action="" method="post" class="comments">\
     <textarea name="comment_text" id="comment_text"></textarea><br/>\
     <button class="btn btn-primary" type="submit">Pridať</button><span id="comment_text_count"></span>\
   </form>\
+  <div id="rating"><span id="rate_label" class="label label-inverse">Ohodnoťte:</span>&nbsp;<span id="rating_stars" class="pull-right">'+stars()+'</span></div>\
   </div>\
   <a id="photo_view_close_button" class="button" href="javascript:closeWindow()"><i class="icon-remove icon-white"></i></a>\
   </div>\
