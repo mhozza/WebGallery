@@ -51,7 +51,6 @@ class LoginManager
    * 
    *
    * @param User user 
-
    * @return 
    * @access public
    */
