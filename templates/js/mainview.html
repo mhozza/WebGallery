@@ -1,0 +1,11 @@
+<ul class="thumbnails">
+  <li class="span4" ng-repeat="item in items">  	
+    <a ng-show="item.class=='Album'" href="javascript:void(0)" class="thumbnail" ng-click="setAlbum(item.path)">
+      <!-- <img data-src="" alt=""> -->
+      {{item}}
+    </a>
+    <a ng-hide="item.class=='Album'" href="#" class="thumbnail">      
+      {{item}}
+    </a>
+  </li>
+</ul>

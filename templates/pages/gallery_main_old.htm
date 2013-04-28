@@ -1,0 +1,67 @@
+{% extends 'layout/gallery.htm' %}
+
+{%block caption%}{{gallery.getAlbum.caption}}{%endblock%}
+
+{%block toolbar%}
+{%include 'parts/toolbar.htm'%}
+{%endblock%}
+
+{% block g_body %}
+
+{% macro item_box(item) %}  
+  
+  {% if item.getClass == 'Album' %}
+    {% set beginlink = '?album=' %}        
+    {% set imagesrc = 'albumthumbnail.php?w=200&h=140&image='~item.getPath %}
+    {% set caption = item.getCaption %}     
+    {% set link = '<a class="item_album" href = "'~beginlink~item.getPath~'">' %}     
+  {% else %}
+    {% set beginlink = 'loadDetail(\'?detail=' %}
+    {% set endlink = '\');' %}
+    {% set imagesrc = 'getimage.php?w=200&h=140&image='~item.getPath %}
+    {% set caption = item.getCaption %}    
+    {% set link = '<a class="item_photo" href = "#" onclick="'~beginlink~item.getPath~endlink~'">' %}    {# TODO: zmenit na no-js #}
+  {% endif %}
+ 
+{{link | raw}}
+<div class='box_item '>        
+    <div class='box_image'>
+       <img src='{{imagesrc}}'  />
+    </div>
+    <div class='box_caption'>
+       {{caption}} 
+    </div>
+</div>
+</a>    
+{% endmacro %}
+
+
+<div id="detail_content"></div>
+<script type="text/javascript" src="js/load_detail.js"></script>
+
+<div id="album_plane" class="content">
+
+  {% for item in gallery.getItems %}      
+    {{_self.item_box(item)}}
+  {% endfor %}
+
+  <div class="cleaner">&nbsp;</div>
+</div>
+
+
+
+{%import 'macros/dialogs.htm' as dialogs%}
+
+{% if user.isEditor %}
+{{dialogs.newAlbumDialog(true)}}
+{{dialogs.addPhotosDialog(true)}}
+{% endif %}
+
+
+
+{% endblock %}
+
+{%block scripts%}
+<script type="text/javascript" src="js/gallery.js"></script>
+<script type="text/javascript" src="js/gallery_ui.js"></script>   
+{%endblock%}
