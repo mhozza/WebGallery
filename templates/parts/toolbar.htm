@@ -1,22 +1,24 @@
 <li>
 <div>
-<a href = "?album={{gallery.getAlbum.getParent.getPath}}" class="btn toolbutton{% if not gallery.getAlbum.parent %} hidden{%endif%}" id="parentDir">
+{% verbatim %}
+<a ng-hide="albumParent==null" href="#/{{albumParent.path}}" class="btn toolbutton" id="parentDir">
          <img src="images/toolbar/arrow.png" alt="../"/>
 </a>
+{% endverbatim %}
 </div>
 
 {% if user.isEditor %}
 <li>
-<div class="btn-group" > 
- 
+<div class="btn-group" >
+
   <a href="Javascript:void(0);" class="btn toolbutton" id="add_photos">
     <img src="images/toolbar/add.png" alt="Add photos"/>
   </a>
-  
+
   <a href="Javascript:void(0);" class="btn toolbutton" id="add_album">
     <img src="images/toolbar/folder_add.png" alt="Add album"/>
   </a>
 </div>
 </li>
-{%endif %}  
+{%endif %}
 </li>
