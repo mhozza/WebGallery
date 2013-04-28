@@ -12,8 +12,7 @@
 /**
  * Represents a displayable node in the AST.
  *
- * @package    twig
- * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+ * @author Fabien Potencier <fabien@symfony.com>
  */
 interface Twig_NodeOutputInterface
 {
