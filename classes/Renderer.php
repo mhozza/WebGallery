@@ -2,7 +2,7 @@
 require_once 'session_init.php';
 require_once 'lib/Twig/Autoloader.php';
 require_once 'Gallery.php';
-require_once 'LoginManager.php';
+require_once 'controller/LoginManager.php';
 require_once 'Admin.php';
 //require_once 'Twig/Extension.php';
 

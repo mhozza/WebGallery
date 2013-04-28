@@ -1,6 +1,6 @@
 <?php
 require_once 'GalleryItem.php';
-require_once 'Exceptions.php';
+require_once 'classes/utils/Exceptions.php';
 
 /**
  * class Album
@@ -12,12 +12,9 @@ class Album extends GalleryItem
   private $nextPhoto = null;
   private $prevPhoto = null;  
   private $currentPhoto = null;
-
   private $indexMap = null;
-  
   private $photos = null;
   private $albums = null;
-  
 
   function __construct($arg) {   
     $info = NULL;
@@ -42,13 +39,9 @@ class Album extends GalleryItem
     {      
       throw new SecurityException('Could not access album.');
     }
-    
-    
   }   
 
   /**
-   * 
-   *
    * @return 
    * @access public
    */
@@ -62,11 +55,9 @@ class Album extends GalleryItem
       }
     }
     return $this->photos;
-  } // end of member function getPhotos
+  }
 
   /**
-   * 
-   *
    * @return 
    * @access public
    */
@@ -76,66 +67,61 @@ class Album extends GalleryItem
       $this->albums = Database::getAlbums($this->id);
     }
     return $this->albums;
-  } // end of member function getPhotos
+  }
 
 
   /**
-   * 
-   *
    * @return 
    * @access public
    */
   public function getItems( ) {
     return array_merge($this->getAlbums(),$this->getPhotos());
-  } // end of member function getItems
+  }
 
  
   /**
-   * 
-   *
    * @return Photo
    * @access public
    */
-  public function getCurrentPhoto(  ) 
-  {    
-    return $this->currentPhoto;
-  } // end of member function getCurrentPhoto
+  // public function getCurrentPhoto(  ) 
+  // {    
+  //   return $this->currentPhoto;
+  // }
   
-  public function getCurrentPhotoIndex(  ) 
-  {    
-    return $this->indexMap[$this->currentPhoto->getId()];        
-  } // end of member function getCurrentPhoto
+  // public function getCurrentPhotoIndex(  ) 
+  // {    
+  //   return $this->indexMap[$this->currentPhoto->getId()];        
+  // }
 
   public function getPhotoCount(  ) 
   {    
     return sizeof($this->getPhotos());
-  } // end of member function getCurrentPhoto
+  }
 
   
-  public function setCurrentPhoto( $photo ) {
-    $this->currentPhoto = $photo;        
-    $photos = $this->getPhotos();
-    $index = $this->indexMap[$photo->getId()];        
-    if(isset($photos[$index-1]))
-      $this->prevPhoto = $photos[$index-1];
-    else 
-      $this->prevPhoto = null;
+  // public function setCurrentPhoto( $photo ) {
+  //   $this->currentPhoto = $photo;        
+  //   $photos = $this->getPhotos();
+  //   $index = $this->indexMap[$photo->getId()];        
+  //   if(isset($photos[$index-1]))
+  //     $this->prevPhoto = $photos[$index-1];
+  //   else 
+  //     $this->prevPhoto = null;
 
-    if(isset($photos[$index+1]))
-      $this->nextPhoto = $photos[$index+1];
-    else
-      $this->nextPhoto = null;
-  } // end of member function setAlbum
+  //   if(isset($photos[$index+1]))
+  //     $this->nextPhoto = $photos[$index+1];
+  //   else
+  //     $this->nextPhoto = null;
+  // }
 
-  public function getNextPhoto( ) 
-  {    
-    return $this->nextPhoto;
-  } // end of member function getCurrentPhoto
+  // public function getNextPhoto( ) 
+  // {    
+  //   return $this->nextPhoto;
+  // }
 
-  public function getPreviousPhoto( ) 
-  {    
-    return $this->prevPhoto;
-  } // end of member function getCurrentPhoto
+  // public function getPreviousPhoto( ) 
+  // {    
+  //   return $this->prevPhoto;
+  // }
 
-} // end of Album
-?>
+} 

@@ -1,7 +1,7 @@
 <?php
-require_once 'Gallery.php';
+require_once 'classes/Gallery.php';
+require_once 'classes/utils/ImageResizer.php';
 require_once 'Comment.php';
-require_once 'ImageResizer.php';
 require_once 'GalleryItem.php';
 
 
@@ -12,15 +12,22 @@ require_once 'GalleryItem.php';
 class GalleryItem
 {
 
-  protected $parent = null;
+  //public properties are included in json
+  public $id;
+  public $caption;
+  public $path;
+  public $parentID;
+  public $class;
+  public $parentPath;
 
-  protected $permissions;
-  protected $rating = 0; 
-  protected $parentID;
-  protected $id;
-  protected $caption;
-  protected $path;
+  private $permissions;
+  private $rating = 0; 
+  private $parent = null;
 
+  public function toArray()
+  {
+    return array('id' => $this->id, 'caption' => $this->caption, 'path' => $this->path,  'parentId' => $this->parentID, 'class' =>  $this->getClass(), 'parentPath' => $this->parentPath);
+  }
 
   function __construct($id,$caption,$path,$parentID,$perms) {
     $this->id = $id;
@@ -29,28 +36,40 @@ class GalleryItem
     $this->permissions = $perms;
     settype($parentID,'integer');     
     $this->parentID = $parentID;
+    $this->class = $this->getClass();
+    $this->parentPath = $this->getParentPath();
   }
+
+  public function getParentPath( ) {
+    $parentPath = '';
+    if($this->getParent()!=null)
+    {
+      $parentPath = $this->getParent()->getPath();
+    }
+    return $parentPath;
+  }
+
 
   public function getRating( ) {
     if($this->rating==0) return 'neohodnotené';
     return $this->rating;
-  } // end of member function getRating
+  }
 
   public function getCaption( ) {
     return $this->caption;
-  } // end of member function getCaption
+  }
 
   public function setCaption($c ) {
     $this->caption = $c;
-  } // end of member function getCaption
+  }
  
   public function getId( ) {
     return $this->id;
-  } // end of member function getId
+  }
 
   public function getPath( ) {
     return $this->path;
-  } // end of member function getPath
+  }
 
   public function setName( $p ) {
     if($this->parentID!=null)
@@ -63,11 +82,11 @@ class GalleryItem
       $this->path = $p;
     }    
     
-  } // end of member function getPath
+  }
 
   public function getClass( ) {
     return get_class($this);
-  } // end of member function getClass
+  }
 
   public function getParentID()
   {
@@ -86,7 +105,6 @@ class GalleryItem
 
   /**
    * returns parent album(directory)
-   *
    * @return GalleryItem
    * @access public
    */
@@ -103,20 +121,11 @@ class GalleryItem
         {         
         }
       }
-      //else throw new RuntimeException('Null parentID ItemID:' . $this->getId() . ' Class: ' . $this->getClass());
     }
     return $this->parent;
-  } // end of member function getParent
-
-  public function toArray()
-  {
-    $parentPath = '';
-    if($this->getParent()!=null)
-    {
-      $parentPath = $this->getParent()->getPath();
-    }
-    return array('id' => $this->id, 'caption' => $this->caption, 'path' => $this->path,  'parentId' => $this->parentID, 'class' =>  $this->getClass(), 'parentPath' => $parentPath);
   }
+
+  
 
   
 } // end of GalleryItem

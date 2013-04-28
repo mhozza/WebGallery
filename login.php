@@ -4,8 +4,8 @@
 require_once 'session_init.php';
 
 require_once 'lib/lightopenid/openid.php';
-require_once 'classes/LoginManager.php';
-require_once 'classes/Exceptions.php';
+require_once 'classes/controller/LoginManager.php';
+require_once 'classes/utils/Exceptions.php';
 
 $lm = new LoginManager();
 try {

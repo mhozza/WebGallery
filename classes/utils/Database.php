@@ -1,7 +1,7 @@
 <?php
-require_once 'LoginManager.php';
-require_once 'Privileges.php';
-require_once 'User.php'; 
+require_once 'classes/controller/LoginManager.php';
+require_once 'classes/model/Privileges.php';
+require_once 'classes/model/User.php'; 
 require_once 'config.php';
 
 $cnt = 0;

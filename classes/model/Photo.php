@@ -1,7 +1,7 @@
 <?php
 require_once 'GalleryItem.php';
 require_once 'Exif.php';
-require_once 'Validator.php';
+require_once 'classes/utils/Validator.php';
 
 define('MAX_RATE',5);
 define('MAX_COMMENT_SIZE',500);
@@ -13,20 +13,9 @@ define('MAX_COMMENT_SIZE',500);
  */
 class Photo extends GalleryItem
 {
-
- 
-  /**
-   * 
-   * @access private
-   */
   private $exifData = NULL;
-
-  /**
-   * 
-   * @access private
-   */
   private $comments = null;
-
+  private $rating = 0;
 
   function __construct($info) {    
     if(is_array($info))
@@ -41,8 +30,6 @@ class Photo extends GalleryItem
   }   
 
   /**
-   * 
-   *
    * @return Exif
    * @access public
    */
@@ -75,8 +62,6 @@ class Photo extends GalleryItem
   }
 
    /**
-   * 
-   *
    * @return Comment[]
    * @access public
    */

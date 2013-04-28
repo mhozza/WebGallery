@@ -1,8 +1,8 @@
 <?php
-require_once 'Database.php';
-require_once 'LoginManager.php';
-require_once 'User.php';
-require_once 'Exceptions.php';
+// require_once 'LoginManager.php';
+require_once 'classes/utils/Database.php';
+require_once 'classes/model/User.php';
+require_once 'classes/utils/Exceptions.php';
 
 
 /**

@@ -1,9 +1,9 @@
 <?php
-require_once 'Database.php';
-require_once 'Album.php';
-require_once 'Photo.php';
-require_once 'LoginManager.php';
-require_once 'Exceptions.php';
+require_once 'utils/Database.php';
+require_once 'utils/Exceptions.php';
+require_once 'model/Album.php';
+require_once 'model/Photo.php';
+require_once 'controller/LoginManager.php';
 
 define('ST_INVALID_MAIL',11);
 define('ST_INVALID_NICK',12);

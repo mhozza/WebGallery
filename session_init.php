@@ -1,5 +1,5 @@
 <?php  
-  require_once 'classes/Database.php';  
+  require_once 'classes/utils/Database.php';  
   function checkSession()
   { 
     if(Database::checkSession()) return true;                  

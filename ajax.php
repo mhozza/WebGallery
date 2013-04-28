@@ -3,7 +3,7 @@
 require_once 'session_init.php';
 require_once 'lib/Twig/Autoloader.php';
 require_once 'classes/Gallery.php';
-require_once 'classes/LoginManager.php';
+require_once 'classes/controller/LoginManager.php';
 require_once 'classes/Admin.php';
 //require_once 'Twig/Extension.php';
 

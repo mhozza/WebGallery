@@ -1,5 +1,5 @@
 <?php
-require_once 'Database.php';
+require_once 'classes/utils/Database.php';
 
 define('UID_UNLOGGED',-1);
 define('UID_ROOT', 1);
