@@ -4,15 +4,16 @@
 function MainViewCtrl($scope, GalleryItems, $routeParams)
 {
 	var path = $routeParams.albumPath;
-	if(path=='')
-		$scope.album = GalleryItems.get(function() {
-  				$scope.setParent($scope.album.parent);
-			});
 
+	if(path=='') 
+		path = '[]';	
 	else
-		$scope.album = GalleryItems.get({path:'"'+path+'"'},function() {
-  				$scope.setParent($scope.album.parent);
-			});
+		path = '["'+path+'"]';
+
+	$scope.album = GalleryItems.get({path:path},function() {
+				$scope.setParent($scope.album.parent);
+				photo_view.loadPhotos($scope.album.items);
+		});
 }
 
 function MainCtrl ($scope) {
@@ -22,6 +23,5 @@ function MainCtrl ($scope) {
  	$scope.setParent = function(parent)
  	{
  		$scope.albumParent = parent;
- 		console.log(parent);
  	}
 }

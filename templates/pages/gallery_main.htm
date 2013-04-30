@@ -2,6 +2,10 @@
 
 {%block ngapp%}ng-app="WebGallery" ng-controller="MainCtrl"{% endblock %}
 
+{%block g_head%}
+<link href="css/photo_view.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+
 {%block caption%}{{gallery.getAlbum.caption}}{%endblock%}
 
 {%block toolbar%}
@@ -14,11 +18,14 @@
 {% endblock %}
 
 {%block scripts%}
+<script type="text/javascript" src="js/photo_view.js"></script>
+<!--script type="text/javascript">photo_view.loadPhotos({{items}})</script-->
+
 <!-- <script type="text/javascript" src="js/gallery.js"></script>   -->
 <!-- <script type="text/javascript" src="js/gallery_ui.js"></script>    -->
-<!-- In production use:
-<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.6/angular.min.js"></script>
--->
+<!-- In production use: -->
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.1.4/angular.min.js"></script> -->
+
 <script src="lib/angular/angular.js"></script>
 <script src="js/app.js"></script>
 <script src="js/services.js"></script>
@@ -26,5 +33,9 @@
 <script src="js/filters.js"></script>
 <script src="js/directives.js"></script>
 <script src="lib/angular/angular-resource.js"></script>
+<!-- <script src="lib/angular/angular-sanitize.js"></script> -->
+<!-- <script src="lib/angular/angular-loader.js"></script> -->
+<!-- <script src="lib/angular/angular-mocks.js"></script> -->
+<!-- <script src="lib/angular/angular-scenario.js"></script> -->
 
 {%endblock%}

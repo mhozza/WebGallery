@@ -1,10 +1,11 @@
-$(document).ready(function(){openWindow();});
-$(window).resize(function(){resizeWindow();});
+photo_view = new Object();
+photo_view.photos = [];
 
-var imgWidth, imgHeight, titleTimeout;
-var mainSpaceLeft, mainSpaceBottom;
+// $(document).ready(function(){photo_view.openWindow('gallery/cesta_do_neznama_wallpaper.jpg');});
+$(window).resize(function(){photo_view.resizeWindow();});
 
-function resizeWindow()       
+
+photo_view.resizeWindow = function resizeWindow()       
 {
   if($("#comments").hasClass("hidden"))
   {
@@ -16,18 +17,18 @@ function resizeWindow()
   }
 
   windowWidth = parseFloat($(window).innerWidth());
-  mainSpaceLeft = parseFloat($("#photo_view").css("margin-left"))+parseFloat($("#photo_view").css("border-left-width"));
+  this.mainSpaceLeft = parseFloat($("#photo_view").css("margin-left"))+parseFloat($("#photo_view").css("border-left-width"));
   mainSpaceRight = parseFloat($("#photo_view").css("margin-right"))+parseFloat($("#photo_view").css("border-right-width"))+commentsWidth;
   
   windowHeight = parseFloat($(window).innerHeight());
   mainSpaceTop = parseFloat($("#photo_view").css("margin-top"))+parseFloat($("#photo_view").css("border-top-width"));
-  mainSpaceBottom = parseFloat($("#photo_view").css("margin-bottom"))+parseFloat($("#photo_view").css("border-bottom-width"));
+  this.mainSpaceBottom = parseFloat($("#photo_view").css("margin-bottom"))+parseFloat($("#photo_view").css("border-bottom-width"));
 
   commentsSpaceTop = parseFloat($("#comments").css("margin-top"))+parseFloat($("#comments").css("border-top-width"));
   commentsSpaceBottom = parseFloat($("#comments").css("margin-bottom"))+parseFloat($("#comments").css("border-bottom-width"));
 
-  mainWidth = windowWidth-mainSpaceLeft-mainSpaceRight;
-  mainHeight = windowHeight-mainSpaceTop-mainSpaceBottom;
+  mainWidth = windowWidth-this.mainSpaceLeft-mainSpaceRight;
+  mainHeight = windowHeight-mainSpaceTop-this.mainSpaceBottom;
   commentsHeight = windowHeight-commentsSpaceTop-commentsSpaceBottom;
 
   $("#photo_view").innerWidth(mainWidth);
@@ -37,7 +38,7 @@ function resizeWindow()
   $("#comments").innerHeight(commentsHeight);
   $("#comment_text").outerWidth($("#comments").width());
   $("#comments_footer").outerWidth(parseFloat($("#comments").width()));
-  $("#comments_footer").css({'bottom': mainSpaceBottom})
+  $("#comments_footer").css({'bottom': this.mainSpaceBottom})
   $("#comments_content").height($("#comments").height()
     - $("#comments_footer").outerHeight(true)
     - $("#comments_title").outerHeight(true)
@@ -47,12 +48,12 @@ function resizeWindow()
     - parseFloat($("#comments_content").css('margin-top'))
     );
   
-  resizeImage();
+  this.resizeImage();
 
   //nav
   $(".photo_nav").height($("#prev_photo img").height());  
   $(".photo_nav").css({'padding':(mainHeight-$("#prev_photo img").height())/2 + 'px 4px'});  
-  $("#prev_photo").css({'left':mainSpaceLeft});
+  $("#prev_photo").css({'left':this.mainSpaceLeft});
   $("#next_photo").css({'right':mainSpaceRight});
 
   //Buttons
@@ -69,12 +70,12 @@ function resizeWindow()
   }  
 }
 
-function resizeImage()
+photo_view.resizeImage = function()
 {
-  zoom = Math.max(imgHeight/parseFloat($("#photo_view").height()), imgWidth/parseFloat($("#photo_view").width()));  
+  zoom = Math.max(this.imgHeight/parseFloat($("#photo_view").height()), this.imgWidth/parseFloat($("#photo_view").width()));  
   
-  $("#photo_view img").height(imgHeight/zoom);  
-  $("#photo_view img").width(imgWidth/zoom);  
+  $("#photo_view img").height(this.imgHeight/zoom);  
+  $("#photo_view img").width(this.imgWidth/zoom);  
 
   $("#photo_title").width($("#photo_view img").width() 
      - parseFloat($("#photo_title").css('margin-left')) 
@@ -85,27 +86,50 @@ function resizeImage()
      - parseFloat($("#photo_title").css('border-right-width'))
     );
   
-  imgLeft = (parseFloat($("#photo_view").width()) - imgWidth/zoom)/2;
-  imgTop = (parseFloat($("#photo_view").height()) - imgHeight/zoom)/2;
+  imgLeft = (parseFloat($("#photo_view").width()) - this.imgWidth/zoom)/2;
+  imgTop = (parseFloat($("#photo_view").height()) - this.imgHeight/zoom)/2;
   
   $("#photo_view img").css({'margin-left': imgLeft, 'margin-top':imgTop});
 
   $("#photo_title").css({
-    'left':   mainSpaceLeft + parseFloat($("#photo_view").css("padding-left")) + imgLeft,
-    'top': imgTop + mainSpaceBottom + parseFloat($("#photo_view").css("padding-bottom")) + $("#photo_view img").height() - $("#photo_title").outerHeight(true)
+    'left':   this.mainSpaceLeft + parseFloat($("#photo_view").css("padding-left")) + imgLeft,
+    'top': imgTop + this.mainSpaceBottom + parseFloat($("#photo_view").css("padding-bottom")) + $("#photo_view img").height() - $("#photo_title").outerHeight(true)
   });
   
 
 }
 
-function openWindow()
+photo_view.loadPhotos = function(photos)
 {
+  this.photos = [];
+  for (var i = 0; i < photos.length; i++) {
+    if(photos[i].class=="Photo")
+    {
+      this.photos.push(photos[i]);
+    }
+  };
+}
+
+photo_view.getPhotoIndexById = function(id)
+{
+  for (var i = 0; i < this.photos.length; i++) {    
+    if (this.photos[i].id == id) 
+    {
+      return i;
+    }
+  }
+}
+
+photo_view.openWindow = function(id)
+{
+  photo = this.photos[this.getPhotoIndexById(id)];
+  image = photo.path;
   html = '\
   <div id="apaloosa_gallery_view_wrapper">\
     <div id="shadow"></div>\
     \
     <div id="photo_view">\
-        <img src="gallery/cesta_do_neznama_wallpaper.jpg"/>\
+        <img src="'+image+'"/>\
     </div>\
     \
     <div id="photo_title">\
@@ -118,7 +142,7 @@ function openWindow()
     \
     <div id="comments">\
       <strong id="comments_title">Komentáre</strong>\
-      <a id="hide_comments_button" title="skryť" class="pull-right" href="javascript:hideComments()">&gt;&gt;</a>\
+      <a id="hide_comments_button" title="skryť" class="pull-right" href="javascript:photo_view.hideComments()">&gt;&gt;</a>\
       \
       <div id="comments_content">\
       <div class="comment"><div class="comment_title"><span class="label label-inverse">Michal Hozza</span> <small class="muted pull-right">pred 5 minútami</small></div> <div class="comment_body">Nejaky zmysluplny text, ktory nie je prilis dlhy</div></div>\
@@ -146,7 +170,7 @@ function openWindow()
         </div>\
       </div>\
     </div>\
-    <a id="photo_view_close_button" class="button" href="javascript:closeWindow()"><i class="icon-remove icon-white"></i></a>\
+    <a id="photo_view_close_button" class="button" href="javascript:photo_view.closeWindow()"><i class="icon-remove icon-white"></i></a>\
   </div>\
   ';
 
@@ -166,52 +190,52 @@ function openWindow()
   $("<img/>") // Make in memory copy of image to avoid css issues
     .attr("src", $("#photo_view img").attr("src"))
     .load(function() {
-        imgWidth = this.width;   // Note: $(this).width() will not
-        imgHeight = this.height; // work for in memory images.
-        resizeWindow();
+        photo_view.imgWidth = this.width;   // Note: $(this).width() will not
+        photo_view.imgHeight = this.height; // work for in memory images.
+        photo_view.resizeWindow();
     });
 
   $("#photo_title").mouseenter(function(){
     $(this).css({'opacity':1});
-    window.clearTimeout(titleTimeout);
+    window.clearTimeout(this.titleTimeout);
   });
 
   $("#photo_title").mouseleave(function(){
-    titleTimeout = window.setTimeout('hideTitle()',1000);
+    this.titleTimeout = window.setTimeout('photo_view.hideTitle()',1000);
   });
 
-  titleTimeout = window.setTimeout('hideTitle()',2000);
+  this.titleTimeout = window.setTimeout('photo_view.hideTitle()',2000);
 
-  resizeWindow();
+  this.resizeWindow();
 }
 
-function closeWindow()
+photo_view.closeWindow = function()
 {
   $("#apaloosa_gallery_view_wrapper").remove();  
 }
 
-function hideComments()
+photo_view.hideComments = function()
 {
   $("#comments").addClass("hidden");
-  html='<a id="show_comments_button" class="button" href="javascript:showComments()"><i class="icon-comment icon-white"></i></a>';
+  html='<a id="show_comments_button" class="button" href="javascript:photo_view.showComments()"><i class="icon-comment icon-white"></i></a>';
   $("#apaloosa_gallery_view_wrapper").append(html);
-  resizeWindow();  
+  this.resizeWindow();  
   
 }
 
-function showComments()
+photo_view.showComments = function()
 {
   $("#show_comments_button").remove();
   $("#comments").removeClass("hidden");
-  resizeWindow();
+  this.resizeWindow();
 }
 
-function hideTitle()
+photo_view.hideTitle = function()
 {
   $("#photo_title").animate({'opacity':0});
 }
 
-function maxlength(element,length)
+photo_view.maxlength = function(element,length)
 {  
   if (element.value.length>length) element.value=element.value.substring(0,length);
   $("#"+element.id+"_count").html("Zostáva "+(length-element.value.length)+" znakov.");  
