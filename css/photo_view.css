@@ -81,7 +81,7 @@ hr.divider
 
 #photo_title
 {
-    height:40px;
+    /*height:40px;*/
     padding: 10px;    
     background-color: rgba(0,0,0,0.65);    
     text-align: center;
@@ -92,6 +92,11 @@ hr.divider
     box-shadow: 0 0 5px 5px rgba(0,0,0,0.65);
     z-index: 240;
     color: white;
+}
+
+#photo_title:empty
+{
+  visibility: hidden;
 }
 
 .photo_title
