@@ -6,8 +6,11 @@ body
 #banner
 {
   text-align:left;
-  background-image:url('../images/lblue142.gif');
   border-bottom:1px solid #aaa;   
+  background-color:#cde8fe;
+  background:url('../images/horses.png') right bottom no-repeat, url('../images/clouds.png') right bottom repeat-y;
+  background-size: auto 100%, 100% 100%;
+
 }
 
 /*#image
