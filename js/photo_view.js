@@ -1,8 +1,50 @@
 photo_view = new Object();
 photo_view.photos = [];
 
+var keyCode = {
+  KEY_BACKSPACE: 8,
+  KEY_CAPS_LOCK: 20,
+  KEY_COMMA: 188,
+  KEY_CONTROL: 17,
+  KEY_DELETE: 46,
+  KEY_DOWN: 40,
+  KEY_END: 35,
+  KEY_ENTER: 13,
+  KEY_ESCAPE: 27,
+  KEY_HOME: 36,
+  KEY_INSERT: 45,
+  KEY_LEFT: 37,
+  KEY_NUMPAD_ADD: 107,
+  KEY_NUMPAD_DECIMAL: 110,
+  KEY_NUMPAD_DIVIDE: 111,
+  KEY_NUMPAD_ENTER: 108,
+  KEY_NUMPAD_MULTIPLY: 106,
+  KEY_NUMPAD_SUBTRACT: 109,
+  KEY_PAGE_DOWN: 34,
+  KEY_PAGE_UP: 33,
+  KEY_PERIOD: 190,
+  KEY_RIGHT: 39,
+  KEY_SHIFT: 16,
+  KEY_SPACE: 32,
+  KEY_TAB: 9,
+  KEY_UP: 38  
+}
+
 // $(document).ready(function(){photo_view.openWindow('gallery/cesta_do_neznama_wallpaper.jpg');});
 $(window).resize(function(){photo_view.resizeWindow();});
+
+// $(document).keydown(function(event){  
+//   var key = event.keyCode || event.which;
+//   //Not in a textarea or textbox
+//   if (event.target.type !== 'text') {
+      
+//       if (key === 8) {
+//         if ($back.is(':visible')) {
+//             $back.click();
+//         }
+//       }
+//   }
+// });
 
 
 photo_view.resizeWindow = function resizeWindow()
@@ -119,6 +161,29 @@ photo_view.getPhotoIndexById = function(id)
   }
 }
 
+
+
+photo_view.preloadPhoto = function(photo)
+{
+  $("<img/>").attr("src", photo.path).load(function(){
+      //this.loaded[i]=true
+  });
+}
+
+photo_view.preloadPhotos = function(id)
+{
+  if (id==null) return;  
+  index = this.getPhotoIndexById(id);
+  for(i = index+1;i<index+5 && i<this.photos.length;i++)
+  {
+    preloadPhoto(this.photos[i]);    
+  }
+  for(i = index-1;i>index-2 && i>0;i--)
+  {
+    preloadPhoto(this.photos[i]);        
+  }
+}
+
 photo_view.setPhoto = function(id)
 {
   if (id==null) return;
@@ -159,6 +224,8 @@ photo_view.setPhoto = function(id)
   this.titleTimeout = window.setTimeout('photo_view.hideTitle()',2000);
 
   this.resizeWindow();
+
+  this.preloadPhotos(id);
 }
 
 photo_view.getNextId = function(id)
