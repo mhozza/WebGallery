@@ -3,6 +3,7 @@ require_once 'classes/controller/LoginManager.php';
 require_once 'classes/model/Privileges.php';
 require_once 'classes/model/User.php'; 
 require_once 'config.php';
+require_once 'mypdo.php';
 
 $cnt = 0;
 
@@ -78,9 +79,10 @@ class Database
     global $DB_CONNECTION_STRING;
     global $DB_USER;
     global $DB_PASS;
+    global $DB_PREFIX;
     if(self::$db==null)
     {
-      self::$db = new PDO($DB_CONNECTION_STRING, $DB_USER, $DB_PASS);        
+      self::$db = new MyPDO($DB_CONNECTION_STRING, $DB_USER, $DB_PASS, array(), $DB_PREFIX);
       self::$db->query("SET CHARACTER SET 'utf8'");
     }
     
@@ -104,15 +106,15 @@ class Database
      $userID = self::$loginManager->getUser()->getId();     
      $mustlogin = ($userID==UID_UNLOGGED) ? 'AND permissions = ' . PT_PUBLIC : '';
           //FIXME: permissions
-     $sql = "SELECT Photos.id,caption,path,album,permissions  ,rating FROM Photos,(
+     $sql = "SELECT Photos1.id,caption, path, album, permissions, rating FROM Photos as Photos1,(
         (SELECT photo_id as id,AVG(rating) as rating FROM `Rating` GROUP BY photo_id)
         UNION 
-        (SELECT id,0 as rating FROM Photos WHERE id not in (SELECT photo_id FROM Rating))
+        (SELECT Photos2.id,0 as rating FROM Photos as Photos2 WHERE Photos2.id not in (SELECT photo_id FROM Rating))
         ) Rate
       WHERE (      
-      album = ? AND Photos.id = Rate.id
+      album = ? AND Photos1.id = Rate.id
       AND (
-        Photos.id NOT IN (
+        Photos1.id NOT IN (
           SELECT photo_id FROM PhotoPermissions WHERE (
             user_id= ? 
             AND type=" . PT_DENY . "
@@ -126,7 +128,7 @@ class Database
         )
         AND (
           permissions <> " . PT_PRIVATE . "         
-          OR Photos.id IN (
+          OR Photos1.id IN (
             SELECT photo_id FROM PhotoPermissions WHERE (
               user_id= ? 
               AND type=" . PT_ALOW . "
@@ -135,7 +137,7 @@ class Database
           OR $userID = " . UID_ROOT . "
         )
         $mustlogin 
-        )) ORDER BY Photos.id;";
+        )) ORDER BY Photos1.id;";
 
       //echo $sql;
       $res = self::runQuery($sql,array($albumID,$userID,$userID,$userID))->fetchAll(PDO::FETCH_ASSOC);
@@ -150,7 +152,8 @@ class Database
       
   }
 
-  public static function getPhotoByPath($path)
+  //nefunguje s table prefixami zatial
+  /*public static function getPhotoByPath($path)
   {
      
      $userID = self::$loginManager->getUser()->getId();    
@@ -194,9 +197,10 @@ class Database
       //FIXME: error checking            
       if(!$res) return null;
       return  new Photo($res);
-  }
+  }*/
 
-  public static function getPhotoByID($photoID)
+  //nefunguje s table prefixami zatial  
+  /*public static function getPhotoByID($photoID)
   {
      
      $userID = self::$loginManager->getUser()->getId();    
@@ -240,7 +244,7 @@ class Database
       //FIXME: error checking            
       if(!$res) return null;
       return  new Photo($res);
-  }
+  }*/
 
   public static function getAllAlbums() //for root only
   {    
@@ -260,7 +264,8 @@ class Database
   public static function getAllPhotos() //for root only
   {    
     if(!self::$loginManager->isRoot()) return false;       
-    $sql = "SELECT id,caption,path,album,permissions,0 as rating  FROM Photos;";      
+    $sql = "SELECT id,caption,path,album,permissions,0 as rating  FROM Photos;";     
+    echo $sql; 
     $res = self::runQuery($sql)->fetchAll(PDO::FETCH_ASSOC);
       //FIXME: error checking
       
@@ -517,7 +522,7 @@ class Database
   public static function getComments($photoID)
   {    
     //TODO: permissions?        
-    $sql = "SELECT text,Users.id,username,name,surname,nick,email FROM `Comments`, Users WHERE user_id = Users.id AND photo_id = ? ORDER BY time_added";
+    $sql = "SELECT text,u.id,username,name,surname,nick,email FROM `Comments` as c, Users as u WHERE user_id = u.id AND photo_id = ? ORDER BY time_added";
     $res = self::runQuery($sql,array($photoID))->fetchAll(PDO::FETCH_ASSOC);            
     //FIXME: error checking                
     $ret = array();

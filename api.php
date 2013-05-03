@@ -33,7 +33,7 @@ try{
 }
 catch(Exception $e)
 {
-  echo $e->getMessage();
+  echo $e->getMessage()."<br/>";
   echo $_SERVER['REQUEST_URI'];
   die();
 }
