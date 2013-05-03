@@ -2,49 +2,54 @@ photo_view = new Object();
 photo_view.photos = [];
 
 var keyCode = {
-  KEY_BACKSPACE: 8,
-  KEY_CAPS_LOCK: 20,
-  KEY_COMMA: 188,
-  KEY_CONTROL: 17,
-  KEY_DELETE: 46,
-  KEY_DOWN: 40,
-  KEY_END: 35,
-  KEY_ENTER: 13,
-  KEY_ESCAPE: 27,
-  KEY_HOME: 36,
-  KEY_INSERT: 45,
-  KEY_LEFT: 37,
-  KEY_NUMPAD_ADD: 107,
-  KEY_NUMPAD_DECIMAL: 110,
-  KEY_NUMPAD_DIVIDE: 111,
-  KEY_NUMPAD_ENTER: 108,
-  KEY_NUMPAD_MULTIPLY: 106,
-  KEY_NUMPAD_SUBTRACT: 109,
-  KEY_PAGE_DOWN: 34,
-  KEY_PAGE_UP: 33,
-  KEY_PERIOD: 190,
-  KEY_RIGHT: 39,
-  KEY_SHIFT: 16,
-  KEY_SPACE: 32,
-  KEY_TAB: 9,
-  KEY_UP: 38  
+  BACKSPACE: 8,
+  CAPS_LOCK: 20,
+  COMMA: 188,
+  CONTROL: 17,
+  DELETE: 46,
+  DOWN: 40,
+  END: 35,
+  ENTER: 13,
+  ESCAPE: 27,
+  HOME: 36,
+  INSERT: 45,
+  LEFT: 37,
+  NUMPAD_ADD: 107,
+  NUMPAD_DECIMAL: 110,
+  NUMPAD_DIVIDE: 111,
+  NUMPAD_ENTER: 108,
+  NUMPAD_MULTIPLY: 106,
+  NUMPAD_SUBTRACT: 109,
+  PAGE_DOWN: 34,
+  PAGE_UP: 33,
+  PERIOD: 190,
+  RIGHT: 39,
+  SHIFT: 16,
+  SPACE: 32,
+  TAB: 9,
+  UP: 38
 }
+
 
 // $(document).ready(function(){photo_view.openWindow('gallery/cesta_do_neznama_wallpaper.jpg');});
 $(window).resize(function(){photo_view.resizeWindow();});
 
-// $(document).keydown(function(event){  
-//   var key = event.keyCode || event.which;
-//   //Not in a textarea or textbox
-//   if (event.target.type !== 'text') {
-      
-//       if (key === 8) {
-//         if ($back.is(':visible')) {
-//             $back.click();
-//         }
-//       }
-//   }
-// });
+$(document).keydown(function(event){
+  var key = event.keyCode || event.which;
+  //Not in a textarea or textbox
+  if (event.target.type !== 'text' && event.target.type !== 'textarea') {
+      if (key === keyCode.LEFT) {
+        photo_view.setPhoto(photo_view.getPreviousId(photo_view.current_photo.id));
+      }
+      if (key === keyCode.RIGHT) {
+        photo_view.setPhoto(photo_view.getNextId(photo_view.current_photo.id));
+      }
+  }
+
+  if (key === keyCode.ESCAPE) {
+    photo_view.closeWindow();
+  }
+});
 
 
 photo_view.resizeWindow = function resizeWindow()
@@ -161,8 +166,6 @@ photo_view.getPhotoIndexById = function(id)
   }
 }
 
-
-
 photo_view.preloadPhoto = function(photo)
 {
   $("<img/>").attr("src", photo.path).load(function(){
@@ -172,15 +175,15 @@ photo_view.preloadPhoto = function(photo)
 
 photo_view.preloadPhotos = function(id)
 {
-  if (id==null) return;  
+  if (id==null) return;
   index = this.getPhotoIndexById(id);
   for(i = index+1;i<index+5 && i<this.photos.length;i++)
   {
-    preloadPhoto(this.photos[i]);    
+    this.preloadPhoto(this.photos[i]);
   }
   for(i = index-1;i>index-2 && i>0;i--)
   {
-    preloadPhoto(this.photos[i]);        
+    this.preloadPhoto(this.photos[i]);
   }
 }
 
@@ -188,6 +191,7 @@ photo_view.setPhoto = function(id)
 {
   if (id==null) return;
   photo = this.photos[this.getPhotoIndexById(id)];
+  this.current_photo = photo;
   $("#photo_view img").attr("src", photo.path);
   if(photo.caption!='')
     $("#photo_title").html('<strong class="photo_title">'+photo.caption+'</strong><br/>');
