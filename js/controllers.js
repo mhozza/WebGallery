@@ -12,16 +12,18 @@ function MainViewCtrl($scope, GalleryItems, $routeParams)
 
 	$scope.album = GalleryItems.get({path:path},function() {
 				$scope.setParent($scope.album.parent);
+				$scope.setCaption($scope.album.caption);
 				photo_view.loadPhotos($scope.album.items);
 		});
 }
 
 function MainCtrl ($scope) {
-
- 	$scope.albumParent = null;
-
  	$scope.setParent = function(parent)
  	{
  		$scope.albumParent = parent;
+ 	}
+ 	$scope.setCaption = function(caption)
+ 	{
+ 		$scope.albumCaption = caption;
  	}
 }

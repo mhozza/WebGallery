@@ -19,7 +19,7 @@ class API
 	function getItems($albumName = GALLERY_ROOT)
 	{
 		$album = new Album($albumName);
-		$res = json_encode(array("parent"=>$album->getParent(),"items"=>$album->getItems()), JSON_NUMERIC_CHECK);
+		$res = json_encode(array("caption"=>$album->getCaption(),"parent"=>$album->getParent(),"items"=>$album->getItems()), JSON_NUMERIC_CHECK);
 	    return $res;
 	}
 
