@@ -30,11 +30,11 @@ var keyCode = {
   UP: 38
 }
 
-
 // $(document).ready(function(){photo_view.openWindow('gallery/cesta_do_neznama_wallpaper.jpg');});
 $(window).resize(function(){photo_view.resizeWindow();});
 
 $(document).keydown(function(event){
+  if(!photo_view.opened) return true;
   var key = event.keyCode || event.which;
   //Not in a textarea or textbox
   if (event.target.type !== 'text' && event.target.type !== 'textarea') {
@@ -45,7 +45,6 @@ $(document).keydown(function(event){
         photo_view.setPhoto(photo_view.getNextId(photo_view.current_photo.id));
       }
   }
-
   if (key === keyCode.ESCAPE) {
     photo_view.closeWindow();
   }
@@ -146,7 +145,6 @@ photo_view.resizeImage = function()
 
 photo_view.loadPhotos = function(photos)
 {
-  console.log('photos reloaded');
   this.photos = [];
   for (var i = 0; i < photos.length; i++) {
     if(photos[i].class=="Photo")
@@ -250,7 +248,7 @@ photo_view.getPreviousId = function(id)
 
 photo_view.openWindow = function(id)
 {
-  // photo = this.photos[this.getPhotoIndexById(id)];
+  this.opened = true;
   html = '\
   <div id="apaloosa_gallery_view_wrapper">\
     <div id="shadow"></div>\
@@ -312,6 +310,7 @@ photo_view.openWindow = function(id)
 
 photo_view.closeWindow = function()
 {
+  this.opened = false;
   $("#apaloosa_gallery_view_wrapper").remove();
 }
 
