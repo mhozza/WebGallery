@@ -1,6 +1,7 @@
 <?php
 require_once 'session_init.php';
 require_once 'classes/controller/API.php';
+require_once 'classes/utils/Exceptions.php';
 
 if(isset($_GET['method']))
 {
@@ -18,16 +19,16 @@ $method = $data['method'];
 if(isset($data['params']))
 	$params = $data['params'];
 
-$api = new API();
-
 $p = array();
 if(isset($params))
 {
-	$p = json_decode($params);
+	$p = json_decode(stripslashes($params));
+	if(json_last_error()!=JSON_ERROR_NONE)
+	throw new JSONDecodeException(json_last_error());
 }
 
 try{
-   
+	$api = new API();
 	$res = call_user_func_array(array($api,$method), $p);
 	echo $res;
 }
@@ -37,4 +38,3 @@ catch(Exception $e)
   echo $_SERVER['REQUEST_URI'];
   die();
 }
-
