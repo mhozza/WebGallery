@@ -1,6 +1,6 @@
 <?php
 require_once 'classes/Gallery.php';
-require_once 'classes/utils/ImageResizer.php';
+require_once 'classes/utils/ImageLoader.php';
 require_once 'Comment.php';
 require_once 'GalleryItem.php';
 
@@ -19,17 +19,19 @@ class GalleryItem
   public $parentID;
   public $class;
   public $parentPath;
+  public $lastChanged;
 
-  private $permissions;
-  private $rating = 0; 
-  private $parent = null;
+  protected $permissions;
+  protected $rating = 0; 
+  protected $parent = null;
+  protected $imageLoader;
 
   public function toArray()
   {
     return array('id' => $this->id, 'caption' => $this->caption, 'path' => $this->path,  'parentId' => $this->parentID, 'class' =>  $this->getClass(), 'parentPath' => $this->parentPath);
   }
 
-  function __construct($id,$caption,$path,$parentID,$perms) {
+  function __construct($id,$caption,$path,$parentID,$perms,$lastChanged) {
     $this->id = $id;
     $this->caption = $caption;
     $this->path = $path;    
@@ -38,6 +40,8 @@ class GalleryItem
     $this->parentID = $parentID;
     $this->class = $this->getClass();
     $this->parentPath = $this->getParentPath();
+    $this->imageLoader =  new ImageLoader();
+    $this->lastChanged = $lastChanged;
   }
 
   public function getParentPath( ) {
@@ -81,7 +85,6 @@ class GalleryItem
     {     
       $this->path = $p;
     }    
-    
   }
 
   public function getClass( ) {
@@ -125,8 +128,10 @@ class GalleryItem
     return $this->parent;
   }
 
-  
+  public function getThumbnail()
+  {
+    return $imageLoader->getThumbnail($this);
+  }
 
-  
-} // end of GalleryItem
+}
 ?>

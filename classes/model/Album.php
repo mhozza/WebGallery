@@ -8,7 +8,6 @@ require_once 'classes/utils/Exceptions.php';
  */
 class Album extends GalleryItem
 {
-
   private $nextPhoto = null;
   private $prevPhoto = null;  
   private $currentPhoto = null;
@@ -33,7 +32,7 @@ class Album extends GalleryItem
 
     if($info!=null) //FIXME: neloadovat hned novy album
     {      
-      parent::__construct($info['id'],$info['caption'],$info['path'],$info['parent_id'],$info['permissions']);                     
+      parent::__construct($info['id'],$info['caption'],$info['path'],$info['parent_id'],$info['permissions'],$info['last_changed']);
     }
     else
     {      

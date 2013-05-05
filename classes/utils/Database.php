@@ -106,7 +106,7 @@ class Database
      $userID = self::$loginManager->getUser()->getId();     
      $mustlogin = ($userID==UID_UNLOGGED) ? 'AND permissions = ' . PT_PUBLIC : '';
           //FIXME: permissions
-     $sql = "SELECT Photos1.id,caption, path, album, permissions, rating FROM Photos as Photos1,(
+     $sql = "SELECT Photos1.id, caption, `path`, album, permissions, rating, last_changed, width, height FROM Photos as Photos1,(
         (SELECT photo_id as id,AVG(rating) as rating FROM `Rating` GROUP BY photo_id)
         UNION 
         (SELECT Photos2.id,0 as rating FROM Photos as Photos2 WHERE Photos2.id not in (SELECT photo_id FROM Rating))
@@ -152,7 +152,7 @@ class Database
       
   }
 
-  //nefunguje s table prefixami zatial
+  //nefunguje s table prefixami zatial, nie su vsetky atributy
   /*public static function getPhotoByPath($path)
   {
      
@@ -199,7 +199,7 @@ class Database
       return  new Photo($res);
   }*/
 
-  //nefunguje s table prefixami zatial  
+  //nefunguje s table prefixami zatial, nie su vsetky atributy
   /*public static function getPhotoByID($photoID)
   {
      
@@ -249,7 +249,7 @@ class Database
   public static function getAllAlbums() //for root only
   {    
     if(!self::$loginManager->isRoot()) return false;       
-    $sql = "SELECT id,caption,path,parent_id,permissions  FROM Albums;";      
+    $sql = "SELECT id, caption, `path`, parent_id, permissions, last_changed  FROM Albums;";      
     $res = self::runQuery($sql)->fetchAll(PDO::FETCH_ASSOC);
       //FIXME: error checking
       
@@ -264,7 +264,7 @@ class Database
   public static function getAllPhotos() //for root only
   {    
     if(!self::$loginManager->isRoot()) return false;       
-    $sql = "SELECT id,caption,path,album,permissions,0 as rating  FROM Photos;";     
+    $sql = "SELECT id, caption, `path`, album, permissions, 0 as rating, last_changed, width, height FROM Photos;";     
     echo $sql; 
     $res = self::runQuery($sql)->fetchAll(PDO::FETCH_ASSOC);
       //FIXME: error checking
@@ -300,7 +300,7 @@ class Database
       
     $mustlogin = ($userID==UID_UNLOGGED) ? 'AND permissions = ' . PT_PUBLIC : '';           
     
-    $sql = "SELECT id,caption,path,parent_id,permissions  FROM Albums WHERE (
+    $sql = "SELECT id, caption, `path`, parent_id, permissions, last_changed  FROM Albums WHERE (
       parent_id = ? AND 
       (
         id NOT IN (
@@ -321,7 +321,6 @@ class Database
         ) 
         $mustlogin 
       ))";
-      //echo $sql;
       $res = self::runQuery($sql,array($albumID,$userID,$userID))->fetchAll(PDO::FETCH_ASSOC);
       //FIXME: error checking
       
@@ -336,12 +335,11 @@ class Database
 
   public static function getAlbumByPath($path)
   {
-     
      $userID = self::$loginManager->getUser()->getId();    
 
      $mustlogin = ($userID==UID_UNLOGGED) ? 'AND permissions = ' . PT_PUBLIC : '';     
 
-     $sql = "SELECT id,caption,path,parent_id,permissions  FROM Albums WHERE (
+     $sql = "SELECT id, caption, `path`, parent_id, permissions, last_changed FROM Albums WHERE (
       path = ?
       AND (
         id NOT IN (
@@ -362,7 +360,6 @@ class Database
         ) 
         $mustlogin 
       )) LIMIT 1";
-      //echo $sql;      
       $res = self::runQuery($sql,array($path,$userID,$userID))->fetch(PDO::FETCH_ASSOC);            
       //FIXME: error checking            
       return $res;
@@ -370,12 +367,11 @@ class Database
 
   public static function getAlbumById($albumID)
   {
-     
      $userID = self::$loginManager->getUser()->getId();    
 
      $mustlogin = ($userID==UID_UNLOGGED) ? 'AND permissions = ' . PT_PUBLIC : '';     
 
-     $sql = "SELECT id,caption,path,parent_id,permissions FROM Albums WHERE (
+     $sql = "SELECT id, caption, `path`, parent_id, permissions, last_changed FROM Albums WHERE (
       id = ?
       AND (
         id NOT IN (
@@ -396,9 +392,7 @@ class Database
         ) 
         $mustlogin 
       )) LIMIT 1";
-      //echo $sql;      
       $res = self::runQuery($sql,array($albumID,$userID,$userID))->fetch(PDO::FETCH_ASSOC);        
-      //print_r($res);
       //FIXME: error checking            
       return $res;
   }

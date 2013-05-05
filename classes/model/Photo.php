@@ -6,22 +6,23 @@ require_once 'classes/utils/Validator.php';
 define('MAX_RATE',5);
 define('MAX_COMMENT_SIZE',500);
 
-
 /**
  * class Photo
- * 
  */
 class Photo extends GalleryItem
 {
   private $exifData = NULL;
-  private $comments = null;
-  private $rating = 0;
+  private $comments = null;  
+  public $width = 0;
+  public $height = 0;
 
   function __construct($info) {    
     if(is_array($info))
     {    
-      parent::__construct($info['id'],$info['caption'],$info['path'],$info['album'],$info['permissions']);          
-      $this->rating = $info['rating'];      
+      parent::__construct($info['id'],$info['caption'],$info['path'],$info['album'],$info['permissions'],$info['last_changed']);          
+      $this->rating = $info['rating'];
+      $this->width = $info['width'];
+      $this->height = $info['height'];
     }    
     else
     {
@@ -34,7 +35,7 @@ class Photo extends GalleryItem
    * @access public
    */
   public function getExifData( ) {
-  } // end of member function getExifData
+  }
 
   public function reloadComments()
   {
@@ -68,7 +69,12 @@ class Photo extends GalleryItem
   public function getComments( ) {       
     if($this->comments==null) $this->reloadComments();
     return $this->comments;    
-  } // end of member function getComments
+  }  
 
-} // end of Photo
+  public function getImage($w, $h)
+  {
+    return $imageLoader->getThumbnail($this,$w, $h);
+  }
+
+}
 ?>
