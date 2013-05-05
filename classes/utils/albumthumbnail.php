@@ -1,5 +1,15 @@
 <?php
 
+function DateCmp($a, $b)
+{
+  return ($a[1] < $b[1]) ? 1 : 0;
+}
+
+function SortByDate(&$Files)
+{
+  usort($Files, 'DateCmp');
+}
+
 class AlbumThumbnailGenerator
 {
   private $ignore = array( 'cgi-bin', '.', '..', '.svn','akcie','index.htm','.htaccess','.git' );
@@ -12,7 +22,7 @@ class AlbumThumbnailGenerator
       global $ignore;
       while ($file = readdir($handler))
       {
-        if (in_array( $file, $ignore ) || ($filesonly && !is_file($file)))
+        if (in_array( $file, $this->ignore ) || ($filesonly && !is_file($file)))
           continue;
 
         $fm = filemtime("$directory/$file");
@@ -28,25 +38,14 @@ class AlbumThumbnailGenerator
       }
       return $vysledok;
   }
-
-  private function DateCmp($a, $b)
-  {
-    return ($a[1] < $b[1]) ? 1 : 0;
-  }
-
-  private function SortByDate(&$Files)
-  {
-    usort($Files, "DateCmp");
-  }
       
   private function generate_album($album,$w,$h, $path = null)
   {
-  //     echo $album;
-      if(substr($album, 0, 1) != '.' || strstr($album, "..") || strstr($album,'akcie')) {
-        die("Illegal access!");
-      }
+      // if(substr($album, 0, 1) != '.' || strstr($album, "..")) {
+      //   die("Illegal access!");
+      // }
       $album=$album;
-      $photos = dirlist($album, false);
+      $photos = $this->dirlist($album, false);
       $rot = array(0,10,350);
       $dst_img = array();
       $dst_img_w = array();
@@ -123,34 +122,12 @@ class AlbumThumbnailGenerator
           }
       }
       
-      imagepng($final_img, $thumbnailPath);//,NULL,$q);     
+      imagepng($final_img, $path);//,NULL,$q);     
       ImageDestroy($final_img);
   }
 
-  // header("Content-type: image/png");
-
-  // if(isset($_GET['image'])) $image = $_GET['image'];
-  // else $image = "";
-  // if(isset($_GET['size'])) $size = $_GET['size'];
-  // else $size = "";
-  // if(isset($_GET['w'])) $w = $_GET['w'];
-  // else $w = "";
-  // if(isset($_GET['h'])) $h = $_GET['h'];
-  // else $h = "";
-  // if(isset($_GET['q'])) $q = $_GET['q'];
-  // else $q = "";
-
-
-  // //$small_resize = $_GET['small'];
-  // if ($w == ""){$w = $size;}
-  // if ($h == ""){$h = $size;}
-  // if ($w == ""){$w = "200";}
-  // if ($h == ""){$h = "200";}
-  // if ($q == ""){$q = 100;}
-  // generate_album("./".$image,$w,$h);
-
   public function generateThumbnail($albumPath, $thumbnailPath, $w, $h)
   {
-    generate_album($albumPath, $w, $h, $thumbnailPath);
+    $this->generate_album($albumPath, $w, $h, $thumbnailPath);
   }
 }

@@ -19,15 +19,16 @@ $method = $data['method'];
 if(isset($data['params']))
 	$params = $data['params'];
 
-$p = array();
-if(isset($params))
-{
-	$p = json_decode(stripslashes($params));
-	if(json_last_error()!=JSON_ERROR_NONE)
-	throw new JSONDecodeException(json_last_error());
-}
 
 try{
+	$p = array();
+	if(isset($params))
+	{
+		$p = json_decode(stripslashes($params));
+		if(json_last_error()!=JSON_ERROR_NONE)
+		throw new JSONDecodeException(json_last_error());
+	}
+
 	$api = new API();
 	$res = call_user_func_array(array($api,$method), $p);
 	echo $res;
@@ -35,6 +36,9 @@ try{
 catch(Exception $e)
 {
   echo $e->getMessage()."<br/>";
-  echo $_SERVER['REQUEST_URI'];
+  echo htmlentities($_SERVER['REQUEST_URI'])."<br/>";
+  echo $method."<br/>";
+  print_r($p);
+
   die();
 }

@@ -130,7 +130,7 @@ class GalleryItem
 
   public function getThumbnail()
   {
-    return $imageLoader->getThumbnail($this);
+    return $this->imageLoader->getThumbnail($this);
   }
 
 }

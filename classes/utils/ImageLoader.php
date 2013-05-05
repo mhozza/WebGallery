@@ -35,7 +35,7 @@ class ImageLoader
 
   private function updateAlbumThumbnail($album)
   {
-    $this->albumThumbnailGenerator->generateThumbanail($album->path, "$cache_path/$album_dir/".$album->id."_$album_thumbnail_name");
+    $this->albumThumbnailGenerator->generateThumbnail($album->path, $this->cache_path.'/'.$this->album_dir.'/'.$album->id.'_'.$this->album_thumbnail_name, 300, 200);
   }
 
   private function updatePhotoImages($photo)
@@ -52,20 +52,20 @@ class ImageLoader
   {
     if($galleryItem->class=="Album")
     {
-      if(!checkAlbumActuality($galleryItem))
+      if(!$this->checkAlbumActuality($galleryItem))
       {
-        updateAlbumThumbnail($galleryItem);
+        $this->updateAlbumThumbnail($galleryItem);
       }
-      $thumb = getImageFromFile("$cache_path/$album_dir/".$galleryItem->id."_$album_thumbnail_name");
+      $thumb = $this->getImageFromFile($this->cache_path.'/'.$this->album_dir.'/'.$galleryItem->id.'_'.$this->album_thumbnail_name);
       return $thumb;
     }
     else
     {
-      if(!checkPhotoActuality($galleryItem))
+      if(!$this->checkPhotoActuality($galleryItem))
       {
-        updatePhotoImages($galleryItem);
+        $this->updatePhotoImages($galleryItem);
       }
-      $thumb = getImageFromFile("$cache_path/$photo_dir/$photo_thumbnail_name");
+      $thumb = $this->getImageFromFile($this->cache_path.'/'.$this->photo_dir.'/'.$galleryItem->id.'_'.$this->photo_thumbnail_name);
       return $thumb;
     }
   }

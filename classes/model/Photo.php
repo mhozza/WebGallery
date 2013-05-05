@@ -73,7 +73,7 @@ class Photo extends GalleryItem
 
   public function getImage($w, $h)
   {
-    return $imageLoader->getThumbnail($this,$w, $h);
+    return $this->imageLoader->getThumbnail($this,$w, $h);
   }
 
 }
