@@ -3,3 +3,4 @@ gallery/*
 session/*
 server/php/files/*
 server/php/thumbnails/*
+cache/*
