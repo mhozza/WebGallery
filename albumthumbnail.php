@@ -1,8 +1,6 @@
 <?php
 require_once 'classes/model/Album.php';
 
-header("Content-type: image/png");
-
 if(isset($_GET['image'])) $image = $_GET['image'];
 else $image = "";
 // if(isset($_GET['size'])) $size = $_GET['size'];
@@ -14,12 +12,13 @@ else $image = "";
 // if(isset($_GET['q'])) $q = $_GET['q'];
 // else $q = "";
 
-if ($w == ""){$w = $size;}
-if ($h == ""){$h = $size;}
-if ($w == ""){$w = "200";}
-if ($h == ""){$h = "200";}
-if ($q == ""){$q = 100;}
+// if ($w == ""){$w = $size;}
+// if ($h == ""){$h = $size;}
+// if ($w == ""){$w = "200";}
+// if ($h == ""){$h = "200";}
+// if ($q == ""){$q = 100;}
 
 $album = new Album($image);
+header("Content-type: image/png");
 echo $album->getThumbnail();
  

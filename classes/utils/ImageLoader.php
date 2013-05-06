@@ -28,6 +28,12 @@ class ImageLoader
     return $this->cache_path.'/'.$this->album_dir.'/'.$id.'_'.$this->album_thumbnail_name;
   }
 
+  private function getPhotoCachePath($id, $type="thumb")
+  {
+    if($type=="thumb")
+      return $this->cache_path.'/'.$this->photo_dir.'/'.$id.'_'.$this->photo_thumbnail_name;
+  }
+
   private function checkAlbumActuality($album)
   {
     if (!file_exists($this->getAlbumCachePath($album->id))) {
@@ -43,7 +49,7 @@ class ImageLoader
 
   private function updateAlbumThumbnail($album)
   {
-    $this->albumThumbnailGenerator->generateThumbnail($album->path, $this->getAlbumCachePath($album->id), $cache_widths[0], $cache_heights[0]);
+    $this->albumThumbnailGenerator->generateThumbnail($album->path, $this->getAlbumCachePath($album->id), $this->cache_widths[0], $this->cache_heights[0]);
   }
 
   private function updatePhotoImages($photo)
