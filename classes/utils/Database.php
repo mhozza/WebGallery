@@ -300,7 +300,7 @@ class Database
       
     $mustlogin = ($userID==UID_UNLOGGED) ? 'AND permissions = ' . PT_PUBLIC : '';           
     
-    $sql = "SELECT id,caption,path,parent_id,permissions  FROM Albums WHERE (
+    $sql = "SELECT id, caption, `path`, parent_id, permissions, last_changed  FROM Albums WHERE (
       parent_id = ? AND 
       (
         id NOT IN (

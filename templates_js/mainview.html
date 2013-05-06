@@ -1,7 +1,7 @@
 <ul class="thumbnails">
   <li class="span3" ng-repeat="item in album.items" ng-switch="item.class">
     <a ng-switch-when="Album" href="#/{{item.path}}" class="thumbnail">
-      <img ng-src="albumthumbnail.php?w=300&amp;h=200&amp;image={{item.path}}" />
+      <img ng-src="albumthumbnail.php?image={{item.path}}" />
       <h3>{{item.caption}}</h3>
     </a>
     <a ng-switch-when="Photo" href="javascript:photo_view.openWindow('{{item.id}}');" class="thumbnail">
