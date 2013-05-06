@@ -5,7 +5,7 @@
       <h3>{{item.caption}}</h3>
     </a>
     <a ng-switch-when="Photo" href="javascript:photo_view.openWindow('{{item.id}}');" class="thumbnail">
-      <img ng-src="getimage.php?w=300&amp;h=200&amp;image={{item.path}}" />
+      <img ng-src="photothumbnail.php?image={{item.path}}" />
       <h3>{{item.caption}}</h3>
     </a>
   </li>

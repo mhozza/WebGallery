@@ -16,9 +16,21 @@ class Photo extends GalleryItem
   public $width = 0;
   public $height = 0;
 
-  function __construct($info) {    
-    if(is_array($info))
-    {    
+  function __construct($arg) {
+    $info = null;
+    if(is_string($arg))
+    {
+      $path = $arg;
+      $info = Database::getPhotoByPath($path);
+    }
+
+    if(is_array($arg))
+    {   
+      $info = $arg;
+    }
+
+    if($info !=null)
+    {      
       parent::__construct($info['id'],$info['caption'],$info['path'],$info['album'],$info['permissions'],$info['last_changed']);          
       $this->rating = $info['rating'];
       $this->width = $info['width'];
@@ -26,7 +38,7 @@ class Photo extends GalleryItem
     }    
     else
     {
-      throw new RuntimeException('Info is not an array');
+      throw new RuntimeException('Invalid array');
     }
   }   
 

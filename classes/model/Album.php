@@ -16,7 +16,7 @@ class Album extends GalleryItem
   private $albums = null;
 
   function __construct($arg) {   
-    $info = NULL;
+    $info = null;
     if(is_int($arg))
     {      
       $info = Database::getAlbumById($arg);       

@@ -1,6 +1,7 @@
 <?php
 require_once 'classes/utils/Database.php';
 require_once 'classes/utils/albumthumbnail.php';
+require_once 'classes/utils/getimage.php';
 require_once 'classes/model/GalleryItem.php';
 require_once 'classes/model/Photo.php';
 
@@ -15,12 +16,16 @@ class ImageLoader
   private $cache_names = array("small.jpg", "medium.jpg", "large.jpg");
   private $cache_widths = array(300,900,1200,1800);
   private $cache_heights = array(200,600,800,1200);
+  private $cache_qualities = array(60,70,80,90);
 
   private $albumThumbnailGenerator;
+  private $photoResizer;
+
 
   public function __construct()
   {
     $this->albumThumbnailGenerator = new AlbumThumbnailGenerator();
+    $this->photoResizer = new PhotoResizer();
   }
 
   private function getAlbumCachePath($id)
@@ -28,9 +33,9 @@ class ImageLoader
     return $this->cache_path.'/'.$this->album_dir.'/'.$id.'_'.$this->album_thumbnail_name;
   }
 
-  private function getPhotoCachePath($id, $type="thumb")
+  private function getPhotoCachePath($id, $type=0)
   {
-    if($type=="thumb")
+    if($type==0)
       return $this->cache_path.'/'.$this->photo_dir.'/'.$id.'_'.$this->photo_thumbnail_name;
   }
 
@@ -44,7 +49,10 @@ class ImageLoader
 
   private function checkPhotoActuality($photo)
   {
-    return false;
+    if (!file_exists($this->getPhotoCachePath($photo->id,0))) {
+      return false;
+    }  
+    return true;
   }
 
   private function updateAlbumThumbnail($album)
@@ -54,7 +62,7 @@ class ImageLoader
 
   private function updatePhotoImages($photo)
   {
-
+    $this->photoResizer->resizeImage($photo->path, $this->getPhotoCachePath($photo->id, 0), $this->cache_widths[0], $this->cache_heights[0], $this->cache_qualities[0]);
   }
 
   private function getImageFromFile($path)
@@ -79,7 +87,7 @@ class ImageLoader
       {
         $this->updatePhotoImages($galleryItem);
       }
-      $thumb = $this->getImageFromFile($this->cache_path.'/'.$this->photo_dir.'/'.$galleryItem->id.'_'.$this->photo_thumbnail_name);
+      $thumb = $this->getImageFromFile($this->getPhotoCachePath($galleryItem->id, 0));
       return $thumb;
     }
   }

@@ -25,10 +25,7 @@ class Database
   private static $loginManager;
 
   /*
-   *
-   *
    * @param string query
-
    * @return
    * @static
    * @access public
@@ -39,7 +36,6 @@ class Database
     global $cnt;
     $cnt+=1;
     self::connect();
-    //echo $query.'<br/>';
     $st = self::$db->prepare($query);//TODO: driver parameters
     if($params==NULL)
     {
@@ -51,9 +47,8 @@ class Database
       $r = $st->execute($params);
       if(!$r) throw new DBFailureException($query);
     }
-    //$st->debugDumpParams();
-    return $st;//->fetchAll(PDO::FETCH_ASSOC);
-  } // end of member function runQuery
+    return $st;
+  }
 
 
   public static function init( ) {
@@ -65,8 +60,6 @@ class Database
     }
   }
   /**
-   *
-   *
    * @return
    * @static
    * @access public
@@ -86,23 +79,19 @@ class Database
       self::$db->query("SET CHARACTER SET 'utf8'");
     }
 
-  } // end of member function connect
+  }
 
   /**
-   *
-   *
    * @return
    * @static
    * @access public
    */
   public static function disconnect( ) {
     //TODO: nakodit
-  } // end of member function disconnect
-
+  }
 
   public static function getPhotos($albumID)
   {
-
      $userID = self::$loginManager->getUser()->getId();
      $mustlogin = ($userID==UID_UNLOGGED) ? 'AND permissions = ' . PT_PUBLIC : '';
           //FIXME: permissions
@@ -149,26 +138,22 @@ class Database
         $ret[] = new Photo($row);
       }
       return $ret;
-
   }
 
-  //nefunguje s table prefixami zatial, nie su vsetky atributy
-  /*public static function getPhotoByPath($path)
+   public static function getPhotoByPath($path)
   {
-
      $userID = self::$loginManager->getUser()->getId();
-
      $mustlogin = ($userID==UID_UNLOGGED) ? 'AND permissions = ' . PT_PUBLIC : '';
-
-     $sql = "SELECT Photos.id,caption,path,album,permissions  ,rating FROM Photos,(
+          //FIXME: permissions
+     $sql = "SELECT Photos1.id, caption, `path`, album, permissions, rating, last_changed, width, height FROM Photos as Photos1,(
         (SELECT photo_id as id,AVG(rating) as rating FROM `Rating` GROUP BY photo_id)
         UNION
-        (SELECT id,0 as rating FROM Photos WHERE id not in (SELECT photo_id FROM Rating))
+        (SELECT Photos2.id,0 as rating FROM Photos as Photos2 WHERE Photos2.id not in (SELECT photo_id FROM Rating))
         ) Rate
       WHERE (
-      path = ? AND Photos.id = Rate.id
+      `path` = ? AND Photos1.id = Rate.id
       AND (
-        Photos.id NOT IN (
+        Photos1.id NOT IN (
           SELECT photo_id FROM PhotoPermissions WHERE (
             user_id= ?
             AND type=" . PT_DENY . "
@@ -182,7 +167,7 @@ class Database
         )
         AND (
           permissions <> " . PT_PRIVATE . "
-          OR Photos.id IN (
+          OR Photos1.id IN (
             SELECT photo_id FROM PhotoPermissions WHERE (
               user_id= ?
               AND type=" . PT_ALOW . "
@@ -192,12 +177,12 @@ class Database
         )
         $mustlogin
         )) LIMIT 1";
-      //echo $sql;
-      $res = self::runQuery($sql,array($path,$userID,$userID,$userID))->fetch(PDO::FETCH_ASSOC);
-      //FIXME: error checking
-      if(!$res) return null;
-      return  new Photo($res);
-  }*/
+
+      $res = self::runQuery($sql,array($path,$userID,$userID,$userID))->fetchAll(PDO::FETCH_ASSOC);
+      //FIXME: error checking            
+      return $res[0];
+
+  }
 
   //nefunguje s table prefixami zatial, nie su vsetky atributy
   /*public static function getPhotoByID($photoID)
@@ -361,7 +346,6 @@ class Database
         )
         $mustlogin
       )) LIMIT 1";
-      //echo $sql;      
       $res = self::runQuery($sql,array($path,$userID,$userID))->fetch(PDO::FETCH_ASSOC);            
       //FIXME: error checking            
       return $res;
