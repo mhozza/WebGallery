@@ -297,9 +297,9 @@ photo_view.openWindow = function(id)
     <a id="photo_view_close_button" class="button" href="javascript:photo_view.closeWindow()"><i class="icon-remove icon-white"></i></a>\
   </div>\
   ';
-  this.oldhtml = $("body").html();
-  // $("body").append(html);
-  $("body").html(html);
+  // this.oldhtml = $("body").html();
+  $("body").append(html);
+  // $("body").html(html);
 
   this.setPhoto(id);
 
@@ -315,8 +315,8 @@ photo_view.openWindow = function(id)
 photo_view.closeWindow = function()
 {  
   this.opened = false;
-  // $("#apaloosa_gallery_view_wrapper").remove();
-  $("body").html(this.oldhtml);
+  $("#apaloosa_gallery_view_wrapper").remove();
+  // $("body").html(this.oldhtml);
 
 }
 
