@@ -275,14 +275,16 @@ photo_view.openWindow = function(id)
       <form action="" method="post" class="comments">\
         <textarea name="comment_text" id="comment_text"></textarea><br/>\
         <button class="btn btn-primary" type="submit">Pridať</button> <button class="btn" type="reset">Zrušiť</button><span id="comment_text_count"></span>\
-      </form>\
+      </form>'+
+/*    
         <div id="rating">\
-          <span id="rate_label">Ohodnoť:</span>&nbsp;\
+          <span id="rate_label">Ohodnoť:</span>\
           <span id="rating_stars" class="rating pull-right">\
             <span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>\
           </span>\
         </div>\
-        <div class="dropup">\
+        */
+        '<div class="dropup">\
           <a href="#" id="share_button" data-toggle="dropdown" class="cleaner dropdown-toggle btn btn-block"><i class="icon-share-alt"></i> Zdieľať</a>\
           <ul class="dropdown-menu pull-right" role="menu">\
             <li><a tabindex="-1" href="#"><i class="icon-google-plus-sign"></i> Google+</a></li>\
@@ -295,7 +297,9 @@ photo_view.openWindow = function(id)
     <a id="photo_view_close_button" class="button" href="javascript:photo_view.closeWindow()"><i class="icon-remove icon-white"></i></a>\
   </div>\
   ';
-  $("body").append(html);
+  this.oldhtml = $("body").html();
+  // $("body").append(html);
+  $("body").html(html);
 
   this.setPhoto(id);
 
@@ -309,9 +313,11 @@ photo_view.openWindow = function(id)
 }
 
 photo_view.closeWindow = function()
-{
+{  
   this.opened = false;
-  $("#apaloosa_gallery_view_wrapper").remove();
+  // $("#apaloosa_gallery_view_wrapper").remove();
+  $("body").html(this.oldhtml);
+
 }
 
 photo_view.hideComments = function()
