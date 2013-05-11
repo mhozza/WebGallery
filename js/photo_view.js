@@ -106,14 +106,14 @@ photo_view.resizeWindow = function resizeWindow()
   closeW = parseFloat($("#photo_view_close_button").outerWidth(true));
   closeH = parseFloat($("#photo_view_close_button").outerHeight(true));
 
-  $("#photo_view_close_button").css({'right':mainSpaceRight-closeW/2, 'top':mainSpaceTop-closeH/2});
+  $("#photo_view_close_button").css({'right':mainSpaceRight , 'top':mainSpaceTop});
 
-  if($("#comments").hasClass("hidden"))
-  {
-    showCommentsLeft = $("#photo_view_close_button").position().left;
-    showCommentsTop = $("#photo_view_close_button").position().top+$("#photo_view_close_button").height()+8;//TODO: zrusit magicku konstantu
-    $("#show_comments_button").css({'left':showCommentsLeft, 'top':showCommentsTop});
-  }
+  // if($("#comments").hasClass("hidden"))
+  // {
+  //   showCommentsLeft = $("#photo_view_close_button").position().left;
+  //   showCommentsTop = $("#photo_view_close_button").position().top+$("#photo_view_close_button").height()+4;//TODO: zrusit magicku konstantu
+  //   $("#show_comments_button").css({'left':showCommentsLeft, 'top':showCommentsTop});
+  // }
 }
 
 photo_view.resizeImage = function()
@@ -140,6 +140,11 @@ photo_view.resizeImage = function()
   $("#photo_title").css({
     'left':   this.mainSpaceLeft + parseFloat($("#photo_view").css("padding-left")) + imgLeft,
     'top': imgTop + this.mainSpaceBottom + parseFloat($("#photo_view").css("padding-bottom")) + $("#photo_view img").height() - $("#photo_title").outerHeight(true)
+  });
+
+  $("#photo_toolbar").css({
+    'left':   this.mainSpaceLeft + parseFloat($("#photo_view").css("padding-left")) + imgLeft + $("#photo_view img").width() - $("#photo_toolbar").outerWidth(true),
+    'top': imgTop + this.mainSpaceBottom + parseFloat($("#photo_view").css("padding-bottom"))
   });
 }
 
@@ -210,20 +215,16 @@ photo_view.setPhoto = function(id)
         photo_view.resizeWindow();
     });
 
-  $("#photo_title").css({'opacity':1});
-  window.clearTimeout(this.titleTimeout);
+  this.showOverlays();
+  window.clearTimeout(this.overlaysTimeout);
+  this.overlaysTimeout = window.setTimeout('photo_view.hideOverlays()',2000);
 
-  $("#photo_title").mouseenter(function(){
-    $(this).css({'opacity':1});
-    window.clearTimeout(this.titleTimeout);
+  $(document).mousemove(function(){
+    photo_view.showOverlays();
+    window.clearTimeout(photo_view.overlaysTimeout);
+    photo_view.overlaysTimeout = window.setTimeout('photo_view.hideOverlays()',1000);
   });
 
-
-  $("#photo_title").mouseleave(function(){
-    this.titleTimeout = window.setTimeout('photo_view.hideTitle()',1000);
-  });
-
-  this.titleTimeout = window.setTimeout('photo_view.hideTitle()',2000);
 
   this.resizeWindow();
 
@@ -258,6 +259,22 @@ photo_view.openWindow = function(id)
     </div>\
     \
     <div id="photo_title"></div>\
+    <div id="photo_toolbar">\
+        <div id="rating">\
+          <span id="rate_label">Ohodnoť:</span>\
+          <span id="rating_stars" class="rating pull-right">\
+            <span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>\
+          </span>\
+        </div>\
+        <div class="dropdown">\
+          <a href="#" id="share_button" data-toggle="dropdown" class="dropdown-toggle btn btn-success"><i class="icon-share-alt"></i> Zdieľať</a>\
+          <ul class="dropdown-menu" role="menu">\
+            <li><a tabindex="-1" href="#"><i class="icon-google-plus-sign"></i> Google+</a></li>\
+            <li><a tabindex="-1" href="#"><i class="icon-facebook-sign"></i> Facebook</a></li>\
+            <li><a tabindex="-1" href="#"><i class="icon-twitter-sign"></i> Twitter</a></li>\
+          </ul>\
+        </div>\
+    </div>\
     \
     <a href="#" id="prev_photo" class="photo_nav"><img src="images/previous_photo.png"/></a>\
     <a href="#" id="next_photo" class="photo_nav"><img src="images/next_photo.png"/></a>\
@@ -275,31 +292,15 @@ photo_view.openWindow = function(id)
       <form action="" method="post" class="comments">\
         <textarea name="comment_text" id="comment_text"></textarea><br/>\
         <button class="btn btn-primary" type="submit">Pridať</button> <button class="btn" type="reset">Zrušiť</button><span id="comment_text_count"></span>\
-      </form>'+
-/*    
-        <div id="rating">\
-          <span id="rate_label">Ohodnoť:</span>\
-          <span id="rating_stars" class="rating pull-right">\
-            <span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>\
-          </span>\
-        </div>\
-        */
-        '<div class="dropup">\
-          <a href="#" id="share_button" data-toggle="dropdown" class="cleaner dropdown-toggle btn btn-block"><i class="icon-share-alt"></i> Zdieľať</a>\
-          <ul class="dropdown-menu pull-right" role="menu">\
-            <li><a tabindex="-1" href="#"><i class="icon-google-plus-sign"></i> Google+</a></li>\
-            <li><a tabindex="-1" href="#"><i class="icon-facebook-sign"></i> Facebook</a></li>\
-            <li><a tabindex="-1" href="#"><i class="icon-twitter-sign"></i> Twitter</a></li>\
-          </ul>\
-        </div>\
+      </form>\
       </div>\
     </div>\
-    <a id="photo_view_close_button" class="button" href="javascript:photo_view.closeWindow()"><i class="icon-remove icon-white"></i></a>\
+     <a id="photo_view_close_button" class="button" href="javascript:photo_view.closeWindow()"><i class="icon-remove icon-white"></i></a>\
   </div>\
   ';
   // this.oldhtml = $("body").html();
   $("body").append(html);
-  // $("body").html(html);
+  // $("body").html(html);2
 
   this.setPhoto(id);
 
@@ -313,7 +314,7 @@ photo_view.openWindow = function(id)
 }
 
 photo_view.closeWindow = function()
-{  
+{
   this.opened = false;
   $("#apaloosa_gallery_view_wrapper").remove();
   // $("body").html(this.oldhtml);
@@ -323,8 +324,8 @@ photo_view.closeWindow = function()
 photo_view.hideComments = function()
 {
   $("#comments").addClass("hidden");
-  html='<a id="show_comments_button" class="button" href="javascript:photo_view.showComments()"><i class="icon-comment icon-white"></i></a>';
-  $("#apaloosa_gallery_view_wrapper").append(html);
+  html='<button id="show_comments_button" class="btn" onclick="photo_view.showComments()"><i class="icon-comment icon-white"></i> Komentáre</button>';
+  $("#photo_toolbar").append(html);
   this.resizeWindow();
 
 }
@@ -336,9 +337,16 @@ photo_view.showComments = function()
   this.resizeWindow();
 }
 
-photo_view.hideTitle = function()
+photo_view.showOverlays = function()
+{
+  $("#photo_title").css({'opacity':1});
+  $("#photo_toolbar").css({'opacity':1});
+}
+
+photo_view.hideOverlays = function()
 {
   $("#photo_title").animate({'opacity':0});
+  $("#photo_toolbar").animate({'opacity':0});
 }
 
 photo_view.maxlength = function(element,length)

@@ -10,16 +10,16 @@
   top:0;
   width:100%;
   height:100%;
-  /*opacity:0.9;*/
-  background-color:black; 
+  opacity:0.8;
+  background-color:black;
   z-index:100;
 }
 
 #photo_view
-{  
+{
   color:whiteSmoke;
-  background-color:black;    
-  border:solid 1px gray;  
+  background-color:black;
+  border:solid 1px gray;
   display: block;
   position:absolute;
   border-radius: 5px;
@@ -35,15 +35,15 @@
 #comments
 {
   color:black;
-  background-color:white;    
-  border:solid 1px #999;  
+  background-color:white;
+  border:solid 1px #999;
   display: block;
   position:absolute;
   border-radius: 5px;
   z-index:200;
   margin: 1em 1em 1em 0;
   padding: 1em;
-  overflow: hidden;  
+  overflow: hidden;
   width: 14%;
   min-width: 160px;
   right:0;
@@ -57,9 +57,12 @@
 
 .button
 {
-    border: 1px solid white;
+    border:none;
+    border-left: 1px solid white;
+    border-bottom: 1px solid white;
     border-radius: 3px;
     color:white;
+    display:block;
     text-align: center;
     padding-top: 2px;
     background-color: black;
@@ -67,6 +70,13 @@
     height: 20px;
     position: absolute;
     z-index: 210;
+    opacity:0.6;
+}
+.button:hover
+{
+  opacity:1;
+  color:white;
+  text-decoration: none;
 }
 
 .hidden
@@ -76,17 +86,45 @@
 
 hr.divider
 {
-    margin: 0.6em 0;    
+    margin: 0.6em 0;
 }
+
+#photo_toolbar
+{
+    /*height:40px;*/
+    padding: 10px;
+    background-color: rgba(0,0,0,0.65);
+    /*text-align: center;*/
+    font-size: 1.2em;
+    border-radius: 5px;
+    margin: 1em;
+    position: absolute;
+    box-shadow: 0 0 5px 5px rgba(0,0,0,0.65);
+    z-index: 240;
+    color: white;
+    width: auto;
+}
+
+#photo_toolbar > button, #photo_toolbar > div, #photo_toolbar > a
+{
+  float:left;
+  margin-left: 1em;
+}
+
+#photo_toolbar > button:first-child, #photo_toolbar > div:first-child, #photo_toolbar > a:first-child
+{
+  margin-left: 0;
+}
+
 
 #photo_title
 {
     /*height:40px;*/
-    padding: 10px;    
-    background-color: rgba(0,0,0,0.65);    
+    padding: 10px;
+    background-color: rgba(0,0,0,0.65);
     text-align: center;
-    font-size: 1.2em;    
-    border-radius: 5px;    
+    font-size: 1.2em;
+    border-radius: 5px;
     margin: 1em;
     position: absolute;
     box-shadow: 0 0 5px 5px rgba(0,0,0,0.65);
@@ -101,7 +139,7 @@ hr.divider
 
 .photo_title
 {
-    font-weight: bold;    
+    font-weight: bold;
 }
 
 .photo_subtitle
@@ -113,14 +151,14 @@ hr.divider
 
 #image_wrapper
 {
-    overflow:hidden; 
+    overflow:hidden;
 }
 
 .photo_nav
 {
     background-color: transparent;
     position:absolute;
-    z-index: 220;
+    z-index: 250;
     margin: 2em 0;
     border: solid 1px transparent;
     top:0;
@@ -142,6 +180,7 @@ hr.divider
 #next_photo
 {
   text-align: right;
+  z-index: 210;
 }
 
 #comments_text
@@ -159,21 +198,20 @@ hr.divider
 
 #comments_title
 {
-  color:#08c;  
+  color:#08c;
 }
 
 #comments_footer
 {
   position: fixed;
-  bottom: 0;    
+  bottom: 0;
   background-color: white;
   margin-bottom: 0.5em;
 }
 
 #rating
 {
-  border-top: solid 1px #ddd;    
-  padding: 0.5em 0;
+   padding-top: 0.3em;
 }
 
 #rating a
@@ -184,7 +222,7 @@ hr.divider
 #rate_label
 {
   display: inline-block;
-  float: left;  
+  float: left;
   font-weight: bold;
 }
 
